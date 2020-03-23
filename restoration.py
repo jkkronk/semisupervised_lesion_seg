@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from utils.utils import total_variation
 from utils.ssim import ssim
+from utils.utils import normalize_tensor
 
 def run_map_TV(input_img, dec_mu, riter, device, weight = 1, step_size=0.003):
     # Init params
@@ -44,17 +45,19 @@ def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=N
     dec_mu = dec_mu.to(device)
     img_ano = img_ano.to(device)
 
+    if mode == 'train':
+        input_seg = input_seg.to(device)
+
     model.eval()
 
     # Init MAP Optimizer
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+    ssim_loss = 0
 
     for i in range(riter):
+        print(i)
         if mode == 'train':
             model.train()
-            input_seg = input_seg.to(device)
-
-            #img_ano.requires_grad=False
 
             NN_input = torch.stack([input_img, img_ano]).permute((1,0,2,3)).float()
 
@@ -63,21 +66,15 @@ def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=N
 
             gfunc.backward()
 
-            #print(((dec_mu-img_ano.grad).pow(2).unsqueeze(1) + weight * pred).size(), input_seg.size())
-            print(input_seg.size())
-            print(img_ano.grad.size())
+            ssim_i = 1 - ssim((input_img-img_ano).pow(2).unsqueeze(1).float() , input_seg.unsqueeze(1).float())
 
-            ssim_i = 1 - ssim(img_ano.grad.unsqueeze(1).float() , input_seg.unsqueeze(1).float())
-
-            print(ssim_i)
+            ssim_loss += ssim_i
 
             ssim_i.backward()
             optimizer.step()
             optimizer.zero_grad()
 
             model.eval()
-        else:
-            print(i)
 
         NN_input = torch.stack([input_img, img_ano]).permute((1,0,2,3)).float()
 
@@ -89,13 +86,8 @@ def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=N
         MAP_optimizer.step()
         MAP_optimizer.zero_grad()
 
-        #writer.add_image('input_seg', input_seg.unsqueeze(1), dataformats='NCHW')
-        #writer.add_image('input-ano', (input_img - img_ano).pow(2).unsqueeze(1), dataformats='NCHW')
-        #writer.flush()
-        #exit()
-        #print(input_img.size(), img_ano.size(), input_seg.size())
 
-        seg_ssim = ssim(((input_img - img_ano).pow(2)).unsqueeze(1).float(), input_seg.unsqueeze(1)) #, data_range=1, size_average=False)[0]
-        print(i, seg_ssim)
+    writer.add_scalar('ssim:', ssim_loss/riter)
+    writer.flush()
 
     return img_ano

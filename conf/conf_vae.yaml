@@ -1,0 +1,7 @@
+epochs: 300
+batch_size: 32
+spatial_size: 128
+log_freq: 20
+lr_rate: 1e-4
+log_dir: /scratch_net/biwidl214/jonatank/logs/vae/
+path: /scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/

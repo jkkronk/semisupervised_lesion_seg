@@ -168,7 +168,6 @@ if __name__ == "__main__":
         subj_dice.append(dice)
 
     print('Dice mean: ', np.mean(np.array(subj_dice), axis=0), ' std: ', np.std(np.array(subj_dice), axis=0))
-    print('AUC mean: ', np.mean(np.array(subj_AUC), axis=0), ' std: ', np.std(np.array(subj_AUC), axis=0))
 
 ######
 #if batch_idx % log_freq == 0:
