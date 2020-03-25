@@ -6,6 +6,7 @@ import torch.optim as optim
 from utils.utils import total_variation
 from utils.ssim import ssim
 from utils.utils import normalize_tensor
+from utils.utils import dice_loss
 
 def run_map_TV(input_img, dec_mu, riter, device, weight = 1, step_size=0.003):
     # Init params
@@ -52,10 +53,10 @@ def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=N
 
     # Init MAP Optimizer
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
-    ssim_loss = 0
+    loss = 0
 
     for i in range(riter):
-        print(i)
+        #print(i)
         if mode == 'train':
             model.train()
 
@@ -64,17 +65,25 @@ def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=N
             # Define G function
             gfunc = torch.sum((dec_mu-img_ano).pow(2)) + torch.sum(model(NN_input))
 
-            gfunc.backward()
+            gfunc.backward(create_graph=True)
 
-            ssim_i = 1 - ssim((input_img-img_ano).pow(2).unsqueeze(1).float() , input_seg.unsqueeze(1).float())
+            loss_i = 1 - ssim(img_ano.grad.unsqueeze(1).float() , input_seg.unsqueeze(1).float())
+            # dice_loss
+            #loss_i = dice_loss((input_img-img_ano).pow(2).unsqueeze(1).float() , input_seg.unsqueeze(1).float())
 
-            ssim_loss += ssim_i
+            loss += loss_i
+            print(loss_i)
 
-            ssim_i.backward()
+            loss_i.backward()
             optimizer.step()
             optimizer.zero_grad()
 
             model.eval()
+        #elif mode == 'test':
+            #loss_i = dice_loss((input_img-img_ano).pow(2).unsqueeze(1).float() , input_seg.unsqueeze(1).float())
+
+            #loss += loss_i
+
 
         NN_input = torch.stack([input_img, img_ano]).permute((1,0,2,3)).float()
 
@@ -86,8 +95,7 @@ def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=N
         MAP_optimizer.step()
         MAP_optimizer.zero_grad()
 
+        #print(torch.sum((dec_mu-img_ano).pow(2)), torch.sum(model(NN_input)))
+    writer.add_image('Batch of I grad', img_ano.grad.unsqueeze(1)[:16], dataformats='NCHW')
 
-    writer.add_scalar('ssim:', ssim_loss/riter)
-    writer.flush()
-
-    return img_ano
+    return img_ano, loss/riter

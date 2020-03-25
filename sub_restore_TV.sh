@@ -8,4 +8,4 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u restore_MAP_TV.py --name DCS1 --config conf/conf_TV.yaml --fprate 0.001
+python -u restore_MAP_TV.py --name VAE128 --config conf/conf_TV.yaml --fprate 0.001

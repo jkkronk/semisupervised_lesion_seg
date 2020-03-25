@@ -1,0 +1,405 @@
+Using device: cuda:0
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+0  : AUC  =  0.5298434617793042
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+1  : AUC  =  0.4702701939022843
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+2  : AUC  =  0.4943124493198331
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+3  : AUC  =  0.4879381516737602
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+4  : AUC  =  0.5084003957035729
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+5  : AUC  =  0.5792157137026055
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+6  : AUC  =  0.604108626115573
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+7  : AUC  =  0.6296454581790307
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+8  : AUC  =  0.6313095156589157
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+9  : AUC  =  0.6289322449004058
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+10  : AUC  =  0.6475043041183629
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+11  : AUC  =  0.6272850159973522
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+12  : AUC  =  0.6401772996076767
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+13  : AUC  =  0.6307036538464534
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+14  : AUC  =  0.6017532695982789
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+15  : AUC  =  0.6237672299430946
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+16  : AUC  =  0.6213585400799911
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+17  : AUC  =  0.6100982092747441
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+18  : AUC  =  0.591818750222649
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+19  : AUC  =  0.5929502221479619
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+20  : AUC  =  0.5492103435195875
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+21  : AUC  =  0.618530955165394
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+22  : AUC  =  0.6353772869519847
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+23  : AUC  =  0.6795723331220388
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+24  : AUC  =  0.7107034984881359
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+25  : AUC  =  0.7273495349884856
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+26  : AUC  =  0.734328219375485
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+27  : AUC  =  0.7363693226009711
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+28  : AUC  =  0.7625899566853486
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+29  : AUC  =  0.7770918766527468
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+30  : AUC  =  0.7864601426048285
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+31  : AUC  =  0.8002482306777028
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+32  : AUC  =  0.800846447151179
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+33  : AUC  =  0.8097109032540915
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+34  : AUC  =  0.8039801947756837
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+35  : AUC  =  0.8252170604132028
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+36  : AUC  =  0.8297974244751215
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+37  : AUC  =  0.8406107098544754
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+38  : AUC  =  0.8386427360464274
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+39  : AUC  =  0.852119746062097
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+40  : AUC  =  0.8565672716574575
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+41  : AUC  =  0.8692775195751496
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+42  : AUC  =  0.8663030136315462
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+43  : AUC  =  0.8782457902732573
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+44  : AUC  =  0.8824227355888308
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+45  : AUC  =  0.8891914734666587
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+46  : AUC  =  0.8917904413717803
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+47  : AUC  =  0.8952313074282136
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+48  : AUC  =  0.8982755655900105
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+49  : AUC  =  0.8972864427697985
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+50  : AUC  =  0.894586876070137
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+51  : AUC  =  0.8915503473872374
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+52  : AUC  =  0.8915786156432001
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+53  : AUC  =  0.8943249802786627
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+54  : AUC  =  0.8955407789622116
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+55  : AUC  =  0.8973649212358618
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+56  : AUC  =  0.8974465585509737
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+57  : AUC  =  0.9023345416086558
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+58  : AUC  =  0.903314358990108
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+59  : AUC  =  0.9044764329631555
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+60  : AUC  =  0.9085067448712942
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+61  : AUC  =  0.9094595694119957
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+62  : AUC  =  0.9121158700717003
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+63  : AUC  =  0.9143754385417557
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+64  : AUC  =  0.9168113111221884
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+65  : AUC  =  0.9180467989865403
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+66  : AUC  =  0.9201462925649866
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+67  : AUC  =  0.9212167699489385
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+68  : AUC  =  0.9218103279103828
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+69  : AUC  =  0.9205545201525227
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+70  : AUC  =  0.9226199969038862
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+71  : AUC  =  0.921597513736762
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+72  : AUC  =  0.9232473189579088
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+73  : AUC  =  0.9232352952745213
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+74  : AUC  =  0.9232173771588476
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+75  : AUC  =  0.9229123341052015
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+76  : AUC  =  0.9227451021973653
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+77  : AUC  =  0.9221192388774136
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+78  : AUC  =  0.9215392542671367
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+79  : AUC  =  0.9214330610778307
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+80  : AUC  =  0.9217900611212859
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+81  : AUC  =  0.9214468351870188
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+82  : AUC  =  0.9212715236880198
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+83  : AUC  =  0.9212073689467203
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+84  : AUC  =  0.9211424123056371
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+85  : AUC  =  0.9210962068291781
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+86  : AUC  =  0.9208994363739319
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+87  : AUC  =  0.9209473360809081
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+88  : AUC  =  0.9207679779269533
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+89  : AUC  =  0.9206114921319888
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+90  : AUC  =  0.9204985174783002
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+91  : AUC  =  0.9204708082023366
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+92  : AUC  =  0.9203114714039017
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+93  : AUC  =  0.9204704583829828
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+94  : AUC  =  0.9203855849514011
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+95  : AUC  =  0.9203544601703681
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+96  : AUC  =  0.9203542358351604
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+97  : AUC  =  0.9202660222379614
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+98  : AUC  =  0.9202630004671067
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+99  : AUC  =  0.9202520315229308
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+100  : AUC  =  0.920163713395685
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+101  : AUC  =  0.9201094485914164
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+102  : AUC  =  0.9200690744444961
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+103  : AUC  =  0.9200587649139773
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+104  : AUC  =  0.9199521600529084
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+105  : AUC  =  0.9199356623829682
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+106  : AUC  =  0.9199068145776268
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+107  : AUC  =  0.919869114397613
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+108  : AUC  =  0.9198588645729432
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+109  : AUC  =  0.9198378856592409
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+110  : AUC  =  0.9198404304784222
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+111  : AUC  =  0.9198252167531009
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+112  : AUC  =  0.9197880153794533
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+113  : AUC  =  0.9197774348271366
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+114  : AUC  =  0.919765322159869
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+115  : AUC  =  0.9197628384498886
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+116  : AUC  =  0.91977201444364
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+117  : AUC  =  0.9197892174837347
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+118  : AUC  =  0.9197398550249913
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+119  : AUC  =  0.9197446702402854
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+120  : AUC  =  0.9197773818844822
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+121  : AUC  =  0.9197507685695541
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+122  : AUC  =  0.9197887443748848
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+123  : AUC  =  0.9197612070641821
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+124  : AUC  =  0.9197532205489163
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+125  : AUC  =  0.919729350358603
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+126  : AUC  =  0.9197474357791852
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+127  : AUC  =  0.9197421296967372
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+128  : AUC  =  0.9197406279658862
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+129  : AUC  =  0.9197345382753198
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+130  : AUC  =  0.9197353398821919
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+131  : AUC  =  0.9197318601027293
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+132  : AUC  =  0.9197443319800049
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
+133  : AUC  =  0.9197298343401517
+Loading train set
+Subject  Brats17_TCIA_218_1_t2_unbiased.nii.gz  Number of Slices:  138
