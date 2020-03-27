@@ -66,8 +66,8 @@ if __name__ == "__main__":
     #print(thr_error, thr_error_corr, thr_MAD)
 
     # Load validation data
-    #valid_dataset = brats_dataset(data_path, 'valid', img_size)  # Change rand_subj to True
-    #valid_loader = data.DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+    valid_dataset = brats_dataset(data_path, 'valid', img_size)  # Change rand_subj to True
+    valid_loader = data.DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
     #print('Subject ', subj, ' Number of Slices: ', valid_dataset.size)
 
     # Load list of subjects
@@ -167,16 +167,75 @@ if __name__ == "__main__":
                 #TP += np.sum(seg_m[error_batch_m == 1])
                 #FN += np.sum(seg_m[error_batch_m == 0])
                 #FP += np.sum(error_batch_m[seg_m == 0])
-        writer.add_scalar('Dice:', loss/(batch_idx+1), ep)
+        writer.add_scalar('Loss:', loss/(batch_idx+1), ep)
         writer.add_scalar('AUC:', auc_error, ep)
         writer.flush()
 
         print(ep, ' : AUC  = ', auc_error)
 
-        if ep % log_freq == 0 and not ep == 0:
+        if ep % log_freq == 0: #and not ep == 0:
+
+            thresh_error_valid = []
+            total_p_valid = 0
+            total_n_valid = 0
+            auc_error_tot_valid = 0
             ## VALIDATION
+            for batch_idx, (scan, seg, mask) in enumerate(valid_loader):
+                scan = scan.double().to(device)
+                decoded_mu = torch.zeros(scan.size())
 
+                # Get average prior
+                for s in range(n_latent_samples):
+                    recon_batch, z_mean, z_cov, res = vae_model(scan)
+                    decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
+                decoded_mu = decoded_mu / n_latent_samples
+
+                # Remove channel
+                decoded_mu = decoded_mu.squeeze(1)
+                scan = scan.squeeze(1)
+                seg = seg.squeeze(1)
+                mask = mask.squeeze(1).cpu().detach().numpy()
+
+                restored_batch, __ = run_map_NN(scan, decoded_mu, net, riter, device, writer, mode = 'test', step_size=step_rate)
+
+                seg = seg.cpu().detach().numpy()
+
+                # Predicted abnormalty is difference between restored and original batch
+                error_batch = np.zeros([scan.size()[0], original_size, original_size])
+                restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
+
+                for idx in range(scan.size()[0]):  # Iterate trough for resize
+                    error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
+                    restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
+
+                # Remove preds and seg outside mask and flatten
+                mask = resize(mask, (scan.size()[0], original_size, original_size))
+                seg = resize(seg, (scan.size()[0], original_size, original_size))
+
+                error_batch_m = error_batch[mask > 0].ravel()
+                seg_m = seg[mask > 0].ravel()
+
+                # AUC
+                if not len(thresh_error_valid):  # Create total error list
+                    thresh_error_valid = np.concatenate((np.sort(error_batch_m[::100]), [15]))
+                    error_tprfpr_valid = np.zeros((2, len(thresh_error_valid)))
+
+                # Compute true positive rate and false positve rate
+                error_tprfpr_valid += compute_tpr_fpr(seg_m, error_batch_m, thresh_error_valid)
+
+                # Number of total positive and negative in segmentation
+                total_p_valid += np.sum(seg_m > 0)
+                total_n_valid += np.sum(seg_m == 0)
+
+                # TP-rate and FP-rate calculation
+                tpr_error_valid = error_tprfpr_valid[0] / total_p_valid
+                fpr_error_valid = error_tprfpr_valid[1] / total_n_valid
+
+                # Add to total AUC
+                auc_error_valid = 1. + np.trapz(fpr_error_valid, tpr_error_valid)
+
+            writer.add_scalar('Valid AUC', auc_error_valid, ep)
 
             ## Write to tensorboard
             writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')

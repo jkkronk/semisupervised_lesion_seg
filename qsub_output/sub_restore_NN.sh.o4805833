@@ -1,0 +1,10 @@
+Using device: cuda:0
+0.0
+Loading test set
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 122, in <module>
+    restored_batch, __ = run_map_NN(scan, decoded_mu, net, riter, device, writer, mode='test', step_size=step_size)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 99, in run_map_NN
+    writer.add_image('Seg (in restor iter)', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+AttributeError: 'NoneType' object has no attribute 'unsqueeze'

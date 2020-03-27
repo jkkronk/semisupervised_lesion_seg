@@ -108,7 +108,7 @@ def train_vae(model, train_loader, device, optimizer, epoch):
     return train_loss, train_lat_loss, train_gen_loss, train_res_loss
 
 
-def test_vae(model, test_loader, device, epoch):
+def valid_vae(model, test_loader, device, epoch):
     model.eval()
     test_loss = 0
     test_lat_loss = 0

@@ -9,7 +9,7 @@ import argparse
 import yaml
 import os
 
-from models.vae  import ConvVAE, train_vae, test_vae
+from models.vae  import ConvVAE, train_vae, valid_vae
 from datasets import camcan_dataset
 
 if __name__ == "__main__":
@@ -17,16 +17,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', type=str, default=0)
     parser.add_argument("--config", required=True, help="path to config")
-    parser.add_argument("--path", type=str, help="path to data")
 
     opt = parser.parse_args()
 
     model_name = opt.model_name
-    path = opt.path
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
 
+    path = str(config['path'])
     epochs = int(config['epochs'])
     batch_size = int(config["batch_size"])
     img_size = int(config["spatial_size"])
@@ -40,13 +39,13 @@ if __name__ == "__main__":
 
     # Load data
     print("Loading data...")
-    train_dataset = camcan_dataset(path, transforms.ToTensor(), True, img_size)
+    train_dataset = camcan_dataset(path, True, img_size, data_aug=1)
     train_data_loader  = data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
     print('Train data loaded')
 
-    test_dataset = camcan_dataset(path, transforms.ToTensor(), False, img_size)
-    test_data_loader  = data.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-    print('Test data loaded')
+    validation_dataset = camcan_dataset(path, False, img_size)
+    valid_data_loader  = data.DataLoader(validation_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+    print('Valid data loaded')
 
     # Create model
     vae_model = ConvVAE(img_size, model_name)
@@ -70,7 +69,7 @@ if __name__ == "__main__":
         # Train loss
         loss, lat_loss, l2_loss, res_loss = train_vae(vae_model, train_data_loader, device, optimizer, epoch)
         # Validation loss
-        loss_valid, lat_loss_valid, l2_loss_valid, res_loss_valid = test_vae(vae_model, test_data_loader, device, epoch)
+        loss_valid, lat_loss_valid, l2_loss_valid, res_loss_valid = valid_vae(vae_model, valid_data_loader, device, epoch)
 
         # Cosine annealing
         #scheduler.step()
@@ -99,7 +98,7 @@ if __name__ == "__main__":
             lat_batch_sample = vae_model.sample(batch_size, device)
             writer_valid.add_image('Batch of sampled images', torch.clamp(lat_batch_sample, 0, 1), epoch, dataformats='NCHW')
 
-            img_test, mask = next(iter(test_data_loader))
+            img_test, mask = next(iter(valid_data_loader))
             img_test = img_test.to(device)
             img_re, __, __, __ = vae_model(img_test)
             writer_valid.add_image('Batch of original images', img_test, epoch, dataformats='NCHW')
