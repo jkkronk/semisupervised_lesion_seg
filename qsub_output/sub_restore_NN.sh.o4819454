@@ -1,0 +1,9 @@
+ Vae model:  VAE_400_40ep  NN model:  train_nn_dice_890
+Using device: cuda:0
+0 4928
+1 11456
+2 19744
+3 5888
+4 5312
+5 7840
+6 512

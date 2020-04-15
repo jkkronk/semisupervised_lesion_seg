@@ -1,0 +1,12 @@
+ Vae model:  VAE_400_40ep  NN model:  train_nn_dice_520
+Using device: cuda:0
+0.0907
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 124, in <module>
+    restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 41, in run_map_NN
+    input_img = nn.Parameter(input_img.to(device), requires_grad=False)
+AttributeError: 'numpy.ndarray' object has no attribute 'to'

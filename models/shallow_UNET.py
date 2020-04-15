@@ -47,6 +47,8 @@ class shallow_UNet(nn.Module):
             in_channels=features, out_channels=out_channels, kernel_size=1
         )
 
+        self.tanh = nn.Tanh()
+
     def forward(self, x):
         enc1 = self.encoder1(x)
         enc2 = self.encoder2(self.pool1(enc1))
@@ -67,7 +69,7 @@ class shallow_UNet(nn.Module):
         dec1 = self.upconv1(dec2)
         dec1 = torch.cat((dec1, enc1), dim=1)
         dec1 = self.decoder1(dec1)
-        return torch.sigmoid(self.conv(dec1))
+        return self.conv(dec1) # 1-2*torch.sigmoid(-(self.conv(dec1)).pow(2)) #self.tanh(self.conv(dec1)) #2*torch.sigmoid(-(self.conv(dec1)).pow(2)) #self.activations['lrelu'](self.conv(dec1)) # torch.sigmoid(self.conv(dec1))
 
     @staticmethod
     def _block(in_channels, features, name):

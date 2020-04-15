@@ -16,6 +16,8 @@ import argparse
 import yaml
 import random
 from utils.utils import normalize_tensor
+from sklearn.metrics import roc_auc_score
+
 
 if __name__ == "__main__":
     # Params init
@@ -23,50 +25,56 @@ if __name__ == "__main__":
     parser.add_argument('--name', type=str, default=0)
     parser.add_argument("--config", required=True, help="Path to config")
     parser.add_argument("--fprate", type=float, help="False positive rate")
+    parser.add_argument("--netname", type=str, help="Net name of guiding net")
 
     opt = parser.parse_args()
     name = opt.name
     fprate = opt.fprate
+    net_name = opt.netname
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
 
     model_name = config['vae_name']
-    net_name = config['net_name']
+    #net_name = config['net_name']
     data_path = config['path']
     riter = config['riter']
     batch_size = config["batch_size"]
     img_size = config["spatial_size"]
     lr_rate = float(config['lr_rate'])
-    step_size = config['step_rate']
+    step_rate = float(config['step_rate'])
     log_freq = config['log_freq']
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    #preset_threshold = [0.0907, 0.0381, 0.0810]
+    preset_threshold = []#0.0907
     epochs = config['epochs']
 
+    print(' Vae model: ', model_name, ' NN model: ', net_name)
+
+    # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print('Using device: ' + str(device))
 
     # Load trained vae model
-    path = 'models/' + model_name + '.pth'
+    vae_path = '/scratch_net/biwidl214/jonatank/logs/vae/'
+    path = vae_path + model_name + '.pth'
     vae_model = torch.load(path, map_location=torch.device(device))
     vae_model.eval()
 
     # Load trained nn model
     path = log_dir + net_name + '.pth'
     net = torch.load(path, map_location=torch.device(device))
-    vae_model.eval()
+    net.eval()
 
     # Compute threshold with help of camcan set
-    #if not preset_threshold:
-    #    thr_error, thr_error_corr, thr_MAD = \
-    #        threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
-    #                          device, renormalized=True, n_random_sub=100)
-    #else:
-    #    thr_error, thr_error_corr, thr_MAD = preset_threshold
-    #print(thr_error, thr_error_corr, thr_MAD)
+    if not preset_threshold:
+        thr_error = \
+            threshold.compute_threshold(float(fprate), vae_model, img_size, batch_size, n_latent_samples,
+                              device, renormalized=True, n_random_sub=10, net_model=net, riter=riter, step_size=step_rate) # Change riter=riter and n_random_sub=100
+    else:
+        thr_error = preset_threshold
+    print(thr_error)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -80,23 +88,18 @@ if __name__ == "__main__":
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
 
-    subj_dice = []
-    subj_AUC = []
-
     # Metrics init
     TP = 0
     FN = 0
     FP = 0
-    thresh_error = []
-    total_p = 0
-    total_n = 0
-    auc_error_tot = 0
+    y_true = []
+    y_pred = []
+    subj_dice = []
 
     for i, subj in enumerate(subj_list):  # Iterate every subject
         print(i/len(subj_list))
         slices = subj_dict[subj]  # Slices for each subject
 
-        #loss = 0
         # Load data
         subj_dataset = brats_dataset_subj(data_path, 'test', img_size, slices)  # Change rand_subj to True
         subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
@@ -114,16 +117,15 @@ if __name__ == "__main__":
             decoded_mu = decoded_mu / n_latent_samples
 
             # Remove channel
-            decoded_mu = decoded_mu.squeeze(1)
             scan = scan.squeeze(1)
             seg = seg.squeeze(1)
-            mask = mask.squeeze(1).cpu().detach().numpy()
+            mask = mask.squeeze(1)
 
-            restored_batch, __ = run_map_NN(scan, decoded_mu, net, riter, device, writer, mode='test', step_size=step_size)
-            #loss += batch_loss
-
+            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
 
             seg = seg.cpu().detach().numpy()
+            mask = mask.cpu().detach().numpy()
+
             # Predicted abnormalty is difference between restored and original batch
             error_batch = np.zeros([scan.size()[0], original_size, original_size])
             restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
@@ -136,40 +138,31 @@ if __name__ == "__main__":
             mask = resize(mask, (scan.size()[0], original_size, original_size))
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
-            error_batch_m = error_batch[mask > 0].ravel()
-            seg_m = seg[mask > 0].ravel()
-
             # AUC
-            if not len(thresh_error):  # Create total error list
-                thresh_error = np.concatenate((np.sort(error_batch_m[::100]), [15]))
-                error_tprfpr = np.zeros((2, len(thresh_error)))
+            error_batch_m = error_batch[mask > 0].ravel()
+            y_pred.extend(error_batch_m.tolist())
 
-            # Compute true positive rate and false positve rate
-            error_tprfpr += compute_tpr_fpr(seg_m, error_batch_m, thresh_error)
-
-            # Number of total positive and negative in segmentation
-            total_p += np.sum(seg_m > 0)
-            total_n += np.sum(seg_m == 0)
-
-            # TP-rate and FP-rate calculation
-            tpr_error = error_tprfpr[0] / total_p
-            fpr_error = error_tprfpr[1] / total_n
-
-            # Add to total AUC
-            auc_error = 1. + np.trapz(fpr_error, tpr_error)
+            seg_m = seg[mask > 0].ravel().astype(int)
+            y_true.extend(seg_m.tolist())
 
             # DICE
             # Create binary prediction map
-            # error_batch_m[error_batch_m >= thr_error_corr] = 1
-            # error_batch_m[error_batch_m < thr_error_corr] = 0
+            error_batch_m[error_batch_m >= thr_error] = 1
+            error_batch_m[error_batch_m < thr_error] = 0
 
             # Calculate and sum total TP, FN, FP
-            # TP += np.sum(seg_m[error_batch_m == 1])
-            # FN += np.sum(seg_m[error_batch_m == 0])
-            # FP += np.sum(error_batch_m[seg_m == 0])
-        print('AUC : ', auc_error)
-        #writer.add_scalar('Dice loss:', loss/(batch_idx+1), ep)
-        writer.add_scalar('AUC:', auc_error)
+            TP += np.sum(seg_m[error_batch_m == 1])
+            FN += np.sum(seg_m[error_batch_m == 0])
+            FP += np.sum(error_batch_m[seg_m == 0])
+
+        AUC = roc_auc_score(y_true, y_pred)
+        print('AUC : ', AUC)
+        writer.add_scalar('AUC:', AUC)
+
+        dice = (2*TP)/(2*TP+FN+FP)
+        subj_dice.append(dice)
+        print('DCS: ', dice)
+        writer.add_scalar('Dice:', dice)
         writer.flush()
 
         ## Write to tensorboard

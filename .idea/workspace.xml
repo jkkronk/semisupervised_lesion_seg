@@ -1,39 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="122b9f0d-d8e5-41b3-9477-c64850657a9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/log_dir/train_camcan_400_Aug_/events.out.tfevents.1585319532.biwirender17.10273.0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log_dir/train_camcan_400_Aug_/events.out.tfevents.1585320578.biwirender13.23304.0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log_dir/train_camcan_400_Aug_/events.out.tfevents.1585320771.biwirender13.24163.0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log_dir/valid_camcan_400_Aug_/events.out.tfevents.1585319532.biwirender17.10273.1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log_dir/valid_camcan_400_Aug_/events.out.tfevents.1585320578.biwirender13.23304.1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log_dir/valid_camcan_400_Aug_/events.out.tfevents.1585320771.biwirender13.24163.1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805833" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805834" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805836" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805837" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4805449" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4805450" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4805451" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4805536" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/conf_nn.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf/conf_nn.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/vae.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/vae.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4804344" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4804573" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4804721" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4804746" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4804902" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4804925" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/restoration.py" beforeDir="false" afterPath="$PROJECT_DIR$/restoration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restore_MAP_TV.py" beforeDir="false" afterPath="$PROJECT_DIR$/restore_MAP_TV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sub_restore_NN.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sub_restore_NN.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sub_train_restore_NN.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sub_train_restore_NN.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sub_vae.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sub_vae.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_restore_MAP_NN.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_restore_MAP_NN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_vae.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_vae.py" afterDir="false" />
-    </list>
+    <list default="true" id="122b9f0d-d8e5-41b3-9477-c64850657a9c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,11 +12,19 @@
     <session id="-74793553">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.4" value="1" />
-          <entry key="project.open.time.5" value="2" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.closed" value="6" />
+          <entry key="project.open.time.0" value="5" />
+          <entry key="project.open.time.1" value="7" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="1" />
+          <entry key="project.open.time.2" value="4" />
+          <entry key="project.open.time.3" value="2" />
+          <entry key="project.open.time.4" value="6" />
+          <entry key="project.open.time.5" value="3" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -57,6 +33,7 @@
           <entry key="o4803158" value="3" />
           <entry key="o4803437" value="1" />
           <entry key="o4804525" value="1" />
+          <entry key="o4805449" value="1" />
           <entry key="o4805834" value="1" />
           <entry key="o4805836" value="2" />
           <entry key="o4805837" value="2" />
@@ -69,39 +46,256 @@
           <entry key="o4805962" value="1" />
           <entry key="o4805967" value="1" />
           <entry key="o4805980" value="1" />
-          <entry key="o4805983" value="1" />
-          <entry key="py" value="51" />
-          <entry key="sh" value="16" />
-          <entry key="yaml" value="16" />
+          <entry key="o4805983" value="2" />
+          <entry key="o4805996" value="2" />
+          <entry key="o4806017" value="2" />
+          <entry key="o4806021" value="2" />
+          <entry key="o4806025" value="4" />
+          <entry key="o4806027" value="1" />
+          <entry key="o4806441" value="1" />
+          <entry key="o4806442" value="2" />
+          <entry key="o4807271" value="1" />
+          <entry key="o4807272" value="1" />
+          <entry key="o4807273" value="1" />
+          <entry key="o4807275" value="10" />
+          <entry key="o4807286" value="4" />
+          <entry key="o4807288" value="8" />
+          <entry key="o4807343" value="10" />
+          <entry key="o4807358" value="9" />
+          <entry key="o4807359" value="6" />
+          <entry key="o4807422" value="2" />
+          <entry key="o4807448" value="1" />
+          <entry key="o4807449" value="2" />
+          <entry key="o4807452" value="4" />
+          <entry key="o4807482" value="2" />
+          <entry key="o4807486" value="2" />
+          <entry key="o4808039" value="4" />
+          <entry key="o4808050" value="1" />
+          <entry key="o4808064" value="1" />
+          <entry key="o4808073" value="1" />
+          <entry key="o4808075" value="1" />
+          <entry key="o4808076" value="1" />
+          <entry key="o4808081" value="3" />
+          <entry key="o4808809" value="1" />
+          <entry key="o4808814" value="1" />
+          <entry key="o4808824" value="3" />
+          <entry key="o4808841" value="1" />
+          <entry key="o4808856" value="1" />
+          <entry key="o4808862" value="2" />
+          <entry key="o4808865" value="1" />
+          <entry key="o4808879" value="1" />
+          <entry key="o4808882" value="1" />
+          <entry key="o4808884" value="2" />
+          <entry key="o4808908" value="1" />
+          <entry key="o4809115" value="3" />
+          <entry key="o4809125" value="3" />
+          <entry key="o4809219" value="1" />
+          <entry key="o4809464" value="1" />
+          <entry key="o4809636" value="5" />
+          <entry key="o4809676" value="1" />
+          <entry key="o4809696" value="4" />
+          <entry key="o4809795" value="1" />
+          <entry key="o4809842" value="2" />
+          <entry key="o4809907" value="8" />
+          <entry key="o4810071" value="1" />
+          <entry key="o4810072" value="3" />
+          <entry key="o4810073" value="3" />
+          <entry key="o4810074" value="1" />
+          <entry key="o4810080" value="1" />
+          <entry key="o4810251" value="5" />
+          <entry key="o4810255" value="2" />
+          <entry key="o4810256" value="2" />
+          <entry key="o4810267" value="1" />
+          <entry key="o4810268" value="6" />
+          <entry key="o4810281" value="1" />
+          <entry key="o4810282" value="1" />
+          <entry key="o4810290" value="1" />
+          <entry key="o4810291" value="2" />
+          <entry key="o4810299" value="2" />
+          <entry key="o4810317" value="2" />
+          <entry key="o4810318" value="2" />
+          <entry key="o4810320" value="3" />
+          <entry key="o4810325" value="3" />
+          <entry key="o4810332" value="2" />
+          <entry key="o4810344" value="1" />
+          <entry key="o4810350" value="1" />
+          <entry key="o4810354" value="2" />
+          <entry key="o4810442" value="3" />
+          <entry key="o4810444" value="2" />
+          <entry key="o4810451" value="1" />
+          <entry key="o4810454" value="1" />
+          <entry key="o4810459" value="2" />
+          <entry key="o4810468" value="1" />
+          <entry key="o4810520" value="1" />
+          <entry key="o4810531" value="1" />
+          <entry key="o4810564" value="1" />
+          <entry key="o4810567" value="2" />
+          <entry key="o4810609" value="1" />
+          <entry key="o4810861" value="1" />
+          <entry key="o4810929" value="1" />
+          <entry key="o4810931" value="1" />
+          <entry key="o4810951" value="1" />
+          <entry key="o4810986" value="1" />
+          <entry key="o4810987" value="1" />
+          <entry key="o4810988" value="1" />
+          <entry key="o4810990" value="1" />
+          <entry key="o4811049" value="1" />
+          <entry key="o4811981" value="1" />
+          <entry key="o4811983" value="2" />
+          <entry key="o4812035" value="1" />
+          <entry key="o4812046" value="3" />
+          <entry key="o4812072" value="2" />
+          <entry key="o4812075" value="1" />
+          <entry key="o4812078" value="1" />
+          <entry key="o4812079" value="1" />
+          <entry key="o4812083" value="1" />
+          <entry key="o4812084" value="1" />
+          <entry key="o4812086" value="1" />
+          <entry key="o4812090" value="1" />
+          <entry key="o4812094" value="1" />
+          <entry key="o4812105" value="1" />
+          <entry key="o4812106" value="2" />
+          <entry key="o4812131" value="2" />
+          <entry key="o4812151" value="2" />
+          <entry key="o4812190" value="1" />
+          <entry key="o4812250" value="1" />
+          <entry key="o4812278" value="1" />
+          <entry key="o4812445" value="1" />
+          <entry key="o4812452" value="1" />
+          <entry key="o4812453" value="1" />
+          <entry key="o4812454" value="1" />
+          <entry key="o4812456" value="1" />
+          <entry key="o4812457" value="1" />
+          <entry key="o4812460" value="1" />
+          <entry key="o4812475" value="2" />
+          <entry key="o4812581" value="1" />
+          <entry key="o4812644" value="1" />
+          <entry key="o4812692" value="1" />
+          <entry key="o4812731" value="1" />
+          <entry key="o4812769" value="1" />
+          <entry key="o4812784" value="1" />
+          <entry key="o4813084" value="2" />
+          <entry key="o4813099" value="2" />
+          <entry key="o4813104" value="2" />
+          <entry key="o4813135" value="1" />
+          <entry key="o4813144" value="1" />
+          <entry key="o4813146" value="1" />
+          <entry key="o4813147" value="1" />
+          <entry key="o4813148" value="1" />
+          <entry key="o4813155" value="1" />
+          <entry key="o4813228" value="1" />
+          <entry key="o4813229" value="1" />
+          <entry key="o4813463" value="1" />
+          <entry key="o4813464" value="1" />
+          <entry key="o4813468" value="3" />
+          <entry key="o4813473" value="1" />
+          <entry key="o4813476" value="2" />
+          <entry key="o4813657" value="1" />
+          <entry key="o4813660" value="1" />
+          <entry key="o4813662" value="1" />
+          <entry key="o4813667" value="1" />
+          <entry key="o4813673" value="2" />
+          <entry key="o4813679" value="4" />
+          <entry key="o4813683" value="6" />
+          <entry key="o4813697" value="11" />
+          <entry key="o4813806" value="1" />
+          <entry key="o4813810" value="2" />
+          <entry key="o4813833" value="1" />
+          <entry key="o4813841" value="1" />
+          <entry key="o4813954" value="1" />
+          <entry key="o4813960" value="8" />
+          <entry key="o4814014" value="5" />
+          <entry key="o4814074" value="1" />
+          <entry key="o4814075" value="1" />
+          <entry key="o4814077" value="1" />
+          <entry key="o4814088" value="1" />
+          <entry key="o4814089" value="1" />
+          <entry key="o4814091" value="1" />
+          <entry key="o4814092" value="1" />
+          <entry key="o4814225" value="2" />
+          <entry key="o4814226" value="3" />
+          <entry key="o4814228" value="2" />
+          <entry key="o4814229" value="7" />
+          <entry key="o4814231" value="3" />
+          <entry key="o4814790" value="1" />
+          <entry key="o4814791" value="1" />
+          <entry key="o4814793" value="1" />
+          <entry key="o4814795" value="1" />
+          <entry key="o4814921" value="1" />
+          <entry key="o4814927" value="1" />
+          <entry key="o4814948" value="2" />
+          <entry key="o4814955" value="1" />
+          <entry key="o4817396" value="1" />
+          <entry key="o4817399" value="3" />
+          <entry key="o4817400" value="1" />
+          <entry key="o4817805" value="1" />
+          <entry key="o4817883" value="1" />
+          <entry key="o4817885" value="1" />
+          <entry key="o4818759" value="1" />
+          <entry key="o4818790" value="1" />
+          <entry key="o4818910" value="1" />
+          <entry key="o4818914" value="1" />
+          <entry key="o4818918" value="1" />
+          <entry key="o4818921" value="1" />
+          <entry key="o4818923" value="3" />
+          <entry key="o4818926" value="1" />
+          <entry key="o4818933" value="1" />
+          <entry key="o4818938" value="1" />
+          <entry key="o4818942" value="1" />
+          <entry key="o4818943" value="1" />
+          <entry key="o4818944" value="1" />
+          <entry key="o4818946" value="2" />
+          <entry key="o4818947" value="1" />
+          <entry key="o4818952" value="1" />
+          <entry key="o4819009" value="1" />
+          <entry key="o4819064" value="1" />
+          <entry key="o4819067" value="1" />
+          <entry key="o4819073" value="1" />
+          <entry key="o4819248" value="1" />
+          <entry key="o4819250" value="1" />
+          <entry key="o4819454" value="1" />
+          <entry key="py" value="309" />
+          <entry key="sh" value="153" />
+          <entry key="yaml" value="93" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="38" />
-          <entry key="Python" value="51" />
-          <entry key="YAML" value="16" />
+          <entry key="PLAIN_TEXT" value="560" />
+          <entry key="Python" value="309" />
+          <entry key="YAML" value="93" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="6" />
           <entry key="gitignore" value="17" />
-          <entry key="py" value="1274" />
-          <entry key="sh" value="87" />
-          <entry key="yaml" value="78" />
+          <entry key="py" value="5608" />
+          <entry key="sh" value="658" />
+          <entry key="yaml" value="298" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="110" />
-          <entry key="Python" value="1274" />
-          <entry key="YAML" value="78" />
+          <entry key="PLAIN_TEXT" value="681" />
+          <entry key="Python" value="5608" />
+          <entry key="YAML" value="298" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/restoration.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="125" column="25" lean-forward="true" selection-start-line="125" selection-start-column="25" selection-end-line="125" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -113,6 +307,13 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>TCIA_103</find>
+      <find>Brats17_2013_13</find>
+      <find>Brats17_TCIA_298_1_t2_unbiased</find>
+      <find>2013_29_1_t2</find>
+      <find>Brats17_CBICA_ASU_1_t2_unbiased</find>
+      <find>32</find>
+      <find>Brats17_TCIA_401</find>
+      <find>Brats17_TCIA_199_</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,29 +328,32 @@
         <option value="$PROJECT_DIR$/utils.py" />
         <option value="$PROJECT_DIR$/utils/__init__.py" />
         <option value="$PROJECT_DIR$/conf/__init__.py" />
-        <option value="$PROJECT_DIR$/utils/threshold.py" />
         <option value="$PROJECT_DIR$/networks/__init__.py" />
-        <option value="$PROJECT_DIR$/sub_train_restore_NN.sh" />
-        <option value="$PROJECT_DIR$/restore_MAP_NN.py" />
-        <option value="$PROJECT_DIR$/models/shallow_UNET.py" />
-        <option value="$PROJECT_DIR$/conf/conf_TV.yaml" />
-        <option value="$PROJECT_DIR$/sub_restore_TV.sh" />
         <option value="$PROJECT_DIR$/models/.gitignore" />
         <option value="$PROJECT_DIR$/conf/conf_vae.yaml" />
-        <option value="$PROJECT_DIR$/restoration.py" />
-        <option value="$PROJECT_DIR$/sub_restore_NN.sh" />
-        <option value="$PROJECT_DIR$/conf/conf_nn.yaml" />
-        <option value="$PROJECT_DIR$/restore_MAP_TV.py" />
-        <option value="$PROJECT_DIR$/train_restore_MAP_NN.py" />
-        <option value="$PROJECT_DIR$/sub_vae.sh" />
-        <option value="$PROJECT_DIR$/train_vae.py" />
         <option value="$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805967" />
+        <option value="$PROJECT_DIR$/train_vae.py" />
         <option value="$PROJECT_DIR$/datasets.py" />
+        <option value="$PROJECT_DIR$/sub_vae.sh" />
+        <option value="$PROJECT_DIR$/conf/conf_TV1.yaml" />
+        <option value="$PROJECT_DIR$/conf/conf_nn1.yaml" />
+        <option value="$PROJECT_DIR$/conf/conf_TV.yaml" />
+        <option value="$PROJECT_DIR$/sub_restore_TV.sh" />
+        <option value="$PROJECT_DIR$/models/shallow_UNET.py" />
+        <option value="$PROJECT_DIR$/utils/utils.py" />
+        <option value="$PROJECT_DIR$/models/covnet.py" />
+        <option value="$PROJECT_DIR$/utils/threshold.py" />
+        <option value="$PROJECT_DIR$/restore_MAP_TV.py" />
+        <option value="$PROJECT_DIR$/conf/conf_nn.yaml" />
+        <option value="$PROJECT_DIR$/restoration.py" />
+        <option value="$PROJECT_DIR$/sub_train_restore_NN.sh" />
+        <option value="$PROJECT_DIR$/train_restore_MAP_NN.py" />
+        <option value="$PROJECT_DIR$/restore_MAP_NN.py" />
+        <option value="$PROJECT_DIR$/sub_restore_NN.sh" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="268" />
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="877" />
@@ -168,6 +372,15 @@
               <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
               <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
+              <item name="qsub_output" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -184,10 +397,10 @@
       <recent name="$PROJECT_DIR$/models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/models" />
       <recent name="$PROJECT_DIR$/conf" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/utils" />
-      <recent name="$PROJECT_DIR$/models" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -216,9 +429,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="268" y="23" width="1440" height="877" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14446793" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24171951" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -229,196 +442,109 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3299363" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.31847134" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17124736" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.31847134" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/models/vae.py" />
-    <entry file="file://$PROJECT_DIR$/networks/vae_bilinear_conv.py" />
-    <entry file="file://$PROJECT_DIR$/utils/auc_score.py" />
-    <entry file="file://$PROJECT_DIR$/utils/utils.py" />
-    <entry file="file://$PROJECT_DIR$/conf/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/utils/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/utils/ssim.py" />
-    <entry file="file://$PROJECT_DIR$/utils/losses.py" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4814014" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4813960" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4813697" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4813683" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4813673" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4814948" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4814955" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_TV.sh.o4811983" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4813679" />
     <entry file="file://$PROJECT_DIR$/utils/threshold.py" />
-    <entry file="file://$PROJECT_DIR$/networks/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/models/shallow_UNET.py" />
-    <entry file="file://$PROJECT_DIR$/models/.gitignore" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4817400" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4817883" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4817805" />
     <entry file="file://$PROJECT_DIR$/sub_restore_TV.sh" />
-    <entry file="file://$PROJECT_DIR$/conf/conf_TV.yaml" />
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_TV.sh.o4803158" />
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805834">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818759" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4817885" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818790" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818910" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818914" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818918" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818921" />
+    <entry file="file://$PROJECT_DIR$/datasets.py" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818923" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818926" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818933" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4817396" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4817399" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4818938" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4808039" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818944" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4818943" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4818942" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4818947" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818946" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4819009" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4818952" />
+    <entry file="file://$PROJECT_DIR$/conf/conf_nn.yaml" />
+    <entry file="file://$PROJECT_DIR$/models/covnet.py" />
+    <entry file="file://$PROJECT_DIR$/models/shallow_UNET.py" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4819064" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4819067" />
+    <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4819248" />
+    <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4819073" />
+    <entry file="file://$PROJECT_DIR$/restore_MAP_TV.py" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4819250">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="33" selection-start-line="8" selection-end-line="9" />
+        <state relative-caret-position="195">
+          <caret line="13" column="2" selection-start-line="13" selection-end-line="13" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805836">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4819454">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/restore_MAP_TV.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="112" column="13" selection-start-line="112" selection-start-column="13" selection-end-line="112" selection-end-column="13" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/restore_MAP_NN.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/sub_restore_NN.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+          <caret line="10" column="105" selection-start-line="10" selection-start-column="105" selection-end-line="10" selection-end-column="105" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/restore_MAP_NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1688" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/conf_nn.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_TV.sh.o4803437">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="195" column="25" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_TV.sh.o4804525">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3875" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4805837">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-907" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/restoration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="98" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
+        <state relative-caret-position="404">
+          <caret line="125" column="25" lean-forward="true" selection-start-line="125" selection-start-column="25" selection-end-line="125" selection-end-column="25" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805954">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="59" lean-forward="true" selection-start-line="14" selection-start-column="59" selection-end-line="14" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805915">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="21" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805955">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="29" selection-start-line="3" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/conf_vae.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805956">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="84" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805959">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="21" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805960">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sub_vae.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="79" lean-forward="true" selection-start-line="10" selection-start-column="79" selection-end-line="10" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train_vae.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="8" column="11" lean-forward="true" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805962">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805967">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="75" lean-forward="true" selection-start-line="29" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datasets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
-          <folding>
-            <element signature="e#24#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805980">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="36" column="31" selection-start-line="36" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_vae.sh.o4805983">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

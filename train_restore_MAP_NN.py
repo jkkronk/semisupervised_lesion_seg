@@ -6,8 +6,9 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import run_map_NN
+from restoration import train_run_map_NN
 from models.shallow_UNET import shallow_UNet
+from models.covnet import ConvNet
 from datasets import brats_dataset_subj, brats_dataset
 from utils.auc_score import compute_tpr_fpr
 from utils import threshold
@@ -16,6 +17,8 @@ import argparse
 import yaml
 import random
 from utils.utils import normalize_tensor
+from sklearn.metrics import roc_auc_score
+
 
 if __name__ == "__main__":
     # Params init
@@ -37,23 +40,27 @@ if __name__ == "__main__":
     batch_size = config["batch_size"]
     img_size = config["spatial_size"]
     lr_rate = float(config['lr_rate'])
-    step_rate = config['step_rate']
+    step_rate = float(config['step_rate'])
     log_freq = config['log_freq']
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
     epochs = config['epochs']
 
+    print('Name: ', name, 'Lr_rate: ', lr_rate, ' Riter: ', riter, ' Subjs: ', subj_nbr)
+
+    # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print('Using device: ' + str(device))
 
     # Load trained vae model
-    path = 'models/' + model_name + '.pth'
+    vae_path = '/scratch_net/biwidl214/jonatank/logs/vae/'
+    path = vae_path + model_name + '.pth'
     vae_model = torch.load(path, map_location=torch.device(device))
     vae_model.eval()
 
-    # Create shallow UNET
-    net = shallow_UNet(name, 2, 1, 32).to(device)
+    # Create guiding net
+    net = shallow_UNet(name, 2, 1, 16).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
 
     # Compute threshold with help of camcan set
@@ -64,11 +71,13 @@ if __name__ == "__main__":
     #else:
     #    thr_error, thr_error_corr, thr_MAD = preset_threshold
     #print(thr_error, thr_error_corr, thr_MAD)
+    validation = False
 
-    # Load validation data
-    valid_dataset = brats_dataset(data_path, 'valid', img_size)  # Change rand_subj to True
-    valid_loader = data.DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-    #print('Subject ', subj, ' Number of Slices: ', valid_dataset.size)
+    if validation:
+        # Load validation data
+        valid_dataset = brats_dataset(data_path, 'valid', img_size)  # Change rand_subj to True
+        valid_loader = data.DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+        print('Number of Slices in Validation set: ', valid_dataset.size)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
@@ -83,21 +92,19 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     for ep in range(epochs):
-
         # Metrics init
         TP = 0
         FN = 0
         FP = 0
-        thresh_error = []
-        total_p = 0
-        total_n = 0
-        auc_error_tot = 0
+        y_pred = []
+        y_true = []
+        subj_dice = []
 
         for subj in subj_list: # Iterate every subject
-            slices = subj_dict[subj] # Slices for each subject
+            slices = subj_dict['Brats17_2013_11_1_t2_unbiased.nii.gz'] # Slices for each subject CHANGE
 
             # Load data
-            subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices)  # Change rand_subj to True
+            subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
             subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
             print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
@@ -114,13 +121,12 @@ if __name__ == "__main__":
                 decoded_mu = decoded_mu / n_latent_samples
 
                 # Remove channel
-                decoded_mu = decoded_mu.squeeze(1)
                 scan = scan.squeeze(1)
                 seg = seg.squeeze(1)
                 mask = mask.squeeze(1).cpu().detach().numpy()
 
-                restored_batch, batch_loss = run_map_NN(scan, decoded_mu, net, riter, device, writer, optimizer, seg, 'train', step_rate)
-                loss += batch_loss
+                train_riter = (25*(ep))%401
+                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, train_riter, device, writer, optimizer, seg, step_rate, log_freq)
 
                 seg = seg.cpu().detach().numpy()
                 # Predicted abnormalty is difference between restored and original batch
@@ -136,106 +142,42 @@ if __name__ == "__main__":
                 seg = resize(seg, (scan.size()[0], original_size, original_size))
 
                 error_batch_m = error_batch[mask > 0].ravel()
-                seg_m = seg[mask > 0].ravel()
+                seg_m = seg[mask > 0].ravel().astype(bool)
 
                 # AUC
-                if not len(thresh_error): # Create total error list
-                    thresh_error = np.concatenate((np.sort(error_batch_m[::100]), [15]))
-                    error_tprfpr = np.zeros((2, len(thresh_error)))
-
-                # Compute true positive rate and false positve rate
-                error_tprfpr += compute_tpr_fpr(seg_m, error_batch_m, thresh_error)
-
-                # Number of total positive and negative in segmentation
-                total_p += np.sum(seg_m > 0)
-                total_n += np.sum(seg_m == 0)
-
-                # TP-rate and FP-rate calculation
-                tpr_error = error_tprfpr[0] / total_p
-                fpr_error = error_tprfpr[1] / total_n
-
-                # Add to total AUC
-                auc_error = 1. + np.trapz(fpr_error, tpr_error)
-
+                y_pred.extend(error_batch_m.tolist())
+                y_true.extend(seg_m.tolist())
 
                 # DICE
+                '''
                 # Create binary prediction map
-                #error_batch_m[error_batch_m >= thr_error_corr] = 1
-                #error_batch_m[error_batch_m < thr_error_corr] = 0
+                error_batch_m[error_batch_m >= thr_error] = 1
+                error_batch_m[error_batch_m < thr_error] = 0
 
                 # Calculate and sum total TP, FN, FP
-                #TP += np.sum(seg_m[error_batch_m == 1])
-                #FN += np.sum(seg_m[error_batch_m == 0])
-                #FP += np.sum(error_batch_m[seg_m == 0])
-        writer.add_scalar('Loss:', loss/(batch_idx+1), ep)
-        writer.add_scalar('AUC:', auc_error, ep)
-        writer.flush()
+                TP += np.sum(seg_m[error_batch_m == 1])
+                FN += np.sum(seg_m[error_batch_m == 0])
+                FP += np.sum(error_batch_m[seg_m == 0])
+                '''
 
-        print(ep, ' : AUC  = ', auc_error)
+            AUC = roc_auc_score(y_true, y_pred)
+            print('AUC : ', AUC)
+            writer.add_scalar('AUC:', AUC)
 
-        if ep % log_freq == 0: #and not ep == 0:
+            '''
+            dice = (2 * TP) / (2 * TP + FN + FP)
+            subj_dice.append(dice)
+            print('DCS: ', dice)
+            writer.add_scalar('Dice:', dice)
+            '''
+            writer.flush()
 
-            thresh_error_valid = []
-            total_p_valid = 0
-            total_n_valid = 0
-            auc_error_tot_valid = 0
-            ## VALIDATION
-            for batch_idx, (scan, seg, mask) in enumerate(valid_loader):
-                scan = scan.double().to(device)
-                decoded_mu = torch.zeros(scan.size())
+        print(ep, ' : AUC  = ', AUC)
 
-                # Get average prior
-                for s in range(n_latent_samples):
-                    recon_batch, z_mean, z_cov, res = vae_model(scan)
-                    decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
-
-                decoded_mu = decoded_mu / n_latent_samples
-
-                # Remove channel
-                decoded_mu = decoded_mu.squeeze(1)
-                scan = scan.squeeze(1)
-                seg = seg.squeeze(1)
-                mask = mask.squeeze(1).cpu().detach().numpy()
-
-                restored_batch, __ = run_map_NN(scan, decoded_mu, net, riter, device, writer, mode = 'test', step_size=step_rate)
-
-                seg = seg.cpu().detach().numpy()
-
-                # Predicted abnormalty is difference between restored and original batch
-                error_batch = np.zeros([scan.size()[0], original_size, original_size])
-                restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
-
-                for idx in range(scan.size()[0]):  # Iterate trough for resize
-                    error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
-                    restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
-
-                # Remove preds and seg outside mask and flatten
-                mask = resize(mask, (scan.size()[0], original_size, original_size))
-                seg = resize(seg, (scan.size()[0], original_size, original_size))
-
-                error_batch_m = error_batch[mask > 0].ravel()
-                seg_m = seg[mask > 0].ravel()
-
-                # AUC
-                if not len(thresh_error_valid):  # Create total error list
-                    thresh_error_valid = np.concatenate((np.sort(error_batch_m[::100]), [15]))
-                    error_tprfpr_valid = np.zeros((2, len(thresh_error_valid)))
-
-                # Compute true positive rate and false positve rate
-                error_tprfpr_valid += compute_tpr_fpr(seg_m, error_batch_m, thresh_error_valid)
-
-                # Number of total positive and negative in segmentation
-                total_p_valid += np.sum(seg_m > 0)
-                total_n_valid += np.sum(seg_m == 0)
-
-                # TP-rate and FP-rate calculation
-                tpr_error_valid = error_tprfpr_valid[0] / total_p_valid
-                fpr_error_valid = error_tprfpr_valid[1] / total_n_valid
-
-                # Add to total AUC
-                auc_error_valid = 1. + np.trapz(fpr_error_valid, tpr_error_valid)
-
-            writer.add_scalar('Valid AUC', auc_error_valid, ep)
+        if ep % log_freq == 0:
+            # Save model
+            path = '/scratch_net/biwidl214/jonatank/logs/restore/' + name + str(ep) + '.pth'
+            torch.save(net, path)
 
             ## Write to tensorboard
             writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
@@ -246,105 +188,69 @@ if __name__ == "__main__":
             writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
             writer.flush()
 
-            path = '/scratch_net/biwidl214/jonatank/logs/restore/' + name + '.pth'
-            torch.save(net, path)
+            thresh_error_valid = []
+            total_p_valid = 0
+            total_n_valid = 0
+            auc_error_tot_valid = 0
+            ## VALIDATION
+            '''
+            if validation:
+                for batch_idx, (scan, seg, mask) in enumerate(valid_loader):
+                    scan = scan.double().to(device)
+                    decoded_mu = torch.zeros(scan.size())
 
-        '''
-        # VALIDATION
-        print('VALIDATION')
-        # Metrics init
-        TP_v = 0
-        FN_v = 0
-        FP_v = 0
-        thresh_error_v = []
-        total_p_v = 0
-        total_n_v = 0
-        auc_error_tot_v = 0
+                    # Get average prior
+                    for s in range(n_latent_samples):
+                        recon_batch, z_mean, z_cov, res = vae_model(scan)
+                        decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
-        for batch_idx, (scan, seg, mask) in enumerate(valid_loader):
-            scan = scan.double().to(device)
-            decoded_mu = torch.zeros(scan.size())
+                    decoded_mu = decoded_mu / n_latent_samples
 
-            # Get average prior
-            for s in range(n_latent_samples):
-                recon_batch, z_mean, z_cov, res = vae_model(scan)
-                decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
+                    # Remove channel
+                    #decoded_mu = decoded_mu.squeeze(1)
+                    scan = scan.squeeze(1)
+                    seg = seg.squeeze(1)
+                    mask = mask.squeeze(1).cpu().detach().numpy()
 
-            decoded_mu = decoded_mu / n_latent_samples
+                    restored_batch, __ = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, mode='valid',
+                                                    step_size=step_rate)
 
-            # Remove channel
-            decoded_mu = decoded_mu.squeeze(1)
-            scan = scan.squeeze(1)
-            seg = seg.squeeze(1)
-            mask = mask.squeeze(1).cpu().detach().numpy()
+                    seg = seg.cpu().detach().numpy()
 
-            if np.sum(mask) > 30000:  # 30000 # Only restore when there is enough brain tissue
-                # print('restoring')
-                restored_batch = run_map_NN(scan, decoded_mu, net, riter, device, writer, mode='test', step_size=step_rate)
-            else:  # Else scan is only background
-                restored_batch = scan
-                pred_res_restored = torch.zeros((img_size, img_size))
+                    # Predicted abnormalty is difference between restored and original batch
+                    error_batch = np.zeros([scan.size()[0], original_size, original_size])
+                    restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
 
-            seg = seg.cpu().detach().numpy()
-            # Predicted abnormalty is difference between restored and original batch
-            error_batch = np.zeros([scan.size()[0], original_size, original_size])
-            restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
+                    for idx in range(scan.size()[0]):  # Iterate trough for resize
+                        error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
+                        restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
 
-            for idx in range(scan.size()[0]):  # Iterate trough for resize
-                error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
-                restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
+                    # Remove preds and seg outside mask and flatten
+                    mask = resize(mask, (scan.size()[0], original_size, original_size))
+                    seg = resize(seg, (scan.size()[0], original_size, original_size))
 
-            ## Write to tensorboard
-            #writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-            #writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
-            #                 batch_idx, dataformats='NCHW')
-            #writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-            #                 batch_idx, dataformats='NCHW')
-            #writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
-            #writer.flush()
+                    error_batch_m = error_batch[mask > 0].ravel()
+                    seg_m = seg[mask > 0].ravel()
 
-            # Remove preds and seg outside mask and flatten
-            mask = resize(mask, (scan.size()[0], original_size, original_size))
-            seg = resize(seg, (scan.size()[0], original_size, original_size))
+                    # AUC
+                    if not len(thresh_error_valid):  # Create total error list
+                        thresh_error_valid = np.concatenate((np.sort(error_batch_m[::100]), [15]))
+                        error_tprfpr_valid = np.zeros((2, len(thresh_error_valid)))
 
-            error_batch_m = error_batch[mask > 0].ravel()
-            seg_m = seg[mask > 0].ravel()
+                    # Compute true positive rate and false positve rate
+                    error_tprfpr_valid += compute_tpr_fpr(seg_m, error_batch_m, thresh_error_valid)
 
-            # AUC
-            if not len(thresh_error_v):  # Create total error list
-                thresh_error_v = np.concatenate((np.sort(error_batch_m[::100]), [15]))
-                error_tprfpr = np.zeros((2, len(thresh_error_v)))
+                    # Number of total positive and negative in segmentation
+                    total_p_valid += np.sum(seg_m > 0)
+                    total_n_valid += np.sum(seg_m == 0)
 
-            # Compute true positive rate and false positve rate
-            error_tprfpr += compute_tpr_fpr(seg_m, error_batch_m, thresh_error_v)
+                    # TP-rate and FP-rate calculation
+                    tpr_error_valid = error_tprfpr_valid[0] / total_p_valid
+                    fpr_error_valid = error_tprfpr_valid[1] / total_n_valid
 
-            # Number of total positive and negative in segmentation
-            total_p_v += np.sum(seg_m > 0)
-            total_n_v += np.sum(seg_m == 0)
+                    # Add to total AUC
+                    auc_error_valid = 1. + np.trapz(fpr_error_valid, tpr_error_valid)
 
-            # TP-rate and FP-rate calculation
-            tpr_error_v = error_tprfpr[0] / total_p_v
-            fpr_error_v = error_tprfpr[1] / total_n_v
+                writer.add_scalar('Valid AUC', auc_error_valid, ep)
+            '''
 
-            # Add to total AUC
-            auc_error_v = 1. + np.trapz(fpr_error_v, tpr_error_v)
-
-
-        print('AUC valid: ', auc_error)
-        #writer.add_scalar('AUC:', auc_error, subj)
-        #writer.flush()
-        #subj_AUC.append(auc_error)
-
-        #dice =  (2*TP)/(2*TP+FN+FP)
-
-        #print('DCS: ', dice)
-        #writer.add_scalar('Dice:', dice, subj)
-        #writer.flush()
-        #subj_dice.append(dice)
-        '''
-
-    #print('Dice mean: ', np.mean(np.array(subj_dice), axis=0), ' std: ', np.std(np.array(subj_dice), axis=0))
-    #print('AUC mean: ', np.mean(np.array(subj_AUC), axis=0), ' std: ', np.std(np.array(subj_AUC), axis=0))
-
-######
-#if batch_idx % log_freq == 0:

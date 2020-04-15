@@ -31,7 +31,7 @@ if __name__ == "__main__":
     img_size = int(config["spatial_size"])
     lr_rate = float(config['lr_rate'])
     log_freq = int(config['log_freq'])
-    log_dir = os.path.join("log_dir")
+    log_dir = str(config['log_dir'])
 
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
             img_test, mask = next(iter(valid_data_loader))
             img_test = img_test.to(device)
-            img_re, __, __, __ = vae_model(img_test)
+            img_re, __, __, __ = vae_model(img_test.double())
             writer_valid.add_image('Batch of original images', img_test, epoch, dataformats='NCHW')
             writer_valid.add_image('Batch of reconstructed images', torch.clamp(img_re, 0, 1), epoch, dataformats='NCHW')
 

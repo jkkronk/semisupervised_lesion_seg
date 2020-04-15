@@ -40,15 +40,10 @@ class camcan_dataset(Dataset):
             img = np.expand_dims(img, axis=0)
 
             seq_all = iaa.Sequential([
-                iaa.Fliplr(0.5), # Horizontal flips
-                iaa.Affine(
-                    scale={"x": (0.95, 1.05), "y": (0.95, 1.05)},
-                    translate_percent={"x": (0, 0), "y": (0, 0)},
-                    rotate=(-5, 5),
-                    shear=(0, 0)), # Scaling, rotating
+                #iaa.Fliplr(0.5), # Horizontal flips
                 iaa.ElasticTransformation(alpha=3, sigma=3), # Elastic
-                iaa.LinearContrast((0.9, 1.1)),  # Contrast
-                iaa.Multiply((0.9, 1.1), per_channel=1)
+                iaa.LinearContrast((0.8, 1.2)),  # Contrast
+                iaa.Multiply((0.8, 1.2), per_channel=1)
                 ], random_order=True)
 
             images_aug = seq_all(images=img) # Intensity and contrast only on input image
@@ -63,15 +58,12 @@ class camcan_dataset(Dataset):
 
     def __getitem__(self, index):
         data_img = self.data['Scan'][index].reshape(200,200)
-        #mask_img = self.data['Mask'][index].reshape(200,200)
 
         # Resize Images to network
         data_img = resize(data_img, (self.img_size, self.img_size))
-        #mask_img = resize(mask_img, (self.img_size, self.img_size))
 
         # Expand to data with channel [1,128,128]
         data_img = np.expand_dims(data_img, axis=-1)
-        #mask_img = np.expand_dims(mask_img, axis=-1)
 
         img_trans = self.transform(data_img)
 
@@ -204,7 +196,7 @@ class brats_dataset(Dataset):
         # Set all segmented elements to 1
         seg_data[seg_data > 0] = 1
 
-        img_trans, seg_trans, mask_trans = self.transform(img_data, seg_data)
+        img_trans, seg_trans = self.transform(img_data, seg_data)
 
         mask = torch.zeros(img_trans.size())
         mask[img_trans > 0] = 1
@@ -224,15 +216,15 @@ class brats_dataset_subj(Dataset):
         # Open datasets
         if self.dataset == 'train':
             self.train = True
-            print('Loading train set')
+            print('Loading train set for subj')
             self.path = (data_path + 'brats17_t2_train.hdf5')
         elif self.dataset == 'valid':
             self.train = False
-            print('Loading validation set')
+            print('Loading validation set for subj')
             self.path = (data_path + 'brats17_t2_val.hdf5')
         elif self.dataset == 'test':
             self.train = False
-            print('Loading test set')
+            print('Loading test set for subj')
             self.path = (data_path + 'brats17_t2_test.hdf5')
         else:
             print('No set named ' + set)

@@ -39,25 +39,28 @@ if __name__ == "__main__":
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    preset_threshold = []#[0.0907, 0.0381, 0.0810]
+    preset_threshold = [] #[0.0907, 0.0381, 0.0810]
+
+    print(' Vae model: ', model_name)
 
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print('Using device: ' + str(device))
 
+    vae_path = '/scratch_net/biwidl214/jonatank/logs/vae/'
     # Load trained vae model
-    path = 'models/' + model_name + '.pth'
+    path = vae_path + model_name + '.pth'
     vae_model = torch.load(path, map_location=torch.device(device))
     vae_model.eval()
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
-        thr_error, thr_error_corr, thr_MAD = \
-            threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
+        thr_error = \
+            threshold.compute_threshold_TV(fprate, vae_model, img_size, batch_size, n_latent_samples,
                               device, renormalized=True, n_random_sub=100)
     else:
-        thr_error, thr_error_corr, thr_MAD = preset_threshold
-    print(thr_error, thr_error_corr, thr_MAD)
+        thr_error = preset_threshold
+    print(thr_error)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -148,8 +151,8 @@ if __name__ == "__main__":
 
             # DICE
             # Create binary prediction map
-            error_batch_m[error_batch_m >= thr_error_corr] = 1
-            error_batch_m[error_batch_m < thr_error_corr] = 0
+            error_batch_m[error_batch_m >= thr_error] = 1
+            error_batch_m[error_batch_m < thr_error] = 0
 
             # Calculate and sum total TP, FN, FP
             TP += np.sum(seg_m[error_batch_m == 1])
@@ -157,13 +160,13 @@ if __name__ == "__main__":
             FP += np.sum(error_batch_m[seg_m == 0])
 
         print('AUC: ', auc_error)
-        writer.add_scalar('AUC:', auc_error, batch_idx)
-        writer.flush()
+        #writer.add_scalar('AUC:', auc_error, batch_idx)
+        #writer.flush()
 
         dice =  (2*TP)/(2*TP+FN+FP)
 
         print('DCS: ', dice)
-        writer.add_scalar('Dice:', dice, batch_idx)
+        writer.add_scalar('Dice:', dice)
         writer.flush()
         subj_dice.append(dice)
 

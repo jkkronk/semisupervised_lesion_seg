@@ -6,7 +6,7 @@ import torch.optim as optim
 from utils.utils import total_variation
 from utils.ssim import ssim
 from utils.utils import normalize_tensor
-from utils.utils import dice_loss
+from utils.utils import dice_loss, diceloss
 
 def run_map_TV(input_img, dec_mu, riter, device, weight = 1, step_size=0.003):
     # Init params
@@ -25,7 +25,7 @@ def run_map_TV(input_img, dec_mu, riter, device, weight = 1, step_size=0.003):
     for i in range(riter):
 
         # Define G function
-        gfunc = (torch.sum((dec_mu-img_ano).pow(2)) + weight * total_variation(img_ano-input_img))
+        gfunc = torch.sum((dec_mu-img_ano).pow(2)) + weight * total_variation(img_ano-input_img)
 
         gfunc.backward() # Backpropogate
 
@@ -36,68 +36,110 @@ def run_map_TV(input_img, dec_mu, riter, device, weight = 1, step_size=0.003):
 
     return img_ano
 
-def run_map_NN(input_img, dec_mu, model, riter, device, writer=None, optimizer=None, input_seg=None , mode=None , step_size=0.003):
+def run_map_NN(input_img, dec_mu, model, vae_model, riter, device, writer=None, step_size=0.003):
     # Init params
-    input_img = nn.Parameter(input_img, requires_grad=False)
-    dec_mu = nn.Parameter(dec_mu.float(), requires_grad=False)
-    img_ano = nn.Parameter(input_img.clone(),requires_grad=True)
-
-    input_img = input_img.to(device)
-    dec_mu = dec_mu.to(device)
-    img_ano = img_ano.to(device)
-
-    if mode == 'train':
-        input_seg = input_seg.to(device)
-
-    model.eval()
+    input_img = nn.Parameter(input_img.to(device), requires_grad=False)
+    dec_mu = nn.Parameter(dec_mu.to(device).float(), requires_grad=False)
+    img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
 
     # Init MAP Optimizer
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
-    loss = 0
+
+    model.eval()
 
     for i in range(riter):
-        #print(i)
-        if mode == 'train':
-            model.train()
-
-            NN_input = torch.stack([input_img, img_ano]).permute((1,0,2,3)).float()
-
-            # Define G function
-            gfunc = torch.sum((dec_mu-img_ano).pow(2)) + torch.sum(model(NN_input))
-
-            gfunc.backward(create_graph=True)
-
-            loss_i = dice_loss(img_ano.grad, input_seg) #.unsqueeze(1).float() , input_seg.unsqueeze(1).float())
-            # dice_loss
-            #loss_i = dice_loss((input_img-img_ano).pow(2).unsqueeze(1).float() , input_seg.unsqueeze(1).float())
-
-            loss += loss_i
-            print(loss_i)
-
-            loss_i.backward()
-            optimizer.step()
-            optimizer.zero_grad()
-
-            model.eval()
-        #elif mode == 'test':
-        #loss_i = dice_loss((input_img-img_ano).pow(2).unsqueeze(1).float() , input_seg.unsqueeze(1).float())
-
-        #loss += loss_i
+        # Gradient step MAP
         MAP_optimizer.zero_grad()
 
-        NN_input = torch.stack([input_img, img_ano]).permute((1,0,2,3)).float()
+        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).to(device).float()
+        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
-         # Define G function
-        gfunc = torch.sum((dec_mu-img_ano).pow(2)) + torch.sum(model(NN_input))
+        # Define G function
+        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
+        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+        out = model(NN_input)
 
+        gfunc = torch.sum(l2_loss) + kl_loss + torch.sum(out)
+
+        gfunc.backward() # Backpropagate
+
+        MAP_optimizer.step() # Gradient step
+
+    return img_ano
+
+def train_run_map_NN(input_img, dec_mu, model, vae_model, riter, device, writer=None, optimizer=None, input_seg=None, step_size=0.003, log_freq=5):
+    # Init params
+    input_img = nn.Parameter(input_img.to(device), requires_grad=False)
+    dec_mu = nn.Parameter(dec_mu.to(device).float(), requires_grad=False)
+    img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
+
+    # Init MAP Optimizer
+    MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+
+    input_seg = input_seg.to(device)
+
+    model.eval()
+
+    dice = diceloss()
+    BCE = nn.BCELoss()
+
+    for i in range(riter):
+        # Gradient step MAP
+        MAP_optimizer.zero_grad()
+
+        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).to(device).float()
+        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+
+        # Define G function
+        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
+        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+        out = model(NN_input)
+
+        gfunc = torch.sum(l2_loss) + kl_loss #+ torch.sum(out)
         gfunc.backward()
+
+        img_ano.grad = img_ano.grad + out.squeeze(1)
 
         MAP_optimizer.step()
 
-    #print(torch.sum((dec_mu-img_ano).pow(2)), torch.sum(model(NN_input)))
-    if mode == 'train':
-        writer.add_image('Batch of I grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('Seg (in restor iter)', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        # Log
+        writer.add_scalar('ELBO grad', torch.sum(l2_loss) + kl_loss)
+        writer.add_scalar('Net grad', torch.sum(model(NN_input)))
+
+        if i % log_freq == 0:
+            writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+            writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+
+    # Train last step
+    model.train()
+    NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).to(device).float()
+    __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+
+    # Define G function
+    l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
+    kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+    out = model(NN_input)
+
+    gfunc = torch.sum(l2_loss) + kl_loss # + torch.sum(out)
+    gfunc.backward() #create_graph=True)
+
+    optimizer.zero_grad()
+
+    ano_grad_act = 1 - 2*torch.sigmoid(-((img_ano.grad+out.squeeze(1)).pow(2)))
+
+    loss = dice(ano_grad_act, input_seg)
+    #loss = BCE(ano_grad_act.double(), input_seg.double())
+    #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
+
+    loss.backward()
+
+    optimizer.step()
+
+    # Log
+    writer.add_scalar('Iteration loss', loss)
+    writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+    writer.add_image('X Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+    writer.add_image('X Ano_grad_act', normalize_tensor(ano_grad_act.unsqueeze(1)[:16]), dataformats='NCHW')
 
 
-    return img_ano, loss/riter
+    return img_ano
