@@ -1,12 +1,12 @@
-riter: 500
+riter: 400
 batch_size: 32
 spatial_size: 128
 orig_size: 200
 log_freq: 10
-step_rate: 1e-4
+step_rate: 1e-2
 vae_name: VAE_400_40ep
-lr_rate: 1e-2
+lr_rate: 1e-4
 log_dir: /scratch_net/biwidl214/jonatank/logs/restore/
 path: /scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/brats17/
-epochs: 200
+epochs: 1000
 net_name: train_nn_ssim_30

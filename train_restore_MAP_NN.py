@@ -60,7 +60,8 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 16).to(device)
+    #net = shallow_UNet(name, 2, 1, 8).to(device)
+    net = ConvNet(name, 2, 1, 8).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
 
     # Compute threshold with help of camcan set
@@ -115,7 +116,8 @@ if __name__ == "__main__":
 
                 # Get average prior
                 for s in range(n_latent_samples):
-                    recon_batch, z_mean, z_cov, res = vae_model(scan)
+                    with torch.no_grad():
+                        recon_batch, z_mean, z_cov, res = vae_model(scan)
                     decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
                 decoded_mu = decoded_mu / n_latent_samples
@@ -125,7 +127,7 @@ if __name__ == "__main__":
                 seg = seg.squeeze(1)
                 mask = mask.squeeze(1).cpu().detach().numpy()
 
-                train_riter = (25*(ep))%401
+                train_riter = np.random.randint(1, 11)
                 restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, train_riter, device, writer, optimizer, seg, step_rate, log_freq)
 
                 seg = seg.cpu().detach().numpy()
@@ -161,8 +163,8 @@ if __name__ == "__main__":
                 '''
 
             AUC = roc_auc_score(y_true, y_pred)
-            print('AUC : ', AUC)
-            writer.add_scalar('AUC:', AUC)
+            #print('AUC : ', AUC)
+            #writer.add_scalar('AUC:', AUC)
 
             '''
             dice = (2 * TP) / (2 * TP + FN + FP)
@@ -173,6 +175,7 @@ if __name__ == "__main__":
             writer.flush()
 
         print(ep, ' : AUC  = ', AUC)
+        writer.add_scalar('AUC:', AUC, ep)
 
         if ep % log_freq == 0:
             # Save model
@@ -188,10 +191,6 @@ if __name__ == "__main__":
             writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
             writer.flush()
 
-            thresh_error_valid = []
-            total_p_valid = 0
-            total_n_valid = 0
-            auc_error_tot_valid = 0
             ## VALIDATION
             '''
             if validation:

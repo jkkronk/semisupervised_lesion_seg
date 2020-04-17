@@ -7,7 +7,7 @@ from collections import OrderedDict
 # Archtecture from github https://github.com/mateuszbuda/brain-segmentation-pytorch/blob/master/unet.py
 
 class shallow_UNet(nn.Module):
-    def __init__(self, name,in_channels=2, out_channels=1, init_features=16):
+    def __init__(self, name,in_channels=2, out_channels=1, init_features=8):
         super(shallow_UNet, self).__init__()
         self.name = name
 
@@ -16,23 +16,9 @@ class shallow_UNet(nn.Module):
         self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
         self.encoder2 = shallow_UNet._block(features, features * 2, name="enc2")
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-        '''
-        self.encoder3 = shallow_UNet._block(features * 2, features * 4, name="enc3")
-        self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.encoder4 = shallow_UNet._block(features * 4, features * 8, name="enc4")
-        self.pool4 = nn.MaxPool2d(kernel_size=2, stride=2)
-        '''
+
         self.bottleneck = shallow_UNet._block(features * 2, features * 4, name="bottleneck")
-        '''
-        self.upconv4 = nn.ConvTranspose2d(
-            features * 16, features * 8, kernel_size=2, stride=2
-        )
-        self.decoder4 = shallow_UNet._block((features * 8) * 2, features * 8, name="dec4")
-        self.upconv3 = nn.ConvTranspose2d(
-            features * 8, features * 4, kernel_size=2, stride=2
-        )
-        self.decoder3 = shallow_UNet._block((features * 4) * 2, features * 4, name="dec3")
-        '''
+
         self.upconv2 = nn.ConvTranspose2d(
             features * 4, features * 2, kernel_size=2, stride=2
         )
@@ -47,7 +33,6 @@ class shallow_UNet(nn.Module):
             in_channels=features, out_channels=out_channels, kernel_size=1
         )
 
-        self.tanh = nn.Tanh()
 
     def forward(self, x):
         enc1 = self.encoder1(x)

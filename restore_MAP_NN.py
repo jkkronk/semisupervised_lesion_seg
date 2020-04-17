@@ -47,7 +47,7 @@ if __name__ == "__main__":
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    preset_threshold = []#0.0907
+    preset_threshold = 0.0465 #[]
     epochs = config['epochs']
 
     print(' Vae model: ', model_name, ' NN model: ', net_name)

@@ -9,27 +9,19 @@ class ConvNet(nn.Module):
         super(ConvNet, self).__init__()
         self.name = name
 
-        #2x128x128
+        # Input 2x128x128
         self.layer1 = nn.Sequential(
             nn.Conv2d(2, init_features, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2))
-        #init_featuresx64x64
         self.layer2 = nn.Sequential(
             nn.Conv2d(init_features, init_features*2, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2))
-        #init_features*2x32x32
         self.layer3 = nn.Sequential(
             nn.Conv2d(init_features*2, init_features*4, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2))
-        #init_features*4x16x16
-        #self.layer4 = nn.Sequential(
-        #    nn.Conv2d(init_features * 4, init_features*8, kernel_size=3, stride=1, padding=1),
-        #    nn.LeakyReLU(),
-        #    nn.MaxPool2d(kernel_size=2, stride=2))
-        #init_features*8x8x8
         self.drop_out = nn.Dropout()
         self.fc1 = nn.Linear(16 * 16 * init_features*4, out_channels)
 

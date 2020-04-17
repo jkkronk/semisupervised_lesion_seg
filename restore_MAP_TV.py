@@ -108,12 +108,7 @@ if __name__ == "__main__":
             mask = mask.squeeze(1).cpu().detach().numpy()
             seg = seg.squeeze(1).cpu().detach().numpy()
 
-            #if np.sum(mask)>30000: #30000 # Only restore when there is enough brain tissue
-                #print('restoring')
-            restored_batch = run_map_TV(scan, decoded_mu, riter, device, weight, step_rate)
-            #else: # Else scan is only background
-            #    restored_batch = scan
-            #    pred_res_restored = torch.zeros((img_size,img_size))
+            restored_batch = run_map_TV(scan, decoded_mu, vae_model, riter, device, weight, step_rate)
 
             # Predicted abnormalty is difference between restored and original batch
             error_batch = np.zeros([scan.size()[0],original_size,original_size])

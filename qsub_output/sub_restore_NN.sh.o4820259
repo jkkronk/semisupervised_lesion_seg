@@ -1,0 +1,6 @@
+ Vae model:  VAE_400_40ep  NN model:  train_nn_dice_120
+Using device: cuda:0
+0.0465
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
