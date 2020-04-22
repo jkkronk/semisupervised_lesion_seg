@@ -61,30 +61,30 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 8).to(device)
+    net = shallow_UNet(name, 2, 1, 16).to(device)
     #net = ConvNet(name, 2, 1, 8).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
-
-    validation = False
-
-    if validation:
-        # Load validation data
-        valid_dataset = brats_dataset(data_path, 'valid', img_size)  # Change rand_subj to True
-        valid_loader = data.DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-        print('Number of Slices in Validation set: ', valid_dataset.size)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
     subj_dict = pickle.load(f)
     f.close()
 
-    subj_list = list(subj_dict.keys())
-    random.shuffle(subj_list)
-    subj_list = subj_list[:subj_nbr]
+    subj_list_all = list(subj_dict.keys())
+    random.shuffle(subj_list_all)
+    subj_list = subj_list_all[:subj_nbr-1]
+    print(subj_list)
 
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
+
+    validation = True
+
+    subj_val_list = []
+    subj_val_list.append(subj_list_all[subj_nbr])
+    print('validation subject', subj_val_list)
+    writer_valid = SummaryWriter(log_dir + 'valid_' + name)
 
     for ep in range(epochs):
         # Metrics init
@@ -103,7 +103,6 @@ if __name__ == "__main__":
             subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
             print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
-            loss = 0
             for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
                 scan = scan.double().to(device)
                 decoded_mu = torch.zeros(scan.size())
@@ -122,7 +121,8 @@ if __name__ == "__main__":
                 mask = mask.squeeze(1).cpu().detach().numpy()
 
                 #train_riter = np.random.randint(1, 100)
-                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, optimizer, seg, step_rate, log_freq)
+                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
+                                                  optimizer, step_rate, log_freq)
 
                 seg = seg.cpu().detach().numpy()
                 # Predicted abnormalty is difference between restored and original batch
@@ -168,9 +168,6 @@ if __name__ == "__main__":
             '''
             writer.flush()
 
-        #print(ep, ' : AUC  = ', AUC)
-        #writer.add_scalar('AUC:', AUC, ep)
-
         if ep % log_freq == 0:
             # Save model
             path = '/scratch_net/biwidl214/jonatank/logs/restore/' + name + str(ep) + '.pth'
@@ -185,65 +182,63 @@ if __name__ == "__main__":
             writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
             writer.flush()
 
-            ## VALIDATION
-            '''
-            if validation:
-                for batch_idx, (scan, seg, mask) in enumerate(valid_loader):
+        ## VALIDATION
+        if validation:
+            y_pred_valid = []
+            y_true_valid = []
+
+            for subj in subj_val_list:  # Iterate every subject
+                slices = subj_dict[subj]  # Slices for each subject CHANGE
+
+                # Load data
+                subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
+                subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+                print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
+
+                loss = 0
+                for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
                     scan = scan.double().to(device)
                     decoded_mu = torch.zeros(scan.size())
 
                     # Get average prior
                     for s in range(n_latent_samples):
-                        recon_batch, z_mean, z_cov, res = vae_model(scan)
-                        decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
+                        with torch.no_grad():
+                            recon_batch, z_mean, z_cov, res = vae_model(scan)
+                        decoded_mu += np.array(
+                            [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
                     decoded_mu = decoded_mu / n_latent_samples
 
                     # Remove channel
-                    #decoded_mu = decoded_mu.squeeze(1)
                     scan = scan.squeeze(1)
                     seg = seg.squeeze(1)
                     mask = mask.squeeze(1).cpu().detach().numpy()
 
-                    restored_batch, __ = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, mode='valid',
-                                                    step_size=step_rate)
+                    # train_riter = np.random.randint(1, 100)
+                    restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer_valid,
+                                                      seg, step_size=step_rate, log_freq=log_freq, train=False)
 
                     seg = seg.cpu().detach().numpy()
-
                     # Predicted abnormalty is difference between restored and original batch
                     error_batch = np.zeros([scan.size()[0], original_size, original_size])
-                    restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
 
                     for idx in range(scan.size()[0]):  # Iterate trough for resize
-                        error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
-                        restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
+                        error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(),
+                                                  (200, 200))
 
                     # Remove preds and seg outside mask and flatten
                     mask = resize(mask, (scan.size()[0], original_size, original_size))
                     seg = resize(seg, (scan.size()[0], original_size, original_size))
 
                     error_batch_m = error_batch[mask > 0].ravel()
-                    seg_m = seg[mask > 0].ravel()
+                    seg_m = seg[mask > 0].ravel().astype(bool)
 
                     # AUC
-                    if not len(thresh_error_valid):  # Create total error list
-                        thresh_error_valid = np.concatenate((np.sort(error_batch_m[::100]), [15]))
-                        error_tprfpr_valid = np.zeros((2, len(thresh_error_valid)))
+                    y_pred_valid.extend(error_batch_m.tolist())
+                    y_true_valid.extend(seg_m.tolist())
 
-                    # Compute true positive rate and false positve rate
-                    error_tprfpr_valid += compute_tpr_fpr(seg_m, error_batch_m, thresh_error_valid)
-
-                    # Number of total positive and negative in segmentation
-                    total_p_valid += np.sum(seg_m > 0)
-                    total_n_valid += np.sum(seg_m == 0)
-
-                    # TP-rate and FP-rate calculation
-                    tpr_error_valid = error_tprfpr_valid[0] / total_p_valid
-                    fpr_error_valid = error_tprfpr_valid[1] / total_n_valid
-
-                    # Add to total AUC
-                    auc_error_valid = 1. + np.trapz(fpr_error_valid, tpr_error_valid)
-
-                writer.add_scalar('Valid AUC', auc_error_valid, ep)
-            '''
+            AUC = roc_auc_score(y_true_valid, y_pred_valid)
+            print('AUC Valid: ', AUC)
+            writer_valid.add_scalar('AUC:', AUC)
+            writer.flush()
 

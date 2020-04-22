@@ -55,12 +55,12 @@ if __name__ == "__main__":
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
-        thr_error, __, __= \
+        thr_error, thr_error_corr, thr_error_MAD= \
             threshold.compute_threshold_TV(fprate, vae_model, img_size, batch_size, n_latent_samples,
                               device, renormalized=True, n_random_sub=100)
     else:
         thr_error = preset_threshold
-    print(thr_error)
+    print(thr_error, thr_error_corr, thr_error_MAD)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -73,6 +73,7 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     subj_dice = []
+    subj_dice_b = []
     thresh_error = []
     total_p = 0
     total_n = 0
@@ -83,6 +84,10 @@ if __name__ == "__main__":
         TP = 0
         FN = 0
         FP = 0
+
+        TP_b = 0
+        FN_b = 0
+        FP_b = 0
 
         slices = subj_dict[subj] # Slices for each subject
 
@@ -145,14 +150,26 @@ if __name__ == "__main__":
             auc_error = 1. + np.trapz(fpr_error, tpr_error)
 
             # DICE
+            error_batch_m_a = np.copy(error_batch_m)
             # Create binary prediction map
-            error_batch_m[error_batch_m >= thr_error] = 1
-            error_batch_m[error_batch_m < thr_error] = 0
+            error_batch_m_a[error_batch_m >= thr_error_corr] = 1
+            error_batch_m_a[error_batch_m < thr_error_corr] = 0
 
             # Calculate and sum total TP, FN, FP
-            TP += np.sum(seg_m[error_batch_m == 1])
-            FN += np.sum(seg_m[error_batch_m == 0])
-            FP += np.sum(error_batch_m[seg_m == 0])
+            TP += np.sum(seg_m[error_batch_m_a == 1])
+            FN += np.sum(seg_m[error_batch_m_a == 0])
+            FP += np.sum(error_batch_m_a[seg_m == 0])
+
+            # DICE
+            error_batch_m_b = np.copy(error_batch_m)
+            # Create binary prediction map
+            error_batch_m_b[error_batch_m >= thr_error_MAD] = 1
+            error_batch_m_b[error_batch_m < thr_error_MAD] = 0
+
+            # Calculate and sum total TP, FN, FP
+            TP_b += np.sum(seg_m[error_batch_m_b == 1])
+            FN_b += np.sum(seg_m[error_batch_m_b == 0])
+            FP_b += np.sum(error_batch_m_b[seg_m == 0])
 
         print('AUC: ', auc_error)
         #writer.add_scalar('AUC:', auc_error, batch_idx)
@@ -165,7 +182,16 @@ if __name__ == "__main__":
         writer.flush()
         subj_dice.append(dice)
 
+        dice_b = (2 * TP_b) / (2 * TP_b + FN_b + FP_b)
+
+        print('DCS: ', dice_b)
+        writer.add_scalar('Dice:', dice_b)
+        writer.flush()
+        subj_dice_b.append(dice_b)
+
     print('Dice mean: ', np.mean(np.array(subj_dice), axis=0), ' std: ', np.std(np.array(subj_dice), axis=0))
+    print('Dice mean b: ', np.mean(np.array(subj_dice_b), axis=0), ' std: ', np.std(np.array(subj_dice_b), axis=0))
+
 
 ######
 #if batch_idx % log_freq == 0:

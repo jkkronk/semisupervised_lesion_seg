@@ -1,0 +1,24 @@
+Name:  train_restore_2 Lr_rate:  0.0001  Riter:  200  Subjs:  5
+Using device: cuda:0
+['Brats17_TCIA_490_1_t2_unbiased.nii.gz', 'Brats17_TCIA_321_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ATX_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AXL_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_TCIA_190_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_TCIA_490_1_t2_unbiased.nii.gz  Number of Slices:  136
+AUC :  0.6864141681803403
+Loading train set for subj
+Subject  Brats17_TCIA_321_1_t2_unbiased.nii.gz  Number of Slices:  122
+AUC :  0.6876469330122712
+Loading train set for subj
+Subject  Brats17_CBICA_ATX_1_t2_unbiased.nii.gz  Number of Slices:  138
+AUC :  0.6869641821488139
+Loading train set for subj
+Subject  Brats17_CBICA_AXL_1_t2_unbiased.nii.gz  Number of Slices:  135
+AUC :  0.7262699132628346
+Loading train set for subj
+Subject  Brats17_TCIA_190_1_t2_unbiased.nii.gz  Number of Slices:  128
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 219, in <module>
+    seg, step_rate, log_freq, train=False)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 100, in train_run_map_NN
+    optimizer.zero_grad()
+AttributeError: 'float' object has no attribute 'zero_grad'

@@ -22,7 +22,7 @@ class shallow_UNet(nn.Module):
         self.bottleneck = shallow_UNet._block(features * 4, features * 8, name="bottleneck")
 
         self.upconv3 = nn.Sequential(
-            nn.Upsample(scale_factor=4, mode='bilinear'),
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 8, features * 4, kernel_size=2, stride=2)
         )
 
@@ -33,7 +33,7 @@ class shallow_UNet(nn.Module):
         #)
 
         self.upconv2 = nn.Sequential(
-            nn.Upsample(scale_factor=4, mode='bilinear'),
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 4, features * 2, kernel_size=2, stride=2)
         )
 
@@ -44,7 +44,7 @@ class shallow_UNet(nn.Module):
         #)
 
         self.upconv1 = nn.Sequential(
-            nn.Upsample(scale_factor=4, mode='bilinear'),
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 2, features, kernel_size=2, stride=2)
         )
 

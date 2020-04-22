@@ -47,7 +47,7 @@ if __name__ == "__main__":
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    preset_threshold = [] #1.6875
+    preset_threshold = 0.5 #[] #1.6875
     epochs = config['epochs']
 
     print(' Vae model: ', model_name, ' NN model: ', net_name)
@@ -123,7 +123,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate, input_seg=seg)
+            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()
@@ -146,8 +146,6 @@ if __name__ == "__main__":
 
             seg_m = seg[mask > 0].ravel().astype(int)
             y_true.extend(seg_m.tolist())
-
-            print(error_batch_m.max(), error_batch_m.min())
 
             # DICE
             # Create binary prediction map

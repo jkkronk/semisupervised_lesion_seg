@@ -1,0 +1,6 @@
+Name:  train_restore_4 Lr_rate:  0.0001  Riter:  200  Subjs:  5
+Using device: cuda:0
+['Brats17_CBICA_AYA_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AXO_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ATV_1_t2_unbiased.nii.gz', 'Brats17_TCIA_310_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_ARW_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_AYA_1_t2_unbiased.nii.gz  Number of Slices:  137

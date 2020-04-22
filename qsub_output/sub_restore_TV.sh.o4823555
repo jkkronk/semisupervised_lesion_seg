@@ -531,3 +531,15 @@ AUC:  0.8341504023771773
 DCS:  0.0
 Loading test set for subj
 Subject  Brats17_2013_0_1_t2_unbiased.nii.gz  Number of Slices:  127
+AUC:  0.836876277409885
+DCS:  0.09118882979322894
+Loading test set for subj
+Subject  Brats17_TCIA_205_1_t2_unbiased.nii.gz  Number of Slices:  136
+AUC:  0.839612066354275
+DCS:  0.44770221905767027
+Loading test set for subj
+Subject  Brats17_TCIA_177_1_t2_unbiased.nii.gz  Number of Slices:  124
+AUC:  0.838500855598174
+DCS:  0.026146427842815678
+Loading test set for subj
+Subject  Brats17_TCIA_413_1_t2_unbiased.nii.gz  Number of Slices:  137
