@@ -29,7 +29,7 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
 
     weight = config['weight']
-    model_name = config['vae_name']
+    model_name = config['vae_name'] # camcan_400_Aug_2_100
     data_path = config['path']
     riter = config['riter']
     batch_size = config["batch_size"]
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     n_latent_samples = 25
     preset_threshold = [] #[0.0907, 0.0381, 0.0810]
 
-    print(' Vae model: ', model_name)
+    print(' Vae model: ', model_name, ' Fprate: ',fprate)
 
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
-        thr_error = \
+        thr_error, __, __= \
             threshold.compute_threshold_TV(fprate, vae_model, img_size, batch_size, n_latent_samples,
                               device, renormalized=True, n_random_sub=100)
     else:

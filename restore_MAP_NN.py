@@ -47,7 +47,7 @@ if __name__ == "__main__":
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    preset_threshold = 0.0465 #[]
+    preset_threshold = [] #1.6875
     epochs = config['epochs']
 
     print(' Vae model: ', model_name, ' NN model: ', net_name)
@@ -70,8 +70,9 @@ if __name__ == "__main__":
     # Compute threshold with help of camcan set
     if not preset_threshold:
         thr_error = \
-            threshold.compute_threshold(float(fprate), vae_model, img_size, batch_size, n_latent_samples,
-                              device, renormalized=True, n_random_sub=10, net_model=net, riter=riter, step_size=step_rate) # Change riter=riter and n_random_sub=100
+            threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
+                                             ['Brats17_2013_11_1_t2_unbiased.nii.gz'], batch_size, n_latent_samples,
+                                             device, riter, step_rate)
     else:
         thr_error = preset_threshold
     print(thr_error)
@@ -89,14 +90,15 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     # Metrics init
-    TP = 0
-    FN = 0
-    FP = 0
     y_true = []
     y_pred = []
     subj_dice = []
 
     for i, subj in enumerate(subj_list):  # Iterate every subject
+        TP = 0
+        FN = 0
+        FP = 0
+
         print(i/len(subj_list))
         slices = subj_dict[subj]  # Slices for each subject
 
@@ -121,7 +123,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
+            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate, input_seg=seg)
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()
@@ -144,6 +146,8 @@ if __name__ == "__main__":
 
             seg_m = seg[mask > 0].ravel().astype(int)
             y_true.extend(seg_m.tolist())
+
+            print(error_batch_m.max(), error_batch_m.min())
 
             # DICE
             # Create binary prediction map
@@ -172,4 +176,10 @@ if __name__ == "__main__":
         writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
                          batch_idx, dataformats='NCHW')
         writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
+
         writer.flush()
+
+    avrg_dcs = sum(subj_dice) / len(subj_dice)
+    print('DCS: ',  avrg_dcs)
+    writer.add_scalar('Dice:', avrg_dcs)
+    writer.flush()

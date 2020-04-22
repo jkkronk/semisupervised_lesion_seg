@@ -1,11 +1,13 @@
- Vae model:  VAE_400_40ep  NN model:  train_nn_dice_210
+ Vae model:  camcan_400_Aug_2_100  NN model:  train_unet_fanograd_190
 Using device: cuda:0
-0.0465
+Loading train set for subj
+Subject  Brats17_2013_11_1_t2_unbiased.nii.gz  Number of Slices:  137
+1.6875841873398303
 0.0
 Loading test set for subj
 Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
-AUC :  0.7932565284764274
-DCS:  4.2278828876440124e-05
+AUC :  0.8834067990567209
+DCS:  0.0
 0.02
 Loading test set for subj
 Subject  Brats17_TCIA_645_1_t2_unbiased.nii.gz  Number of Slices:  134

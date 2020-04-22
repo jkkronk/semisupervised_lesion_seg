@@ -7,6 +7,11 @@ from skimage.transform import resize
 import torch
 from restoration import run_map_NN
 from utils import losses
+import pickle
+from datasets import brats_dataset_subj, brats_dataset
+from sklearn import metrics
+
+import torch.utils.data as data
 
 #sys.path.append("/scratch_net/bmicdl01/chenx/PycharmProjects/refine_vae")
 #from preprocess.preprocess import *
@@ -333,3 +338,72 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
     print(type(thr_MAD))
     return thr_MAD
 
+
+
+def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_size, n_latent_samples, device, riter=500, step_size=0.003):
+    f = open(data_path + 'subj_t2_dict.pkl', 'rb')
+    subj_dict = pickle.load(f)
+    f.close()
+    original_size = 200
+
+    y_true = []
+    y_pred = []
+
+    for subj in subjs:  # Iterate every subject
+        slices = subj_dict[subj]  # Slices for each subject CHANGE
+
+        # Load data
+        subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
+        subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+
+        for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
+            scan = scan.double().to(device)
+            decoded_mu = torch.zeros(scan.size())
+
+            # Get average prior
+            for s in range(n_latent_samples):
+                recon_batch, z_mean, z_cov, res = vae_model(scan)
+                decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
+
+            decoded_mu = decoded_mu / n_latent_samples
+
+            # Remove channel
+            scan = scan.squeeze(1)
+            seg = seg.squeeze(1)
+            mask = mask.squeeze(1)
+
+            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, step_size=step_size)
+
+            seg = seg.cpu().detach().numpy()
+            mask = mask.cpu().detach().numpy()
+
+            # Predicted abnormalty is difference between restored and original batch
+            error_batch = np.zeros([scan.size()[0], original_size, original_size])
+
+            for idx in range(scan.size()[0]):  # Iterate trough for resize
+                error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
+
+            # Remove preds and seg outside mask and flatten
+            mask = resize(mask, (scan.size()[0], original_size, original_size))
+            seg = resize(seg, (scan.size()[0], original_size, original_size))
+
+
+            error_batch_m = error_batch[mask > 0].ravel()
+            y_pred.extend(error_batch_m.tolist())
+
+            seg_m = seg[mask > 0].ravel().astype(int)
+            y_true.extend(seg_m.tolist())
+
+            print(error_batch_m.max(), error_batch_m.min())
+
+
+    fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
+
+    gmeans = np.sqrt(tpr * (1 - fpr))
+    ix = np.argmax(gmeans)
+
+    print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
+
+    print('AUC training : ', metrics.auc(fpr, tpr))
+
+    return thresholds[ix]

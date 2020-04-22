@@ -8,6 +8,7 @@ import torch.optim as optim
 
 from restoration import train_run_map_NN
 from models.shallow_UNET import shallow_UNet
+from models.unet import UNet
 from models.covnet import ConvNet
 from datasets import brats_dataset_subj, brats_dataset
 from utils.auc_score import compute_tpr_fpr
@@ -60,18 +61,11 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    #net = shallow_UNet(name, 2, 1, 8).to(device)
-    net = ConvNet(name, 2, 1, 8).to(device)
+    net = shallow_UNet(name, 2, 1, 8).to(device)
+    #net = ConvNet(name, 2, 1, 8).to(device)
+    #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
 
-    # Compute threshold with help of camcan set
-    #if not preset_threshold:
-    #    thr_error, thr_error_corr, thr_MAD = \
-    #        threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
-    #                          device, renormalized=True, n_random_sub=100)
-    #else:
-    #    thr_error, thr_error_corr, thr_MAD = preset_threshold
-    #print(thr_error, thr_error_corr, thr_MAD)
     validation = False
 
     if validation:
@@ -102,7 +96,7 @@ if __name__ == "__main__":
         subj_dice = []
 
         for subj in subj_list: # Iterate every subject
-            slices = subj_dict['Brats17_2013_11_1_t2_unbiased.nii.gz'] # Slices for each subject CHANGE
+            slices = subj_dict[subj] # Slices for each subject CHANGE
 
             # Load data
             subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
@@ -127,8 +121,8 @@ if __name__ == "__main__":
                 seg = seg.squeeze(1)
                 mask = mask.squeeze(1).cpu().detach().numpy()
 
-                train_riter = np.random.randint(1, 11)
-                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, train_riter, device, writer, optimizer, seg, step_rate, log_freq)
+                #train_riter = np.random.randint(1, 100)
+                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, optimizer, seg, step_rate, log_freq)
 
                 seg = seg.cpu().detach().numpy()
                 # Predicted abnormalty is difference between restored and original batch
@@ -163,8 +157,8 @@ if __name__ == "__main__":
                 '''
 
             AUC = roc_auc_score(y_true, y_pred)
-            #print('AUC : ', AUC)
-            #writer.add_scalar('AUC:', AUC)
+            print('AUC : ', AUC)
+            writer.add_scalar('AUC:', AUC)
 
             '''
             dice = (2 * TP) / (2 * TP + FN + FP)
@@ -174,8 +168,8 @@ if __name__ == "__main__":
             '''
             writer.flush()
 
-        print(ep, ' : AUC  = ', AUC)
-        writer.add_scalar('AUC:', AUC, ep)
+        #print(ep, ' : AUC  = ', AUC)
+        #writer.add_scalar('AUC:', AUC, ep)
 
         if ep % log_freq == 0:
             # Save model

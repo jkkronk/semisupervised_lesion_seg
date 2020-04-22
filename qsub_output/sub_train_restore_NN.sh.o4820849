@@ -1,2 +1,0 @@
-Name:  train_outnn_dice_5_bigstep Lr_rate:  0.0001  Riter:  400  Subjs:  1
-Using device: cuda:0

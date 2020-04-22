@@ -1,0 +1,25 @@
+ Vae model:  camcan_400_Aug_2_100  NN model:  train_unet_fanograd_unetgrad_160
+Using device: cuda:0
+Loading train set for subj
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 75, in <module>
+    device, riter, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/utils/threshold.py", line 375, in compute_threshold_subj
+    restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, step_size=step_size)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 61, in run_map_NN
+    
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/shallow_UNET.py", line 38, in forward
+    enc1 = self.encoder1(x)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 345, in forward
+    return self.conv2d_forward(input, self.weight)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 342, in conv2d_forward
+    self.padding, self.dilation, self.groups)
+RuntimeError: Given groups=1, weight of size 8 3 3 3, expected input[32, 2, 128, 128] to have 3 channels, but got 2 channels instead

@@ -1,0 +1,17 @@
+Name:  train_n_unet_fanograd_1 Lr_rate:  0.0001  Riter:  100  Subjs:  5
+Using device: cuda:0
+Loading train set for subj
+Subject  Brats17_CBICA_AXW_1_t2_unbiased.nii.gz  Number of Slices:  132
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/functional.py:2506: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
+  "See the documentation of nn.Upsample for details.".format(mode))
+torch.Size([32, 32, 16, 16]) torch.Size([32, 32, 32, 32])
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 125, in <module>
+    restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, optimizer, seg, step_rate, log_freq)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 116, in train_run_map_NN
+    out = net(NN_input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/shallow_UNET.py", line 72, in forward
+    dec3 = torch.cat((dec3, enc3), dim=1)
+RuntimeError: invalid argument 0: Sizes of tensors must match except in dimension 1. Got 32 and 16 in dimension 2 at /opt/conda/conda-bld/pytorch_1579022071458/work/aten/src/THC/generic/THCTensorMath.cu:71
