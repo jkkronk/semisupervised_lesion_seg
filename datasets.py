@@ -313,3 +313,117 @@ class brats_dataset_subj(Dataset):
 
     def __len__(self):
         return self.size
+
+class brats_dataset_subj_teacher(Dataset):
+    def __init__(self, data_path, dataset, img_size, slices, use_aug=False):
+        self.img_size = img_size
+        self.slices = slices
+        self.dataset = dataset
+        self.aug = use_aug
+
+        # Open datasets
+        if self.dataset == 'train':
+            self.train = True
+            print('Loading train set for subj')
+            self.path = (data_path + 'brats17_t2_train.hdf5')
+        elif self.dataset == 'valid':
+            self.train = False
+            print('Loading validation set for subj')
+            self.path = (data_path + 'brats17_t2_val.hdf5')
+        elif self.dataset == 'test':
+            self.train = False
+            print('Loading test set for subj')
+            self.path = (data_path + 'brats17_t2_test.hdf5')
+        else:
+            print('No set named ' + set)
+            exit()
+
+        # Get subject list
+        self.size = len(slices)
+
+        # Load hdf5 file
+        self.data = h5py.File(self.path, 'r')
+
+        # Init data arrays
+        self.data_img = np.zeros((self.size, 200, 200))
+        self.seg_img = np.zeros((self.size, 200, 200), dtype='bool')
+
+        # Iterate slices and place in arrays
+        for idx, id_slice in enumerate(slices):
+            self.data_img[idx] = self.data['Scan'][id_slice].reshape(200, 200)
+            self.seg_img[idx] = self.data['Seg'][id_slice].reshape(200, 200)
+
+    def transform(self, img, seg):
+        # Function for data augmentation
+        # 1) Affine Augmentations: Rotation (-15 to +15 degrees), Scaling, Flipping.
+        # 2) Elastic deformations
+        # 3) Intensity augmentations
+
+        ia.seed(int(time.time()))  # Seed for random augmentations
+
+        # Needed for iaa
+        img = (img * 255).astype('uint8')
+        seg = (seg).astype('uint8')
+
+        if self.aug:  # Augmentation only performed on train set
+            img = np.expand_dims(img, axis=0)
+            segmap = SegmentationMapsOnImage(seg, shape=img.shape[1:])  # Create segmentation map
+
+            seq_all = iaa.Sequential([
+                iaa.Fliplr(0.5),  # Horizontal flips
+                iaa.Affine(
+                    scale={"x": (0.9, 1.1), "y": (0.9, 1.1)},
+                    translate_percent={"x": (0, 0), "y": (0, 0)},
+                    rotate=(-15, 15),
+                    shear=(0, 0)),  # Scaling, rotating
+                iaa.ElasticTransformation(alpha=10, sigma=10)  # Elastic
+            ], random_order=True)
+
+            seq_img = iaa.Sequential([
+                iaa.LinearContrast((0.95, 1.05)),  # Contrast
+                iaa.Multiply((0.9, 1.1), per_channel=1),  # Intensity
+            ], random_order=True)
+
+            images_aug = seq_img(images=img)  # Intensity and contrast only on input image
+            img, seg = seq_all(images=images_aug, segmentation_maps=segmap)  # Rest of augmentations
+
+            img = np.squeeze(img, axis=0)
+            # Get segmentation map
+            seg = seg.draw(size=img.shape)[0]
+            seg = seg[:, :, 0]
+            seg[seg > 0] = 1
+
+        # To PIL for Flip and ToTensor
+        img_PIL = Image.fromarray(img)
+        seg_PIL = Image.fromarray(seg * 255)
+
+        flip_tensor_trans = transforms.Compose([
+            transforms.RandomVerticalFlip(p=1),  # Flipped due to camcan
+            transforms.ToTensor()
+        ])
+
+        return flip_tensor_trans(img_PIL), flip_tensor_trans(seg_PIL)
+
+    def __getitem__(self, index):
+        # Resize Images to network
+        img_data = resize(self.data_img[index], (self.img_size, self.img_size))
+        seg_data = resize(self.seg_img[index], (self.img_size, self.img_size))
+
+        # Set all segmented elements to 1
+        seg_data[seg_data > 0] = 1
+
+        img_trans, seg_trans = self.transform(img_data, seg_data)
+
+        img_trans_teacher, seg_trans_teacher = self.transform(img_data, seg_data)
+
+
+        mask = torch.zeros(img_trans.size())
+        mask[img_trans > 0] = 1
+
+        mask_teacher = torch.zeros(img_trans_teacher.size())
+        mask_teacher[img_trans_teacher > 0] = 1
+
+        return img_trans, seg_trans, mask, img_trans_teacher, seg_trans_teacher, mask_teacher
+
+    def __len__(self):
+        return self.size

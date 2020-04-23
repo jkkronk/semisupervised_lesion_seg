@@ -6,11 +6,11 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import train_run_map_NN
+from restoration import train_run_map_NN_teacher
 from models.shallow_UNET import shallow_UNet
 from models.unet import UNet
 from models.covnet import ConvNet
-from datasets import brats_dataset_subj, brats_dataset
+from datasets import brats_dataset_subj, brats_dataset_subj_teacher
 from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
@@ -66,6 +66,9 @@ if __name__ == "__main__":
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
 
+    # Create mean teacher
+    net_teacher = shallow_UNet(name, 2, 1, 16).to(device)
+
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
     subj_dict = pickle.load(f)
@@ -79,7 +82,7 @@ if __name__ == "__main__":
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
 
-    validation = True
+    validation = False
 
     subj_val_list = []
     subj_val_list.append(subj_list_all[subj_nbr])
@@ -99,11 +102,11 @@ if __name__ == "__main__":
             slices = subj_dict[subj] # Slices for each subject CHANGE
 
             # Load data
-            subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
-            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+            subj_dataset = brats_dataset_subj_teacher(data_path, 'train', img_size, slices, use_aug=True)
+            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=False, num_workers=1)
             print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
-            for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
+            for batch_idx, (scan, seg, mask, scan_teacher, seg_teacher, mask_teacher) in enumerate(subj_loader):
                 scan = scan.double().to(device)
                 decoded_mu = torch.zeros(scan.size())
 
@@ -115,13 +118,28 @@ if __name__ == "__main__":
 
                 decoded_mu = decoded_mu / n_latent_samples
 
+                # Teacher
+                scan_teacher = scan_teacher.double().to(device)
+                decoded_mu_teacher = torch.zeros(scan_teacher.size())
+
+                # Get average prior
+                for s in range(n_latent_samples):
+                    with torch.no_grad():
+                        recon_batch, z_mean, z_cov, res = vae_model(scan_teacher)
+                        decoded_mu_teacher += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan_teacher.size()[0])])
+
+                decoded_mu_teacher = decoded_mu_teacher / n_latent_samples
+
+
                 # Remove channel
                 scan = scan.squeeze(1)
                 seg = seg.squeeze(1)
                 mask = mask.squeeze(1).cpu().detach().numpy()
 
+                scan_teacher = scan.squeeze(1)
+
                 #train_riter = np.random.randint(1, 100)
-                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
+                restored_batch = train_run_map_NN_teacher(scan, scan_teacher, decoded_mu, decoded_mu_teacher, net, net_teacher, vae_model, riter, device, writer, seg,
                                                   optimizer, step_rate, log_freq)
 
                 seg = seg.cpu().detach().numpy()
