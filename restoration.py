@@ -97,7 +97,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
 
     net.train()
-    optimizer.zero_grad()
+    if train:
+        optimizer.zero_grad()
 
     dice = diceloss()
     #BCE = nn.BCELoss()

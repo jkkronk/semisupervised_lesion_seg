@@ -1,6 +1,0 @@
- Vae model:  camcan_400_Aug_2_100  NN model:  train_unet_fanograd_190
-Using device: cuda:0
-Traceback (most recent call last):
-  File "restore_MAP_NN.py", line 75, in <module>
-    device, riter, step_rate)
-TypeError: compute_threshold_subj() takes from 8 to 10 positional arguments but 11 were given
