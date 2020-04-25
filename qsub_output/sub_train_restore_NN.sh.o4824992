@@ -1,0 +1,339 @@
+Name:  train_teacher_1 Lr_rate:  0.001 Use Teacher:  True  Riter:  200  Subjs:  5
+Using device: cuda:0
+['Brats17_CBICA_AYU_1_t2_unbiased.nii.gz', 'Brats17_CBICA_APR_1_t2_unbiased.nii.gz', 'Brats17_CBICA_APZ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_654_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_ARW_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7426514351470952 0
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.6692597340327566
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7648470061701845 1
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8496831063579346
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7616745809699133 2
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8297797683909669
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7365672497812235 3
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.7521046108993936
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7688368340734046 4
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.834534584121192
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.747791214216665 5
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.807010239822285
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7934433242465193 6
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.7624004288427698
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7842440127574776 7
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8024604320948245
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7671748719100475 8
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.751365202479935
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7973640593323276 9
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8456877117879986
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7230904710809705 10
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.7147759089852233
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7649685088372209 11
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8638755481244631
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7645950878236504 12
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8756833347725079
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.8178218735393761 13
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.7651381854397348
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7603726546206192 14
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8289610616292327
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.8058377942101258 15
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8263019747783232
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7794119521238687 16
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.7422593735695276
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.765873192896375 17
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.752330072090982
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.786223343606876 18
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8422584025826528
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.8044715897804404 19
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.802852155741237
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7815692303304672 20
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8207289661655532
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7366357597904326 21
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8537296512575369
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7914199309193263 22
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8240027392359932
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.8091906785934422 23
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8430463707319507
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7566622076812712 24
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.811625430736783
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.7701134345220948 25
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8380463351082048
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.793568669338536 26
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
+AUC Valid:  0.8222381035104394
+Loading train set for subj
+Subject  Brats17_CBICA_AYU_1_t2_unbiased.nii.gz  Number of Slices:  141
+Loading train set for subj
+Subject  Brats17_CBICA_APR_1_t2_unbiased.nii.gz  Number of Slices:  137
+Loading train set for subj
+Subject  Brats17_CBICA_APZ_1_t2_unbiased.nii.gz  Number of Slices:  140
+Loading train set for subj
+Subject  Brats17_TCIA_654_1_t2_unbiased.nii.gz  Number of Slices:  145
+AUC :  0.8006345219089533 27
+Loading train set for subj
+Subject  Brats17_CBICA_ARW_1_t2_unbiased.nii.gz  Number of Slices:  141
