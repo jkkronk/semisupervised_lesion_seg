@@ -108,6 +108,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
     # Init MAP Optimizer
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
     #MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 10)
+    loss_decay = 1
+    decay = 10 # Hyper param
 
     if train:
         net.train()
@@ -138,7 +140,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
 
         ano_grad_act = 1 - 2 * torch.sigmoid(-1000 * img_ano.grad.pow(2))
 
-        loss = dice(ano_grad_act, input_seg)
+        loss = loss_decay * dice(ano_grad_act, input_seg)
+        loss_decay = loss_decay/decay
         # loss = BCE(ano_grad_act.double(), input_seg.double())
         # loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
 
