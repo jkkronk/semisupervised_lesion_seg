@@ -47,7 +47,7 @@ if __name__ == "__main__":
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    preset_threshold = 0.5 #[] #1.6875
+    preset_threshold = [] #1.6875
     epochs = config['epochs']
 
     print(' Vae model: ', model_name, ' NN model: ', net_name)
@@ -67,11 +67,14 @@ if __name__ == "__main__":
     net = torch.load(path, map_location=torch.device(device))
     net.eval()
 
+    train_subjs = ['Brats17_TCIA_312_1_t2_unbiased.nii.gz', 'Brats17_TCIA_203_1_t2_unbiased.nii.gz', 'Brats17_TCIA_409_1_t2_unbiased.nii.gz', 'Brats17_TCIA_618_1_t2_unbiased.nii.gz']
+
+
     # Compute threshold with help of camcan set
     if not preset_threshold:
         thr_error = \
             threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
-                                             ['Brats17_2013_11_1_t2_unbiased.nii.gz'], batch_size, n_latent_samples,
+                                             train_subjs, batch_size, n_latent_samples,
                                              device, riter, step_rate)
     else:
         thr_error = preset_threshold
@@ -178,6 +181,6 @@ if __name__ == "__main__":
         writer.flush()
 
     avrg_dcs = sum(subj_dice) / len(subj_dice)
-    print('DCS: ',  avrg_dcs)
+    print('Avgr All DCS: ',  avrg_dcs)
     writer.add_scalar('Dice:', avrg_dcs)
     writer.flush()

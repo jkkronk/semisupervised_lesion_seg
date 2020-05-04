@@ -1,0 +1,70 @@
+Name:  train_100trainiters_4subj_imgde_4 Lr_rate:  0.001 Use Teacher:  False  Riter:  100  Subjs:  5
+Using device: cuda:0
+['Brats17_2013_17_1_t2_unbiased.nii.gz', 'Brats17_TCIA_625_1_t2_unbiased.nii.gz', 'Brats17_TCIA_135_1_t2_unbiased.nii.gz', 'Brats17_CBICA_BFP_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_AYU_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_2013_17_1_t2_unbiased.nii.gz  Number of Slices:  140
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 156, in <module>
+    optimizer, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 150, in train_run_map_NN
+    with higher.innerloop_ctx(net, MAP_optimizer) as (net, MAP_optimizer):
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/contextlib.py", line 112, in __enter__
+    return next(self.gen)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/higher/__init__.py", line 97, in innerloop_ctx
+    track_higher_grads=track_higher_grads
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/higher/optim.py", line 779, in get_diff_optim
+    **kwargs
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/higher/optim.py", line 128, in __init__
+    format(str(p))
+ValueError: Could not find parameter Parameter containing:
+tensor([[[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        ...,
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]]], device='cuda:0',
+       dtype=torch.float64, requires_grad=True) in reference parameters.

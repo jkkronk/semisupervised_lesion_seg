@@ -48,7 +48,7 @@ if __name__ == "__main__":
     n_latent_samples = 25
     epochs = config['epochs']
 
-    use_teacher = True
+    use_teacher = False
     validation = True
 
     print('Name: ', name, 'Lr_rate: ', lr_rate, 'Use Teacher: ', use_teacher,' Riter: ', riter, ' Subjs: ', subj_nbr)
@@ -68,9 +68,11 @@ if __name__ == "__main__":
     #net = ConvNet(name, 2, 1, 8).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, eta_min=lr_rate // 100)
 
     # Create mean teacher
-    net_teacher = shallow_UNet(name, 2, 1, 16).to(device)
+    if use_teacher:
+        net_teacher = shallow_UNet(name, 2, 1, 16).to(device)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
@@ -201,104 +203,106 @@ if __name__ == "__main__":
         '''
         writer.flush()
 
+        # Cosine annealing
+        scheduler.step()
+
         if ep % log_freq == 0:
             # Save model
             path = '/scratch_net/biwidl214/jonatank/logs/restore/' + name + str(ep) + '.pth'
             torch.save(net, path)
 
-            ## Write to tensorboard
-            writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-            writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
-                             batch_idx, dataformats='NCHW')
-            writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-                             batch_idx, dataformats='NCHW')
-            writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
-            writer.flush()
+            ## VALIDATION
+            if validation:
+                y_pred_valid = []
+                y_true_valid = []
+                tot_loss = 0
 
-        ## VALIDATION
-        if validation:
-            y_pred_valid = []
-            y_true_valid = []
-            tot_loss = 0
+                for subj in subj_val_list:  # Iterate every subject
+                    slices = subj_dict[subj]  # Slices for each subject CHANGE
+                    # Load data
+                    subj_dataset = brats_dataset_subj_teacher(data_path, 'train', img_size, slices, use_aug=False)
+                    subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+                    print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
-            for subj in subj_val_list:  # Iterate every subject
-                slices = subj_dict[subj]  # Slices for each subject CHANGE
-                # Load data
-                subj_dataset = brats_dataset_subj_teacher(data_path, 'train', img_size, slices, use_aug=True)
-                subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-                print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
+                    for batch_idx, (scan, seg, mask, scan_teacher, seg_teacher, mask_teacher) in enumerate(subj_loader):
+                        scan = scan.double().to(device)
+                        decoded_mu = torch.zeros(scan.size())
 
-                for batch_idx, (scan, seg, mask, scan_teacher, seg_teacher, mask_teacher) in enumerate(subj_loader):
-                    scan = scan.double().to(device)
-                    decoded_mu = torch.zeros(scan.size())
+                        # Get average prior
+                        for s in range(n_latent_samples):
+                            with torch.no_grad():
+                                recon_batch, z_mean, z_cov, res = vae_model(scan)
+                            decoded_mu += np.array(
+                                [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
-                    # Get average prior
-                    for s in range(n_latent_samples):
-                        with torch.no_grad():
-                            recon_batch, z_mean, z_cov, res = vae_model(scan)
-                        decoded_mu += np.array(
-                            [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
+                        decoded_mu = decoded_mu / n_latent_samples
 
-                    decoded_mu = decoded_mu / n_latent_samples
+                        # Teacher
+                        scan_teacher = scan_teacher.double().to(device)
+                        decoded_mu_teacher = torch.zeros(scan_teacher.size())
 
-                    # Teacher
-                    scan_teacher = scan_teacher.double().to(device)
-                    decoded_mu_teacher = torch.zeros(scan_teacher.size())
+                        # Get average prior
+                        for s in range(n_latent_samples):
+                            with torch.no_grad():
+                                recon_batch, z_mean, z_cov, res = vae_model(scan_teacher)
+                                decoded_mu_teacher += np.array(
+                                    [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan_teacher.size()[0])])
 
-                    # Get average prior
-                    for s in range(n_latent_samples):
-                        with torch.no_grad():
-                            recon_batch, z_mean, z_cov, res = vae_model(scan_teacher)
-                            decoded_mu_teacher += np.array(
-                                [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan_teacher.size()[0])])
+                        decoded_mu_teacher = decoded_mu_teacher / n_latent_samples
 
-                    decoded_mu_teacher = decoded_mu_teacher / n_latent_samples
+                        # Remove channel
+                        scan = scan.squeeze(1)
+                        seg = seg.squeeze(1)
+                        mask = mask.squeeze(1).cpu().detach().numpy()
 
-                    # Remove channel
-                    scan = scan.squeeze(1)
-                    seg = seg.squeeze(1)
-                    mask = mask.squeeze(1).cpu().detach().numpy()
+                        scan_teacher = scan.squeeze(1)
 
-                    scan_teacher = scan.squeeze(1)
+                        # train_riter = np.random.randint(1, 100)
+                        if use_teacher:
+                            restored_batch, loss = train_run_map_NN_teacher(scan, scan_teacher, decoded_mu,
+                                                                            decoded_mu_teacher, net, net_teacher, vae_model,
+                                                                            riter, device, writer, seg, seg_teacher, ep,
+                                                                            optimizer, step_rate, train=False,
+                                                                            teacher_decay=0.999, consistency_weight=0.25)
+                        else:
+                            restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, 100, device, writer,
+                                                                    seg, optimizer, step_rate, train=False,)
 
-                    # train_riter = np.random.randint(1, 100)
-                    if use_teacher:
-                        restored_batch, loss = train_run_map_NN_teacher(scan, scan_teacher, decoded_mu,
-                                                                        decoded_mu_teacher, net, net_teacher, vae_model,
-                                                                        riter, device, writer, seg, seg_teacher, ep,
-                                                                        optimizer, step_rate, train=False,
-                                                                        teacher_decay=0.999, consistency_weight=0.25)
-                    else:
-                        restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer,
-                                                                seg, optimizer, step_rate, train=False,)
+                        tot_loss += loss
 
-                    tot_loss += loss
+                        seg = seg.cpu().detach().numpy()
+                        # Predicted abnormalty is difference between restored and original batch
+                        error_batch = np.zeros([scan.size()[0], original_size, original_size])
+                        restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
 
-                    seg = seg.cpu().detach().numpy()
-                    # Predicted abnormalty is difference between restored and original batch
-                    error_batch = np.zeros([scan.size()[0], original_size, original_size])
-                    restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
+                        for idx in range(scan.size()[0]):  # Iterate trough for resize
+                            error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(),
+                                                      (200, 200))
+                            restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
 
-                    for idx in range(scan.size()[0]):  # Iterate trough for resize
-                        error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(),
-                                                  (200, 200))
-                        restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
+                        # Remove preds and seg outside mask and flatten
+                        mask = resize(mask, (scan.size()[0], original_size, original_size))
+                        seg = resize(seg, (scan.size()[0], original_size, original_size))
 
-                    # Remove preds and seg outside mask and flatten
-                    mask = resize(mask, (scan.size()[0], original_size, original_size))
-                    seg = resize(seg, (scan.size()[0], original_size, original_size))
+                        error_batch_m = error_batch[mask > 0].ravel()
+                        seg_m = seg[mask > 0].ravel().astype(bool)
 
-                    error_batch_m = error_batch[mask > 0].ravel()
-                    seg_m = seg[mask > 0].ravel().astype(bool)
+                        # AUC
+                        y_pred_valid.extend(error_batch_m.tolist())
+                        y_true_valid.extend(seg_m.tolist())
 
-                    # AUC
-                    y_pred_valid.extend(error_batch_m.tolist())
-                    y_true_valid.extend(seg_m.tolist())
+                    writer_valid.add_scalar('Loss', tot_loss/(batch_idx+1))
 
-                writer_valid.add_scalar('Loss', tot_loss/(batch_idx+1))
+                AUC = roc_auc_score(y_true_valid, y_pred_valid)
+                print('AUC Valid: ', AUC)
+                writer_valid.add_scalar('AUC:', AUC, ep)
 
-            AUC = roc_auc_score(y_true_valid, y_pred_valid)
-            print('AUC Valid: ', AUC)
-            writer_valid.add_scalar('AUC:', AUC, ep)
-            writer.flush()
+                ## Write to tensorboard
+                writer_valid.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
+                writer_valid.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
+                                 batch_idx, dataformats='NCHW')
+                writer_valid.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
+                                 batch_idx, dataformats='NCHW')
+                writer_valid.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
+                writer_valid.flush()
 

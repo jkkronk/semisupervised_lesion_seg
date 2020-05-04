@@ -58,13 +58,12 @@ def run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer=None, st
     img_ano = nn.Parameter(input_img.clone().to(device), requires_grad=True)
 
     # Init MAP Optimizer
-    MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+    MAP_optimizer = optim.Adam([img_ano, net.parameters()], lr=step_size)
+    #MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 100)
 
     net.eval()
 
     for i in range(riter):
-        MAP_optimizer.zero_grad()
-
         # Gradient step MAP
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
@@ -73,23 +72,28 @@ def run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer=None, st
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
 
         gfunc = torch.sum(l2_loss) + kl_loss  # + torch.sum(out)
+        MAP_optimizer.zero_grad()
         gfunc.backward()
 
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
         out = net(NN_input)
 
-        img_ano.grad += out.squeeze(1)
+        img_ano.grad = img_ano.grad.data + out.squeeze(1)
 
-        # Update Img_ano
         MAP_optimizer.step()
 
     # Log
-    writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
-    writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+    if not writer == None:
+        writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
+        writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_histogram('hist-torch', img_ano.grad.flatten())
 
-    MAP_optimizer.zero_grad()
+    del NN_input
+    del input_img
+    del out
+    del img_ano.grad
 
     return img_ano
 
@@ -103,6 +107,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
 
     # Init MAP Optimizer
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+    #MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 10)
 
     if train:
         net.train()
@@ -114,8 +119,6 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
     tot_loss = 0
 
     for i in range(riter):
-        MAP_optimizer.zero_grad()
-
         # Gradient step MAP
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
@@ -123,15 +126,17 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
         l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
 
-        gfunc = torch.sum(l2_loss) + kl_loss #+ torch.sum(out)
+        gfunc = torch.sum(l2_loss) + kl_loss
+
+        MAP_optimizer.zero_grad()
         gfunc.backward()
 
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
         out = net(NN_input)
 
-        img_ano.grad += out.squeeze(1)
+        img_ano.grad = img_ano.grad.data + out.squeeze(1)
 
-        ano_grad_act = 1 - 2 * torch.sigmoid(-500 * img_ano.grad.pow(2))
+        ano_grad_act = 1 - 2 * torch.sigmoid(-1000 * img_ano.grad.pow(2))
 
         loss = dice(ano_grad_act, input_seg)
         # loss = BCE(ano_grad_act.double(), input_seg.double())
@@ -140,9 +145,25 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
         loss.backward()
 
         # Update Img_ano
+        #img_ano_data = img_ano.data - step_size * img_ano_grad
         MAP_optimizer.step()
+        #MAP_scheduler.step()
 
-        tot_loss = loss.item()
+        #ano_grad_act = 1 - 2 * torch.sigmoid(-500 * (img_ano_data-input_img).pow(2))
+
+        #loss = dice(ano_grad_act, input_seg)
+
+        #loss.backward()
+
+        #for name, param in net.named_parameters():
+        #    if param.requires_grad:
+        #        print(param.grad)
+
+        #print(loss.item())
+
+        #img_ano.data = img_ano_data.detach()
+
+        tot_loss += loss.item()
 
     if train:
         optimizer.step() # Update network parameters
@@ -154,8 +175,15 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
     writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
     writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
     writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+    writer.add_histogram('hist-torch', img_ano.grad.flatten())
 
-    return img_ano, tot_loss
+    del input_img
+    del input_seg
+    del out
+    del ano_grad_act
+    #del img_ano.grad
+
+    return img_ano, tot_loss/riter
 
 def train_run_map_NN_teacher(input_img, input_img_teacher, dec_mu, dec_mu_teacher, net, net_teacher, vae_model, riter,
                              device, writer, input_seg, input_seg_teacher, epoch, optimizer=None, step_size=0.003,
@@ -197,11 +225,11 @@ def train_run_map_NN_teacher(input_img, input_img_teacher, dec_mu, dec_mu_teache
         out = net(NN_input)
         out_teacher = net_teacher(NN_input)
 
+        out_teacher = nn.Parameter(out_teacher.detach().data, requires_grad=False)
         consistency_loss = consistency_weight * symmetric_mse_loss(out, out_teacher)
 
         img_ano.grad += out.squeeze(1)
-
-        ano_grad_act = 1 - 2 * torch.sigmoid(-500 * img_ano.grad.pow(2))
+        ano_grad_act = 1 - 2 * torch.sigmoid(-10000 * img_ano.grad.pow(2))
         dice_loss = dice(ano_grad_act, input_seg)
 
         loss = dice_loss + consistency_loss
@@ -216,6 +244,7 @@ def train_run_map_NN_teacher(input_img, input_img_teacher, dec_mu, dec_mu_teache
         tot_dice_loss += dice_loss.item()
         tot_consistency_loss += consistency_loss.item()
 
+
     if train:
         optimizer.step() # Update network parameters
         update_teacher_variables(net, net_teacher, teacher_decay, epoch) # Update teacher network parameters
@@ -229,5 +258,12 @@ def train_run_map_NN_teacher(input_img, input_img_teacher, dec_mu, dec_mu_teache
     writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
     writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
     writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+
+    del input_img
+    del input_seg
+    del out
+    del out_teacher
+    del ano_grad_act
+    del img_ano.grad
 
     return img_ano, tot_loss/riter

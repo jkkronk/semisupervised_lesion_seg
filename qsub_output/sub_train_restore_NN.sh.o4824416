@@ -1,8 +1,0 @@
-Name:  train_teacher_1 Lr_rate:  0.001 Use Teacher:  True  Riter:  200  Subjs:  5
-Using device: cuda:0
-['Brats17_TCIA_351_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ATP_1_t2_unbiased.nii.gz', 'Brats17_TCIA_632_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ABY_1_t2_unbiased.nii.gz']
-validation subject ['Brats17_TCIA_466_1_t2_unbiased.nii.gz']
-Loading train set for subj
-Subject  Brats17_TCIA_351_1_t2_unbiased.nii.gz  Number of Slices:  131
-Loading train set for subj
-Subject  Brats17_CBICA_ATP_1_t2_unbiased.nii.gz  Number of Slices:  133
