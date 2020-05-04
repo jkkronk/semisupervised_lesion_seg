@@ -107,11 +107,6 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
     img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
     input_seg = input_seg.to(device)
 
-    # Init MAP Optimizer
-    MAP_optimizer = optim.Adam([img_ano], lr=step_size)
-    diffopt = higher.optim.get_diff_optim(MAP_optimizer,[img_ano])
-    #MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 10)
-
     if train:
         net.train()
         optimizer.zero_grad()
@@ -121,44 +116,48 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
 
     tot_loss = 0
 
-    with higher.innerloop_ctx(net, MAP_optimizer) as (fmodel, diffopt):
-        for i in range(riter):
+    for i in range(riter):
+        # Init MAP Optimizer
+        MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+        diffopt = higher.optim.get_diff_optim(MAP_optimizer, [img_ano])
+        # MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 10)
 
-            # Gradient step MAP
-            __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+        # Gradient step MAP
+        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
-            # Define G function
-            l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
-            kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+        # Define G function
+        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
+        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
 
-            gfunc = torch.sum(l2_loss) + kl_loss
+        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
+        gfunc = torch.sum(l2_loss) + kl_loss + net(NN_input)
 
-            MAP_optimizer.zero_grad()
-            gfunc.backward()
+        #MAP_optimizer.zero_grad()
+        #gfunc.backward()
 
-            NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
-            out = fmodel(NN_input)
+        #NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
+        #out = net(NN_input)
 
-            img_ano.grad = img_ano.grad.data + fmodel.squeeze(1)
+        #img_ano.grad = img_ano.grad.data + out.squeeze(1)
 
-            # Update Img_ano
-            diffopt.step()
-            #MAP_scheduler.step()
+        # Update Img_ano
+        diffopt.step(gfunc)
+        #MAP_scheduler.step()
 
-            img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano-input_img).pow(2))
+        img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano-input_img).pow(2))
 
-            loss = dice(img_ano_act, input_seg)
-            #loss = BCE(ano_grad_act.double(), input_seg.double())
-            #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
+        loss = dice(img_ano_act, input_seg)
+        #loss = BCE(ano_grad_act.double(), input_seg.double())
+        #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
 
-            loss.backward()
-            for name, param in net.named_parameters():
-                if param.requires_grad:
-                    print(param.grad)
+        loss.backward()
+        for name, param in net.named_parameters():
+            if param.requires_grad:
+                print(param.grad)
 
-            print(loss.item())
+        print(loss.item())
 
-            tot_loss += loss.item()
+        tot_loss += loss.item()
 
     if train:
         optimizer.step() # Update network parameters

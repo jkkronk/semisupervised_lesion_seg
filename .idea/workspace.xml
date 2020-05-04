@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="122b9f0d-d8e5-41b3-9477-c64850657a9c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restoration.py" beforeDir="false" afterPath="$PROJECT_DIR$/restoration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sub_train_restore_NN.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sub_train_restore_NN.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_restore_MAP_NN.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_restore_MAP_NN.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -416,15 +419,16 @@
           <entry key="o4833493" value="1" />
           <entry key="o4833525" value="1" />
           <entry key="o4833531" value="1" />
-          <entry key="py" value="543" />
-          <entry key="sh" value="263" />
+          <entry key="o4833551" value="1" />
+          <entry key="py" value="545" />
+          <entry key="sh" value="264" />
           <entry key="yaml" value="152" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="1048" />
-          <entry key="Python" value="543" />
+          <entry key="PLAIN_TEXT" value="1050" />
+          <entry key="Python" value="545" />
           <entry key="YAML" value="152" />
         </counts>
       </usages-collector>
@@ -433,15 +437,15 @@
           <entry key="dummy" value="6" />
           <entry key="gitignore" value="17" />
           <entry key="o4822115" value="5" />
-          <entry key="py" value="10509" />
-          <entry key="sh" value="1308" />
+          <entry key="py" value="10536" />
+          <entry key="sh" value="1312" />
           <entry key="yaml" value="464" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="1336" />
-          <entry key="Python" value="10509" />
+          <entry key="PLAIN_TEXT" value="1340" />
+          <entry key="Python" value="10536" />
           <entry key="YAML" value="464" />
         </counts>
       </usages-collector>
@@ -452,11 +456,52 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/restoration.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="94">
-              <caret line="135" column="37" lean-forward="true" selection-start-line="135" selection-start-column="37" selection-end-line="135" selection-end-column="37" />
+            <state relative-caret-position="361">
+              <caret line="148" column="40" selection-start-line="148" selection-start-column="40" selection-end-line="148" selection-end-column="40" />
               <folding>
                 <element signature="e#25#37#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="72" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/covnet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-113">
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="123">
+              <caret line="66" column="5" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4833551">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -515,12 +560,12 @@
         <option value="$PROJECT_DIR$/utils/threshold.py" />
         <option value="$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4826068" />
         <option value="$PROJECT_DIR$/restore_MAP_NN.py" />
-        <option value="$PROJECT_DIR$/train_restore_MAP_NN.py" />
         <option value="$PROJECT_DIR$/models/shallow_UNET.py" />
         <option value="$PROJECT_DIR$/sub_restore_NN.sh" />
-        <option value="$PROJECT_DIR$/sub_train_restore_NN.sh" />
         <option value="$PROJECT_DIR$/conf/conf_nn.yaml" />
         <option value="$PROJECT_DIR$/restoration.py" />
+        <option value="$PROJECT_DIR$/train_restore_MAP_NN.py" />
+        <option value="$PROJECT_DIR$/sub_train_restore_NN.sh" />
       </list>
     </option>
   </component>
@@ -546,7 +591,17 @@
             <path>
               <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
               <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
-              <item name="conf" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
+              <item name="networks" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
+              <item name="qsub_output" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -597,8 +652,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24171951" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24171951" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -609,7 +665,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.31847134" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.31847134" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -640,20 +696,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4832568">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="104" column="9" selection-start-line="104" selection-end-line="105" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4833003">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="40" selection-start-line="11" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4833005">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -860,16 +902,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4833480">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4470311" />
@@ -910,17 +942,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4833551">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/covnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-113">
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="78" selection-start-line="10" selection-start-column="78" selection-end-line="10" selection-end-column="78" />
+          <caret line="10" column="72" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="66" column="5" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/restoration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="135" column="37" lean-forward="true" selection-start-line="135" selection-start-column="37" selection-end-line="135" selection-end-column="37" />
+        <state relative-caret-position="361">
+          <caret line="148" column="40" selection-start-line="148" selection-start-column="40" selection-end-line="148" selection-end-column="40" />
           <folding>
             <element signature="e#25#37#0" expanded="true" />
           </folding>
