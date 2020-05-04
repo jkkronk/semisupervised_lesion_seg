@@ -8,6 +8,7 @@ from utils.ssim import ssim
 from utils.utils import normalize_tensor
 from utils.utils import dice_loss, diceloss
 from torch.nn import functional as F
+import higher
 
 def update_teacher_variables(model, teacher_model, alpha, global_step):
     alpha = min(1 - 1 / (global_step + 1), alpha)
@@ -64,6 +65,7 @@ def run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer=None, st
     net.eval()
 
     for i in range(riter):
+
         # Gradient step MAP
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
@@ -107,9 +109,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
 
     # Init MAP Optimizer
     MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+    diffopt = higher.optim.get_diff_optim(MAP_optimizer,[img_ano])
     #MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 10)
-    loss_decay = 1
-    decay = 10 # Hyper param
 
     if train:
         net.train()
@@ -120,53 +121,44 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
 
     tot_loss = 0
 
-    for i in range(riter):
-        # Gradient step MAP
-        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+    with higher.innerloop_ctx(net, MAP_optimizer) as (fmodel, diffopt):
+        for i in range(riter):
 
-        # Define G function
-        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
-        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+            # Gradient step MAP
+            __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
-        gfunc = torch.sum(l2_loss) + kl_loss
+            # Define G function
+            l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
+            kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
 
-        MAP_optimizer.zero_grad()
-        gfunc.backward()
+            gfunc = torch.sum(l2_loss) + kl_loss
 
-        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
-        out = net(NN_input)
+            MAP_optimizer.zero_grad()
+            gfunc.backward()
 
-        img_ano.grad = img_ano.grad.data + out.squeeze(1)
+            NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
+            out = fmodel(NN_input)
 
-        ano_grad_act = 1 - 2 * torch.sigmoid(-1000 * img_ano.grad.pow(2))
+            img_ano.grad = img_ano.grad.data + fmodel.squeeze(1)
 
-        loss = loss_decay * dice(ano_grad_act, input_seg)
-        loss_decay = loss_decay/decay
-        # loss = BCE(ano_grad_act.double(), input_seg.double())
-        # loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
+            # Update Img_ano
+            diffopt.step()
+            #MAP_scheduler.step()
 
-        loss.backward()
+            img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano-input_img).pow(2))
 
-        # Update Img_ano
-        #img_ano_data = img_ano.data - step_size * img_ano_grad
-        MAP_optimizer.step()
-        #MAP_scheduler.step()
+            loss = dice(img_ano_act, input_seg)
+            #loss = BCE(ano_grad_act.double(), input_seg.double())
+            #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
 
-        #ano_grad_act = 1 - 2 * torch.sigmoid(-500 * (img_ano_data-input_img).pow(2))
+            loss.backward()
+            for name, param in net.named_parameters():
+                if param.requires_grad:
+                    print(param.grad)
 
-        #loss = dice(ano_grad_act, input_seg)
+            print(loss.item())
 
-        #loss.backward()
-
-        #for name, param in net.named_parameters():
-        #    if param.requires_grad:
-        #        print(param.grad)
-
-        #print(loss.item())
-
-        #img_ano.data = img_ano_data.detach()
-
-        tot_loss += loss.item()
+            tot_loss += loss.item()
 
     if train:
         optimizer.step() # Update network parameters
