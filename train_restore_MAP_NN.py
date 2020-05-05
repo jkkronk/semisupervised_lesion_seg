@@ -64,8 +64,8 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    #net = shallow_UNet(name, 2, 1, 16).to(device)
-    net = ConvNet(name, 2, 1, 8).to(device)
+    net = shallow_UNet(name, 2, 1, 16).to(device)
+    #net = ConvNet(name, 2, 1, 8).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, eta_min=lr_rate // 100)

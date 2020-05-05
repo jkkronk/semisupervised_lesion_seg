@@ -1,0 +1,14 @@
+Name:  train_100trainiters_4subj_higher_1 Lr_rate:  0.001 Use Teacher:  False  Riter:  100  Subjs:  5
+Using device: cuda:0
+['Brats17_TCIA_222_1_t2_unbiased.nii.gz', 'Brats17_TCIA_623_1_t2_unbiased.nii.gz', 'Brats17_TCIA_469_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ABY_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_AXM_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_TCIA_623_1_t2_unbiased.nii.gz  Number of Slices:  140
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 156, in <module>
+    optimizer, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 141, in train_run_map_NN
+    img_ano_update = diff_MAP_optimizer.step(gfunc, [img_ano])
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/higher/optim.py", line 211, in step
+    if self._fmodel is None or self._fmodel.fast_params is None:
+AttributeError: 'function' object has no attribute 'fast_params'

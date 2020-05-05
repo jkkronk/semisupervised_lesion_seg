@@ -1,0 +1,14 @@
+Name:  train_100trainiters_4subj_CNN_1 Lr_rate:  0.001 Use Teacher:  False  Riter:  100  Subjs:  5
+Using device: cuda:0
+['Brats17_CBICA_ATV_1_t2_unbiased.nii.gz', 'Brats17_TCIA_471_1_t2_unbiased.nii.gz', 'Brats17_2013_9_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ALU_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_TCIA_640_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_ALU_1_t2_unbiased.nii.gz  Number of Slices:  144
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 156, in <module>
+    optimizer, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 144, in train_run_map_NN
+    diffopt.step(gfunc)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/higher/optim.py", line 214, in step
+    "params kwarg must be passed to step if the differentiable "
+ValueError: params kwarg must be passed to step if the differentiable optimizer doesn't have a view on a patched model with params.
