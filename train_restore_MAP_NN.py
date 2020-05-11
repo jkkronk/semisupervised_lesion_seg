@@ -267,7 +267,7 @@ if __name__ == "__main__":
                                                                             teacher_decay=0.999, consistency_weight=0.25)
                         else:
                             restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer,
-                                                                    seg, optimizer, step_rate, train=False, mask=mask)
+                                                                    seg, mask, optimizer, step_rate, train=False)
 
                         tot_loss += loss
 

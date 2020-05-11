@@ -276,7 +276,7 @@ def train_run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer,
         NN_input = torch.stack([input_img, img_ano.detach()]).permute((1, 0, 2, 3)).float()
         out = net(NN_input).squeeze(1)
 
-        img_grad = (grad + out)
+        img_grad = (grad * out)
         img_grad[mask == 0] = 0
         img_ano = img_ano.detach() - step_size * img_grad
 
@@ -304,10 +304,11 @@ def train_run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer,
     writer.add_image('X Ano_grad_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
     writer.add_image('X_i out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
     writer.add_image('X_i grad', normalize_tensor(grad.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_histogram('hist-out-torch', out.flatten())
-    writer.add_histogram('hist-grad-torch', grad.flatten())
-    writer.add_histogram('hist-out-mask-torch', out[mask > 0].flatten())
-    writer.add_histogram('hist-grad-mask-torch', grad[mask > 0].flatten())
+    if torch.sum(out.flatten()) > 0 and torch.sum(grad.flatten()) > 0:
+        writer.add_histogram('hist-out-torch', out.flatten())
+        writer.add_histogram('hist-grad-torch', grad.flatten())
+        writer.add_histogram('hist-out-mask-torch', out[input_seg > 0].flatten())
+        writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
 
     del input_img
     del input_seg
