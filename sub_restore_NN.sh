@@ -4,9 +4,9 @@
 #$ -j y
 #$ -cwd
 #$ -l gpu=1
-#$ -l h_vmem=40G
+#$ -l h_vmem=30G
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u restore_MAP_NN.py --name test_100trainiters_4subj_imgde_240 --config conf/conf_nn.yaml --netname train_100trainiters_4subj_imgde_240 --fprate 0.1
+python -u restore_MAP_NN.py --name test_1subj_app4_UNET_260_2 --config conf/conf_nn.yaml --netname train_1subj_app4_UNET_260 --fprate 0.1
 

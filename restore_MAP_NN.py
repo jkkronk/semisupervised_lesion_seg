@@ -6,7 +6,7 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import run_map_NN
+from restoration import run_map_NN, run_map_NN_4
 from models.shallow_UNET import shallow_UNet
 from datasets import brats_dataset_subj
 from utils.auc_score import compute_tpr_fpr
@@ -126,7 +126,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
+            restored_batch = run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()

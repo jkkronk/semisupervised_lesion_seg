@@ -6,7 +6,7 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import train_run_map_NN_teacher, train_run_map_NN
+from restoration import train_run_map_NN_teacher, train_run_map_NN_2, train_run_map_NN_4, train_run_map_NN_3, train_run_map_NN_5
 from models.shallow_UNET import shallow_UNet
 from models.unet import UNet
 from models.covnet import ConvNet
@@ -65,10 +65,10 @@ if __name__ == "__main__":
 
     # Create guiding net
     net = shallow_UNet(name, 2, 1, 16).to(device)
-    #net = ConvNet(name, 2, 1, 8).to(device)
+    #net = ConvNet(name, 2, 1, 16).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, eta_min=lr_rate // 100)
+    #scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, eta_min=lr_rate // 100)
 
     # Create mean teacher
     if use_teacher:
@@ -140,7 +140,7 @@ if __name__ == "__main__":
                 # Remove channel
                 scan = scan.squeeze(1)
                 seg = seg.squeeze(1)
-                mask = mask.squeeze(1).cpu().detach().numpy()
+                mask = mask.squeeze(1)
 
                 scan_teacher = scan.squeeze(1)
                 seg_teacher = seg_teacher.squeeze(1)
@@ -152,12 +152,13 @@ if __name__ == "__main__":
                                                               seg, seg_teacher, ep, optimizer, step_rate,
                                                               teacher_decay=0.999, consistency_weight=1)
                 else:
-                    restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
+                    restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer, seg, mask,
                                                       optimizer, step_rate)
 
                 tot_loss += loss
 
                 seg = seg.cpu().detach().numpy()
+                mask = mask.cpu().detach().numpy()
                 # Predicted abnormalty is difference between restored and original batch
                 error_batch = np.zeros([scan.size()[0],original_size,original_size])
                 restored_batch_resized = np.zeros([scan.size()[0],original_size,original_size])
@@ -204,7 +205,7 @@ if __name__ == "__main__":
         writer.flush()
 
         # Cosine annealing
-        scheduler.step()
+        #scheduler.step()
 
         if ep % log_freq == 0:
             # Save model
@@ -253,7 +254,7 @@ if __name__ == "__main__":
                         # Remove channel
                         scan = scan.squeeze(1)
                         seg = seg.squeeze(1)
-                        mask = mask.squeeze(1).cpu().detach().numpy()
+                        mask = mask.squeeze(1)
 
                         scan_teacher = scan.squeeze(1)
 
@@ -265,12 +266,13 @@ if __name__ == "__main__":
                                                                             optimizer, step_rate, train=False,
                                                                             teacher_decay=0.999, consistency_weight=0.25)
                         else:
-                            restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, 100, device, writer,
-                                                                    seg, optimizer, step_rate, train=False,)
+                            restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer,
+                                                                    seg, optimizer, step_rate, train=False, mask=mask)
 
                         tot_loss += loss
 
                         seg = seg.cpu().detach().numpy()
+                        mask = mask.cpu().detach().numpy()
                         # Predicted abnormalty is difference between restored and original batch
                         error_batch = np.zeros([scan.size()[0], original_size, original_size])
                         restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
