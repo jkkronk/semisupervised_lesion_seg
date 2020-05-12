@@ -99,54 +99,6 @@ def run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer=None, st
 
     return img_ano
 
-def run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer=None, step_size=0.003):
-    # Init params
-    input_img = input_img.to(device)
-    dec_mu = dec_mu.to(device).float().to(device)
-    img_ano = nn.Parameter(input_img.clone().to(device), requires_grad=True)
-
-    # Init MAP Optimizer
-    #MAP_optimizer = optim.Adam([img_ano], lr=step_size)
-    #MAP_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(MAP_optimizer, riter, eta_min=step_size // 100)
-
-    net.eval()
-
-    for i in range(riter):
-        img_ano.detach_()
-        img_ano.requires_grad = True
-
-        # Gradient step MAP
-        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
-
-        # Define G function
-        l2_loss = torch.sum((dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2))
-        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
-
-        gfunc = l2_loss + kl_loss  # + torch.sum(out)
-
-        grad, = torch.autograd.grad(gfunc, img_ano,
-                                    grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
-                                    create_graph=True)
-
-        NN_input = torch.stack([input_img, img_ano.detach()]).permute((1, 0, 2, 3)).float()
-        img_ano = img_ano.detach() - step_size * (grad + net(NN_input).squeeze(1))
-
-    # Log
-    if not writer == None:
-        writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
-        #writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
-        #writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_histogram('hist-torch', img_ano.grad.flatten())
-
-    del NN_input
-    del input_img
-    #del out
-    del img_ano.grad
-
-    return img_ano
-
-
 def train_run_map_NN_5(input_img, dec_mu, net, vae_model, riter, device, writer, input_seg, mask,
                        optimizer=None, step_size=0.003, train=True):
     # Init params
@@ -235,12 +187,11 @@ def train_run_map_NN_5(input_img, dec_mu, net, vae_model, riter, device, writer,
     return img_ano, tot_loss
 
 def train_run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer, input_seg, mask,
-                     optimizer=None, step_size=0.003, train=True):
+                     optimizer=None, step_size=0.003, train=True, log=True):
     # Init params
     input_img = input_img
     dec_mu = dec_mu.to(device).float()
     input_seg = input_seg.to(device)
-
     img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
 
     if train:
@@ -250,14 +201,11 @@ def train_run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer,
     # Init MAP Optimizer
     #MAP_optimizer = torch.optim.SGD([img_ano], lr=step_size)
     #torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
-
     dice = diceloss()
-    #BCE = nn.BCELoss()
-
     tot_loss = 0
 
     for i in range(riter):
-        print(i)
+        #print(i)
         img_ano.detach_()
         img_ano.requires_grad = True
 
@@ -275,17 +223,17 @@ def train_run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer,
 
         NN_input = torch.stack([input_img, img_ano.detach()]).permute((1, 0, 2, 3)).float()
         out = net(NN_input).squeeze(1)
+        img_grad = grad.detach() * out
 
-        img_grad = (grad * out)
-        img_grad[mask == 0] = 0
-        img_ano = img_ano.detach() - step_size * img_grad
+        img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
+        img_ano_update[mask > 0] = img_ano.detach()[mask > 0] - step_size * img_grad[mask > 0]
+        img_ano.data = img_ano_update
 
-        img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano-input_img).pow(2))
+        img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano_update-input_img).pow(2))
 
         loss = dice(img_ano_act, input_seg)
-        #loss = BCE(ano_grad_act.double(), input_seg.double())
+        #loss = nn.BCELoss(ano_grad_act.double(), input_seg.double())
         #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
-
         loss.backward()
 
         #for name, param in net.named_parameters():
@@ -298,24 +246,20 @@ def train_run_map_NN_4(input_img, dec_mu, net, vae_model, riter, device, writer,
         optimizer.step() # Update network parameters
 
     # Log
-    writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X Res', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X Ano_grad_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i grad', normalize_tensor(grad.unsqueeze(1)[:16]), dataformats='NCHW')
-    if torch.sum(out.flatten()) > 0 and torch.sum(grad.flatten()) > 0:
-        writer.add_histogram('hist-out-torch', out.flatten())
-        writer.add_histogram('hist-grad-torch', grad.flatten())
-        writer.add_histogram('hist-out-mask-torch', out[input_seg > 0].flatten())
-        writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
+    if log:
+        writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X Res', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X Ano_grad_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X_i out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('X_i grad', normalize_tensor(grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        if torch.sum(out.flatten()) > 0 and torch.sum(grad.flatten()) > 0:
+            writer.add_histogram('hist-out-torch', out.flatten())
+            writer.add_histogram('hist-grad-torch', grad.flatten())
+            writer.add_histogram('hist-out-mask-torch', out[input_seg > 0].flatten())
+            writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
 
-    del input_img
-    del input_seg
-    del grad
-    del img_ano_act
-    #del img_ano_update
-    #del img_ano.grad
+        writer.flush()
 
     return img_ano, tot_loss/riter
 

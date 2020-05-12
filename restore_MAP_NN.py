@@ -67,8 +67,7 @@ if __name__ == "__main__":
     net = torch.load(path, map_location=torch.device(device))
     net.eval()
 
-    train_subjs = ['Brats17_TCIA_312_1_t2_unbiased.nii.gz', 'Brats17_TCIA_203_1_t2_unbiased.nii.gz', 'Brats17_TCIA_409_1_t2_unbiased.nii.gz', 'Brats17_TCIA_618_1_t2_unbiased.nii.gz']
-
+    train_subjs = ['Brats17_CBICA_AXO_1_t2_unbiased.nii.gz']
 
     # Compute threshold with help of camcan set
     if not preset_threshold:

@@ -20,7 +20,6 @@ class camcan_dataset(Dataset):
         self.aug = data_aug
         path = (data_path + 'camcan_t2_train_set_4.hdf5') if train else (data_path + 'camcan_t2_val_set_4.hdf5')
 
-        # Load hdf5 file
         self.data = h5py.File(path, 'r')
         # Set size of dataset
         self.size = len(self.data['Scan'])
@@ -234,16 +233,25 @@ class brats_dataset_subj(Dataset):
         self.size = len(slices)
 
         # Load hdf5 file
-        self.data = h5py.File(self.path, 'r')
+        with h5py.File(self.path, 'r') as f:
+            d = f
 
-        # Init data arrays
-        self.data_img = np.zeros((self.size, 200, 200))
-        self.seg_img = np.zeros((self.size, 200, 200), dtype='bool')
+            # torch first saves this numpy array as a regular tensor and share_memory_() then copies it again to
+            # a shared memory location. Therefore at least twice the size of the dataset / numpy matrix is needed
+            # for memory.
 
-        # Iterate slices and place in arrays
-        for idx, id_slice in enumerate(slices):
-            self.data_img[idx] = self.data['Scan'][id_slice].reshape(200, 200)
-            self.seg_img[idx] = self.data['Seg'][id_slice].reshape(200, 200)
+            # Init data arrays
+            self.data_img = np.zeros((self.size, 200, 200))
+            self.seg_img = np.zeros((self.size, 200, 200), dtype='bool')
+
+            # Iterate slices and place in arrays
+            for idx, id_slice in enumerate(slices):
+                self.data_img[idx] = torch.from_numpy(d.get('Scan')[id_slice].reshape(200, 200)).share_memory_()
+                #self.data['Scan'][id_slice].reshape(200, 200)
+                self.seg_img[idx] = torch.from_numpy(d.get('Seg')[id_slice].reshape(200, 200).astype(np.bool)).share_memory_()
+                #self.data['Seg'][id_slice].reshape(200, 200)
+
+            f.close()
 
     def transform(self, img, seg):
         # Function for data augmentation
@@ -276,25 +284,35 @@ class brats_dataset_subj(Dataset):
                 iaa.Multiply((0.9, 1.1), per_channel=1),  # Intensity
             ], random_order=True)
 
-            images_aug = seq_img(images=img)  # Intensity and contrast only on input image
-            img, seg = seq_all(images=images_aug, segmentation_maps=segmap)  # Rest of augmentations
+            img, seg = seq_all(images=img, segmentation_maps=segmap)  # Rest of augmentations
+
+            mask = np.zeros(img.shape) # Create mask
+            mask[img > 0] = 1
+
+            img = seq_img(images=img)  # Intensity and contrast only on input image
 
             img = np.squeeze(img, axis=0)
+            mask = np.squeeze(mask,axis=0)
+
             # Get segmentation map
             seg = seg.draw(size=img.shape)[0]
             seg = seg[:, :, 0]
             seg[seg > 0] = 1
+        else:
+            mask = torch.zeros(img.shape)
+            mask[img > 0] = 1
 
         # To PIL for Flip and ToTensor
         img_PIL = Image.fromarray(img)
         seg_PIL = Image.fromarray(seg * 255)
+        mask_PIL = Image.fromarray(mask * 255)
 
         flip_tensor_trans = transforms.Compose([
             transforms.RandomVerticalFlip(p=1),  # Flipped due to camcan
             transforms.ToTensor()
         ])
 
-        return flip_tensor_trans(img_PIL), flip_tensor_trans(seg_PIL)
+        return flip_tensor_trans(img_PIL), flip_tensor_trans(seg_PIL), flip_tensor_trans(mask_PIL)
 
     def __getitem__(self, index):
         # Resize Images to network
@@ -304,12 +322,9 @@ class brats_dataset_subj(Dataset):
         # Set all segmented elements to 1
         seg_data[seg_data > 0] = 1
 
-        img_trans, seg_trans = self.transform(img_data, seg_data)
+        img_trans, seg_trans, mask_trans = self.transform(img_data, seg_data)
 
-        mask = torch.zeros(img_trans.size())
-        mask[img_trans > 0] = 1
-
-        return img_trans, seg_trans, mask
+        return img_trans, seg_trans, mask_trans
 
     def __len__(self):
         return self.size

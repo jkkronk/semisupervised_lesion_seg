@@ -394,8 +394,8 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg_m = seg[mask > 0].ravel().astype(int)
             y_true.extend(seg_m.tolist())
 
-            print(error_batch_m.max(), error_batch_m.min())
-
+            if not error_batch_m.size == 0:
+                (error_batch_m.max(), error_batch_m.min())
 
     fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
 

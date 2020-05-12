@@ -107,12 +107,12 @@ if __name__ == "__main__":
             slices = subj_dict[subj] # Slices for each subject CHANGE
 
             # Load data
-            subj_dataset = brats_dataset_subj_teacher(data_path, 'train', img_size, slices, use_aug=True)
-            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+            subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
+            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
             print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
             tot_loss = 0
-            for batch_idx, (scan, seg, mask, scan_teacher, seg_teacher, mask_teacher) in enumerate(subj_loader):
+            for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
                 scan = scan.double().to(device)
                 decoded_mu = torch.zeros(scan.size())
 
@@ -124,36 +124,13 @@ if __name__ == "__main__":
 
                 decoded_mu = decoded_mu / n_latent_samples
 
-                # Teacher
-                scan_teacher = scan_teacher.double().to(device)
-                decoded_mu_teacher = torch.zeros(scan_teacher.size())
-
-                # Get average prior
-                for s in range(n_latent_samples):
-                    with torch.no_grad():
-                        recon_batch, z_mean, z_cov, res = vae_model(scan_teacher)
-                        decoded_mu_teacher += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan_teacher.size()[0])])
-
-                decoded_mu_teacher = decoded_mu_teacher / n_latent_samples
-
-
                 # Remove channel
                 scan = scan.squeeze(1)
                 seg = seg.squeeze(1)
                 mask = mask.squeeze(1)
 
-                scan_teacher = scan.squeeze(1)
-                seg_teacher = seg_teacher.squeeze(1)
-
-
-                if use_teacher:
-                    restored_batch, loss = train_run_map_NN_teacher(scan, scan_teacher, decoded_mu, decoded_mu_teacher,
-                                                              net, net_teacher, vae_model, riter, device, writer,
-                                                              seg, seg_teacher, ep, optimizer, step_rate,
-                                                              teacher_decay=0.999, consistency_weight=1)
-                else:
-                    restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer, seg, mask,
-                                                      optimizer, step_rate)
+                restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
+                                                          mask, optimizer, step_rate, log=bool(batch_idx%3))
 
                 tot_loss += loss
 
@@ -192,7 +169,11 @@ if __name__ == "__main__":
 
             writer.add_scalar('Loss', tot_loss/(batch_idx+1))
 
-        AUC = roc_auc_score(y_true, y_pred)
+        if np.isnan(y_pred).any():
+            AUC = 0
+        else:
+            AUC = roc_auc_score(y_true, y_pred)
+
         print('AUC : ', AUC, ep)
         writer.add_scalar('AUC:', AUC)
 
@@ -221,11 +202,11 @@ if __name__ == "__main__":
                 for subj in subj_val_list:  # Iterate every subject
                     slices = subj_dict[subj]  # Slices for each subject CHANGE
                     # Load data
-                    subj_dataset = brats_dataset_subj_teacher(data_path, 'train', img_size, slices, use_aug=False)
-                    subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+                    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=False)
+                    subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
                     print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
-                    for batch_idx, (scan, seg, mask, scan_teacher, seg_teacher, mask_teacher) in enumerate(subj_loader):
+                    for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
                         scan = scan.double().to(device)
                         decoded_mu = torch.zeros(scan.size())
 
@@ -238,36 +219,15 @@ if __name__ == "__main__":
 
                         decoded_mu = decoded_mu / n_latent_samples
 
-                        # Teacher
-                        scan_teacher = scan_teacher.double().to(device)
-                        decoded_mu_teacher = torch.zeros(scan_teacher.size())
-
-                        # Get average prior
-                        for s in range(n_latent_samples):
-                            with torch.no_grad():
-                                recon_batch, z_mean, z_cov, res = vae_model(scan_teacher)
-                                decoded_mu_teacher += np.array(
-                                    [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan_teacher.size()[0])])
-
-                        decoded_mu_teacher = decoded_mu_teacher / n_latent_samples
-
                         # Remove channel
                         scan = scan.squeeze(1)
                         seg = seg.squeeze(1)
                         mask = mask.squeeze(1)
 
-                        scan_teacher = scan.squeeze(1)
-
                         # train_riter = np.random.randint(1, 100)
-                        if use_teacher:
-                            restored_batch, loss = train_run_map_NN_teacher(scan, scan_teacher, decoded_mu,
-                                                                            decoded_mu_teacher, net, net_teacher, vae_model,
-                                                                            riter, device, writer, seg, seg_teacher, ep,
-                                                                            optimizer, step_rate, train=False,
-                                                                            teacher_decay=0.999, consistency_weight=0.25)
-                        else:
-                            restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer,
-                                                                    seg, mask, optimizer, step_rate, train=False)
+                        restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device,
+                                                                  writer_valid, seg, mask, optimizer, step_rate,
+                                                                  train=False, log=bool(batch_idx % 3))
 
                         tot_loss += loss
 
@@ -295,7 +255,11 @@ if __name__ == "__main__":
 
                     writer_valid.add_scalar('Loss', tot_loss/(batch_idx+1))
 
-                AUC = roc_auc_score(y_true_valid, y_pred_valid)
+                if np.isnan(y_pred_valid).any():
+                    AUC = 0
+                else:
+                    AUC = roc_auc_score(y_true_valid, y_pred_valid)
+
                 print('AUC Valid: ', AUC)
                 writer_valid.add_scalar('AUC:', AUC, ep)
 
