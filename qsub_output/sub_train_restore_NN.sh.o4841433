@@ -1,0 +1,66 @@
+Name:  appRNN_5_1_ Lr_rate:  0.001 Use Teacher:  False  Riter:  10  Subjs:  2
+Using device: cuda:0
+['Brats17_TCIA_633_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_TCIA_372_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.656918825569436 0
+Loading train set for subj
+Subject  Brats17_TCIA_372_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC Valid:  0.7859470854037605
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.6689818907675952 1
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.6921577298910495 2
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.692375802778601 3
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.7025888562456764 4
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.7309052415371483 5
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.7317905302614273 6
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.766534775707599 7
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.7740183310185478 8
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.7883622590600813 9
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8016095821425719 10
+Loading train set for subj
+Subject  Brats17_TCIA_372_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC Valid:  0.8576082935159134
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.820147530467607 11
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8286927933548297 12
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8502419308785263 13
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8666806227675095 14
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8604259794690676 15
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8632307925874817 16
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8683910062499822 17
+Loading train set for subj
+Subject  Brats17_TCIA_633_1_t2_unbiased.nii.gz  Number of Slices:  137

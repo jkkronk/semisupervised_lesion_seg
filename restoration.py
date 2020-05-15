@@ -98,84 +98,11 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, writer=No
 
     return img_ano
 
-
-def train_run_map_NN_higher(input_img, dec_mu, net, vae_model, riter, device, writer, input_seg, mask,
-                     optimizer=None, step_size=0.003, train=True, log=True):
-    # Init params
-    input_img = input_img.to(device)
-    dec_mu = dec_mu.to(device).float()
-    input_seg = input_seg.to(device)
-    img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
-
-    if train:
-        net.train()
-        optimizer.zero_grad()
-
-    # Init MAP Optimizer
-    dice = diceloss()
-    tot_loss = 0
-
-    for i in range(riter):
-        # Gradient function
-        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
-
-        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
-        l2_loss = torch.sum((dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2))
-
-        gfunc = l2_loss + kl_loss
-
-        grad, = torch.autograd.grad(gfunc, img_ano, grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
-                                    create_graph=True)
-
-        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
-        out = net(NN_input).squeeze(1)
-        img_grad = grad * out
-
-        img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
-
-        img_ano_update[mask > 0] = img_ano[mask > 0] - step_size * img_grad[mask > 0]
-        img_ano.data = img_ano_update
-
-        #img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano_update-input_img).pow(2))
-        img_ano_act = torch.tanh(500*(img_ano_update - input_img).pow(2))
-
-        loss = dice(img_ano_act, input_seg)
-        #loss = nn.BCELoss(ano_grad_act.double(), input_seg.double())
-        #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
-        loss.backward()
-
-        #for name, param in net.named_parameters():
-        #    if param.requires_grad:
-        #        print(param.grad)
-
-        img_ano.grad.zero_()
-
-        tot_loss += loss.item()
-
-    if train:
-        optimizer.step() # Update network parameters
-
-    # Log
-    if log:
-        writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('X Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('X Res', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('X Ano_grad_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('X_i out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('X_i grad', normalize_tensor(grad.unsqueeze(1)[:16]), dataformats='NCHW')
-        #writer.add_histogram('hist-out-torch', out.flatten())
-        #writer.add_histogram('hist-grad-torch', grad.flatten())
-        #writer.add_histogram('hist-out-mask-torch', out[input_seg > 0].flatten())
-        #writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
-
-        writer.flush()
-
-    return img_ano, tot_loss/riter
-
 def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, input_seg, mask,
                      optimizer=None, step_size=0.003, train=True, log=True):
     # Init params
     input_img = input_img.to(device)
+    mask = mask.to(device)
     dec_mu = dec_mu.to(device).float()
     input_seg = input_seg.to(device)
     img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
@@ -189,7 +116,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
     tot_loss = 0
 
     for i in range(riter):
-        # Gradient function
+        #img_ano.requires_grad = True
+
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
@@ -207,21 +135,19 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
         img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
 
         img_ano_update[mask > 0] = img_ano[mask > 0] - step_size * img_grad[mask > 0]
-        img_ano.data = img_ano_update
 
-        #img_ano_act = 1 - 2 * torch.sigmoid(-500 * (img_ano_update-input_img).pow(2))
-        img_ano_act = torch.tanh(500*(img_ano_update - input_img).pow(2))
+        img_ano = img_ano_update.clone()
+
+        img_ano_act = torch.tanh(2000*(img_ano_update - input_img).pow(2))
 
         loss = dice(img_ano_act, input_seg)
         #loss = nn.BCELoss(ano_grad_act.double(), input_seg.double())
         #loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
-        loss.backward()
+        loss.backward(retain_graph=True)
 
         #for name, param in net.named_parameters():
         #    if param.requires_grad:
         #        print(param.grad)
-
-        img_ano.grad.zero_()
 
         tot_loss += loss.item()
 
@@ -242,6 +168,13 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, i
         #writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
 
         writer.flush()
+
+    del grad
+    del out
+    del input_img
+    del input_seg
+    del img_ano_act
+    del img_ano_update
 
     return img_ano, tot_loss/riter
 

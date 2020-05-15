@@ -6,7 +6,7 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import train_run_map_NN_teacher
+from restoration import train_run_map_NN_teacher, train_run_map_NN
 from models.shallow_UNET import shallow_UNet
 from models.unet import UNet
 from models.covnet import ConvNet

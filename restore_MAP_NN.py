@@ -68,7 +68,7 @@ if __name__ == "__main__":
     net.eval()
     #
     #Brats17_TCIA_462_1_t2_unbiased.nii.gz
-    train_subjs = ['Brats17_2013_11_1_t2_unbiased.nii.gz']
+    train_subjs = ['Brats17_CBICA_AYA_1_t2_unbiased.nii.gz']
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
