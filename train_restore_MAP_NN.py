@@ -6,11 +6,11 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import train_run_map_NN
+from restoration import train_run_map_NN_teacher
 from models.shallow_UNET import shallow_UNet
 from models.unet import UNet
 from models.covnet import ConvNet
-from datasets import brats_dataset_subj, brats_dataset
+from datasets import brats_dataset_subj, brats_dataset_subj_teacher
 from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
@@ -48,7 +48,10 @@ if __name__ == "__main__":
     n_latent_samples = 25
     epochs = config['epochs']
 
-    print('Name: ', name, 'Lr_rate: ', lr_rate, ' Riter: ', riter, ' Subjs: ', subj_nbr)
+    use_teacher = False
+    validation = True
+
+    print('Name: ', name, 'Lr_rate: ', lr_rate, 'Use Teacher: ', use_teacher,' Riter: ', riter, ' Subjs: ', subj_nbr)
 
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -61,10 +64,15 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 16).to(device)
-    #net = ConvNet(name, 2, 1, 8).to(device)
+    net = shallow_UNet(name, 2, 1, 4).to(device)
+    #net = ConvNet(name, 2, 1, 16).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
+    #scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, eta_min=lr_rate // 100)
+
+    # Create mean teacher
+    if use_teacher:
+        net_teacher = shallow_UNet(name, 2, 1, 16).to(device)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
@@ -79,14 +87,14 @@ if __name__ == "__main__":
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
 
-    validation = True
-
     subj_val_list = []
     subj_val_list.append(subj_list_all[subj_nbr])
     print('validation subject', subj_val_list)
     writer_valid = SummaryWriter(log_dir + 'valid_' + name)
 
     for ep in range(epochs):
+        random.shuffle(subj_list)
+
         # Metrics init
         TP = 0
         FN = 0
@@ -100,9 +108,10 @@ if __name__ == "__main__":
 
             # Load data
             subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
-            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
             print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
+            tot_loss = 0
             for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
                 scan = scan.double().to(device)
                 decoded_mu = torch.zeros(scan.size())
@@ -118,13 +127,15 @@ if __name__ == "__main__":
                 # Remove channel
                 scan = scan.squeeze(1)
                 seg = seg.squeeze(1)
-                mask = mask.squeeze(1).cpu().detach().numpy()
+                mask = mask.squeeze(1)
 
-                #train_riter = np.random.randint(1, 100)
-                restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
-                                                  optimizer, step_rate, log_freq)
+                restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
+                                                          mask, optimizer, step_rate, log=bool(batch_idx%3))
+
+                tot_loss += loss
 
                 seg = seg.cpu().detach().numpy()
+                mask = mask.cpu().detach().numpy()
                 # Predicted abnormalty is difference between restored and original batch
                 error_batch = np.zeros([scan.size()[0],original_size,original_size])
                 restored_batch_resized = np.zeros([scan.size()[0],original_size,original_size])
@@ -156,89 +167,108 @@ if __name__ == "__main__":
                 FP += np.sum(error_batch_m[seg_m == 0])
                 '''
 
-            AUC = roc_auc_score(y_true, y_pred)
-            print('AUC : ', AUC)
-            writer.add_scalar('AUC:', AUC)
+            writer.add_scalar('Loss', tot_loss/(batch_idx+1))
 
-            '''
-            dice = (2 * TP) / (2 * TP + FN + FP)
-            subj_dice.append(dice)
-            print('DCS: ', dice)
-            writer.add_scalar('Dice:', dice)
-            '''
-            writer.flush()
+        if np.isnan(y_pred).any():
+            AUC = 0
+        else:
+            AUC = roc_auc_score(y_true, y_pred)
+
+        print('AUC : ', AUC, ep)
+        writer.add_scalar('AUC:', AUC)
+
+        '''
+        dice = (2 * TP) / (2 * TP + FN + FP)
+        subj_dice.append(dice)
+        print('DCS: ', dice)
+        writer.add_scalar('Dice:', dice)
+        '''
+        writer.flush()
+
+        # Cosine annealing
+        #scheduler.step()
 
         if ep % log_freq == 0:
             # Save model
             path = '/scratch_net/biwidl214/jonatank/logs/restore/' + name + str(ep) + '.pth'
             torch.save(net, path)
 
-            ## Write to tensorboard
-            writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-            writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
-                             batch_idx, dataformats='NCHW')
-            writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-                             batch_idx, dataformats='NCHW')
-            writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
-            writer.flush()
+            ## VALIDATION
+            if validation:
+                y_pred_valid = []
+                y_true_valid = []
+                tot_loss = 0
 
-        ## VALIDATION
-        if validation:
-            y_pred_valid = []
-            y_true_valid = []
+                for subj in subj_val_list:  # Iterate every subject
+                    slices = subj_dict[subj]  # Slices for each subject CHANGE
+                    # Load data
+                    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=False)
+                    subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
+                    print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
-            for subj in subj_val_list:  # Iterate every subject
-                slices = subj_dict[subj]  # Slices for each subject CHANGE
+                    for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
+                        scan = scan.double().to(device)
+                        decoded_mu = torch.zeros(scan.size())
 
-                # Load data
-                subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
-                subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-                print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
+                        # Get average prior
+                        for s in range(n_latent_samples):
+                            with torch.no_grad():
+                                recon_batch, z_mean, z_cov, res = vae_model(scan)
+                            decoded_mu += np.array(
+                                [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
-                loss = 0
-                for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
-                    scan = scan.double().to(device)
-                    decoded_mu = torch.zeros(scan.size())
+                        decoded_mu = decoded_mu / n_latent_samples
 
-                    # Get average prior
-                    for s in range(n_latent_samples):
-                        with torch.no_grad():
-                            recon_batch, z_mean, z_cov, res = vae_model(scan)
-                        decoded_mu += np.array(
-                            [1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
+                        # Remove channel
+                        scan = scan.squeeze(1)
+                        seg = seg.squeeze(1)
+                        mask = mask.squeeze(1)
 
-                    decoded_mu = decoded_mu / n_latent_samples
+                        # train_riter = np.random.randint(1, 100)
+                        restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device,
+                                                                  writer_valid, seg, mask, optimizer, step_rate,
+                                                                  train=False, log=bool(batch_idx % 3))
 
-                    # Remove channel
-                    scan = scan.squeeze(1)
-                    seg = seg.squeeze(1)
-                    mask = mask.squeeze(1).cpu().detach().numpy()
+                        tot_loss += loss
 
-                    # train_riter = np.random.randint(1, 100)
-                    restored_batch = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer_valid,
-                                                      seg, step_size=step_rate, log_freq=log_freq, train=False)
+                        seg = seg.cpu().detach().numpy()
+                        mask = mask.cpu().detach().numpy()
+                        # Predicted abnormalty is difference between restored and original batch
+                        error_batch = np.zeros([scan.size()[0], original_size, original_size])
+                        restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
 
-                    seg = seg.cpu().detach().numpy()
-                    # Predicted abnormalty is difference between restored and original batch
-                    error_batch = np.zeros([scan.size()[0], original_size, original_size])
+                        for idx in range(scan.size()[0]):  # Iterate trough for resize
+                            error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(),
+                                                      (200, 200))
+                            restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
 
-                    for idx in range(scan.size()[0]):  # Iterate trough for resize
-                        error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(),
-                                                  (200, 200))
+                        # Remove preds and seg outside mask and flatten
+                        mask = resize(mask, (scan.size()[0], original_size, original_size))
+                        seg = resize(seg, (scan.size()[0], original_size, original_size))
 
-                    # Remove preds and seg outside mask and flatten
-                    mask = resize(mask, (scan.size()[0], original_size, original_size))
-                    seg = resize(seg, (scan.size()[0], original_size, original_size))
+                        error_batch_m = error_batch[mask > 0].ravel()
+                        seg_m = seg[mask > 0].ravel().astype(bool)
 
-                    error_batch_m = error_batch[mask > 0].ravel()
-                    seg_m = seg[mask > 0].ravel().astype(bool)
+                        # AUC
+                        y_pred_valid.extend(error_batch_m.tolist())
+                        y_true_valid.extend(seg_m.tolist())
 
-                    # AUC
-                    y_pred_valid.extend(error_batch_m.tolist())
-                    y_true_valid.extend(seg_m.tolist())
+                    writer_valid.add_scalar('Loss', tot_loss/(batch_idx+1))
 
-            AUC = roc_auc_score(y_true_valid, y_pred_valid)
-            print('AUC Valid: ', AUC)
-            writer_valid.add_scalar('AUC:', AUC)
-            writer.flush()
+                if np.isnan(y_pred_valid).any():
+                    AUC = 0
+                else:
+                    AUC = roc_auc_score(y_true_valid, y_pred_valid)
+
+                print('AUC Valid: ', AUC)
+                writer_valid.add_scalar('AUC:', AUC, ep)
+
+                ## Write to tensorboard
+                writer_valid.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
+                writer_valid.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
+                                 batch_idx, dataformats='NCHW')
+                writer_valid.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
+                                 batch_idx, dataformats='NCHW')
+                writer_valid.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
+                writer_valid.flush()
 

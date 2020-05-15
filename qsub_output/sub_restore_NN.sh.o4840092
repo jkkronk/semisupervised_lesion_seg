@@ -1,0 +1,35 @@
+ Vae model:  camcan_400_Aug_2_100  NN model:  re_app4_4_50
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'models.shallow_UNET.shallow_UNet' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj
+0.49842402425105553 5.5249429921712365e-05
+0.4986243134498971 6.052980143005098e-06
+0.4348721814585696 1.19980508708363e-07
+0.41495483307570336 8.060593733828582e-05
+0.086927458009388 5.536555846335836e-06
+Best Threshold=0.034923, G-Mean=0.832
+AUC training :  0.9074154350062906
+0.03492301840591214
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+AUC :  0.6623445701391194
+AUC :  0.6484099523587379
+AUC :  0.6650343300234465
+AUC :  0.6756950023006753
+AUC :  0.6819063136678528
+DCS:  0.4734427773182191
+0.02
+Loading test set for subj
+Subject  Brats17_TCIA_645_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC :  0.5439695195895741
+AUC :  0.555357154506675
+AUC :  0.5401210723954158
+AUC :  0.5524058242213423
+AUC :  0.5395368771488722
+DCS:  0.18058921612346587
+0.04
+Loading test set for subj
+Subject  Brats17_2013_3_1_t2_unbiased.nii.gz  Number of Slices:  128
+AUC :  0.6486366514111238

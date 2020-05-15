@@ -47,7 +47,7 @@ if __name__ == "__main__":
     original_size = config['orig_size']
     log_dir = config['log_dir']
     n_latent_samples = 25
-    preset_threshold = 0.5 #[] #1.6875
+    preset_threshold = []
     epochs = config['epochs']
 
     print(' Vae model: ', model_name, ' NN model: ', net_name)
@@ -66,12 +66,15 @@ if __name__ == "__main__":
     path = log_dir + net_name + '.pth'
     net = torch.load(path, map_location=torch.device(device))
     net.eval()
+    #
+    #Brats17_TCIA_462_1_t2_unbiased.nii.gz
+    train_subjs = ['Brats17_2013_11_1_t2_unbiased.nii.gz']
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
         thr_error = \
             threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
-                                             ['Brats17_2013_11_1_t2_unbiased.nii.gz'], batch_size, n_latent_samples,
+                                             train_subjs, batch_size, n_latent_samples,
                                              device, riter, step_rate)
     else:
         thr_error = preset_threshold
@@ -90,9 +93,9 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     # Metrics init
-    y_true = []
-    y_pred = []
-    subj_dice = []
+    y_true = np.array([])
+    y_pred = np.array([])
+    subj_dice = np.array([])
 
     for i, subj in enumerate(subj_list):  # Iterate every subject
         TP = 0
@@ -123,7 +126,8 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
+            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, writer,
+                                        step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()
@@ -140,12 +144,11 @@ if __name__ == "__main__":
             mask = resize(mask, (scan.size()[0], original_size, original_size))
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
-            # AUC
             error_batch_m = error_batch[mask > 0].ravel()
-            y_pred.extend(error_batch_m.tolist())
+            y_pred = np.append(y_pred, error_batch_m)
 
             seg_m = seg[mask > 0].ravel().astype(int)
-            y_true.extend(seg_m.tolist())
+            y_true = np.append(y_true, seg_m)
 
             # DICE
             # Create binary prediction map
@@ -157,12 +160,16 @@ if __name__ == "__main__":
             FN += np.sum(seg_m[error_batch_m == 0])
             FP += np.sum(error_batch_m[seg_m == 0])
 
-        AUC = roc_auc_score(y_true, y_pred)
-        print('AUC : ', AUC)
-        writer.add_scalar('AUC:', AUC)
+            if np.sum(seg_m) == 0:
+                seg_m[0] = 1 # Hacky way and not good
+
+            AUC = roc_auc_score(error_batch_m, seg_m)
+            print('AUC : ', AUC)
+            writer.add_scalar('AUC:', AUC)
 
         dice = (2*TP)/(2*TP+FN+FP)
-        subj_dice.append(dice)
+        subj_dice = np.append(subj_dice, dice)
+        #subj_dice.append(dice)
         print('DCS: ', dice)
         writer.add_scalar('Dice:', dice)
         writer.flush()
@@ -177,7 +184,10 @@ if __name__ == "__main__":
 
         writer.flush()
 
-    avrg_dcs = sum(subj_dice) / len(subj_dice)
-    print('DCS: ',  avrg_dcs)
+
+    #AUC = roc_auc_score(y_pred.tolist(), y_true.tolist())
+    #print('AUC TEST SET: ', AUC)
+    avrg_dcs = np.sum(subj_dice) / subj_dice.shape[0]
+    print('Avgr All DCS: ',  avrg_dcs)
     writer.add_scalar('Dice:', avrg_dcs)
     writer.flush()

@@ -28,20 +28,12 @@ class shallow_UNet(nn.Module):
 
         self.decoder3 = shallow_UNet._block((features * 2) * 4, features * 4, name="dec2")
 
-        #self.upconv2 = nn.ConvTranspose2d(
-        #    features * 4, features * 2, kernel_size=2, stride=2
-        #)
-
         self.upconv2 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 4, features * 2, kernel_size=2, stride=2)
         )
 
         self.decoder2 = shallow_UNet._block((features * 2) * 2, features * 2, name="dec2")
-
-        #self.upconv1 = nn.ConvTranspose2d(
-        #    features * 2, features, kernel_size=2, stride=2
-        #)
 
         self.upconv1 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
@@ -53,6 +45,8 @@ class shallow_UNet(nn.Module):
         self.conv = nn.Conv2d(
             in_channels=features, out_channels=out_channels, kernel_size=1
         )
+
+        self.tanh = nn.Tanh()
 
 
     def forward(self, x):
@@ -76,7 +70,10 @@ class shallow_UNet(nn.Module):
         dec1 = self.upconv1(dec2)
         dec1 = torch.cat((dec1, enc1), dim=1)
         dec1 = self.decoder1(dec1)
-        return self.conv(dec1)
+        #torch.sigmoid
+        #torch.Tanhshrink
+        #torch.tanh
+        return torch.sigmoid(self.conv(dec1))
 
     @staticmethod
     def _block(in_channels, features, name):
