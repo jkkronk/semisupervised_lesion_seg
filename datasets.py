@@ -299,7 +299,7 @@ class brats_dataset_subj(Dataset):
             seg = seg[:, :, 0]
             seg[seg > 0] = 1
         else:
-            mask = torch.zeros(img.shape)
+            mask = np.zeros(img.shape)
             mask[img > 0] = 1
 
         # To PIL for Flip and ToTensor

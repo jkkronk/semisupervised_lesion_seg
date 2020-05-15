@@ -1,11 +1,11 @@
-riter: 100
+riter: 10
 batch_size: 32
 spatial_size: 128
 orig_size: 200
 log_freq: 10
-step_rate: 5e-3
+step_rate: 5e-2
 vae_name: camcan_400_Aug_2_100
-lr_rate: 1e-4
+lr_rate: 1e-3
 log_dir: /scratch_net/biwidl214/jonatank/logs/restore/
 path: /scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/brats17/
 epochs: 500

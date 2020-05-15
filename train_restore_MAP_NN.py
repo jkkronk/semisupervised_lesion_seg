@@ -6,7 +6,7 @@ import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 import torch.optim as optim
 
-from restoration import train_run_map_NN_teacher, train_run_map_NN_2, train_run_map_NN_4, train_run_map_NN_3, train_run_map_NN_5
+from restoration import train_run_map_NN_teacher
 from models.shallow_UNET import shallow_UNet
 from models.unet import UNet
 from models.covnet import ConvNet
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 16).to(device)
+    net = shallow_UNet(name, 2, 1, 4).to(device)
     #net = ConvNet(name, 2, 1, 16).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
@@ -129,7 +129,7 @@ if __name__ == "__main__":
                 seg = seg.squeeze(1)
                 mask = mask.squeeze(1)
 
-                restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
+                restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, seg,
                                                           mask, optimizer, step_rate, log=bool(batch_idx%3))
 
                 tot_loss += loss
@@ -225,7 +225,7 @@ if __name__ == "__main__":
                         mask = mask.squeeze(1)
 
                         # train_riter = np.random.randint(1, 100)
-                        restored_batch, loss = train_run_map_NN_4(scan, decoded_mu, net, vae_model, riter, device,
+                        restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, device,
                                                                   writer_valid, seg, mask, optimizer, step_rate,
                                                                   train=False, log=bool(batch_idx % 3))
 

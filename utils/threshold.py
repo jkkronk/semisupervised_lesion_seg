@@ -372,7 +372,8 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, step_size=step_size)
+            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
+                                        step_size=step_size, log=False)
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()
@@ -394,8 +395,7 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg_m = seg[mask > 0].ravel().astype(int)
             y_true.extend(seg_m.tolist())
 
-            if not error_batch_m.size == 0:
-                (error_batch_m.max(), error_batch_m.min())
+            print(error_batch_m.max(), error_batch_m.min())
 
     fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
 
