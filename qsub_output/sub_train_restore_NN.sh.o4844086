@@ -1,0 +1,762 @@
+Name:  app5_2_1000_ Lr_rate:  0.0001 Use Teacher:  False  Riter:  20  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7432068522201967
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.41856425578416095
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.74284078457371
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7806268347206993
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7988143547539756
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7777710729512545
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.8307062562169446
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7951211679221395
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.826136072027285
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.8679703311047571
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.900252098301255
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.8525899163458049
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.4737071454780336
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.8771858940525314
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9066735990167535
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9018085420983777
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.8750552041961693
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9054962256922485
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9244099672866226
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9171454310963507
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9007357705826737
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9213115764388746
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9299731203494127
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.47814460594252095
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9099465696456698
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.916672557816037
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9042161957749348
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9009646925920599
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9347054131771062
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9306604769677809
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9506828056927439
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9052835006241029
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9321884227878383
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9239731421857253
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.5014742941896471
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9244064094899487
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9258411888892156
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9404706826495911
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.940878707117951
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9304144480157768
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9320800429728845
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.939652850626034
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9441434307748995
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9278935505443023
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9349546583500041
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.5349689169651001
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9255131759718622
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9395925426187094
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9109637756772592
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9457895796745042
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9291827643892286
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.94115701476138
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9560967104208813
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9449163215042056
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9375561512554957
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9430401985706794
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.5353253331895507
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9392320074213953
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9352157115532953
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.940143523613226
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9441282279013706
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9429393610598307
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9369746933234829
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9484059927618442
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.951356822604404
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9455094032057099
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9358524623735194
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.5929004179119862
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9476835165378685
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9303902435499943
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9215515610211189
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9490171339588637
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9441799532473554
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9536049241682245
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.950557666573778
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9309832775731952
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.940815634021141
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.949373079751265
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.6168226385284168
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.938238719448861
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9470527265458745
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9494107364355802
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9505943526364371
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.940748743393182
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9551519933505621
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9577539533485894
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9313945190309489
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9290313913047974
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9496047143843016
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.6355940844200472
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9602700646459847
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.957983368234774
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9689890329954688
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9456553697215866
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9399339658331476
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9434803047368889
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9468588329244632
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9107647077414408
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9158549514563323
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.9390958363815285
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+/scratch/sge/spool/biwirender06/job_scripts/4844086: line 11: 21191 Killed                  python -u train_restore_MAP_NN.py --name app5_2_1000_ --config conf/conf_nn.yaml --subjs 2 --K_actf 1000

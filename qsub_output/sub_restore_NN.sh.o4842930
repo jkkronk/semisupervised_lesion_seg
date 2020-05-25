@@ -1,0 +1,81 @@
+     Vae model:  camcan_400_Aug_2_100  NN model:  appRNN_4_1_350
+Using device: cuda:0
+Loading train set for subj
+0.36730950935036877 5.448405187244121e-09
+0.32480496375691614 1.1981764392351676e-05
+0.3384756886228536 2.4886766743831354e-08
+0.3695588012443013 1.5174091271209322e-07
+0.3273262647016158 1.511194297979553e-07
+Fpr:  0.02998417267421109
+Best Threshold=0.010853, G-Mean=0.975
+AUC training :  0.9941536434059753
+Dice training:  0.8258712990276412
+0.010853032577996418
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+AUC :  0.9898365264190229
+DCS:  0.6848015006085056
+0.02
+Loading test set for subj
+Subject  Brats17_TCIA_645_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC :  0.9583890216780802
+DCS:  0.5156348618849106
+0.04
+Loading test set for subj
+Subject  Brats17_2013_3_1_t2_unbiased.nii.gz  Number of Slices:  128
+AUC :  0.9360507817510761
+DCS:  0.5886661386541494
+0.06
+Loading test set for subj
+Subject  Brats17_TCIA_331_1_t2_unbiased.nii.gz  Number of Slices:  123
+AUC :  0.9154866139464798
+DCS:  0.009658886894075404
+0.08
+Loading test set for subj
+Subject  Brats17_TCIA_147_1_t2_unbiased.nii.gz  Number of Slices:  136
+AUC :  0.9097523206506792
+DCS:  0.6348493451781299
+0.1
+Loading test set for subj
+Subject  Brats17_TCIA_261_1_t2_unbiased.nii.gz  Number of Slices:  125
+AUC :  0.8948256038425304
+DCS:  0.51498688318484
+0.12
+Loading test set for subj
+Subject  Brats17_TCIA_410_1_t2_unbiased.nii.gz  Number of Slices:  129
+AUC :  0.8694657414481997
+DCS:  0.3918021299328301
+0.14
+Loading test set for subj
+Subject  Brats17_CBICA_ALX_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.8579901061594845
+DCS:  0.5180005060845161
+0.16
+Loading test set for subj
+Subject  Brats17_TCIA_390_1_t2_unbiased.nii.gz  Number of Slices:  138
+AUC :  0.8506959164115895
+DCS:  0.5318714836263215
+0.18
+Loading test set for subj
+Subject  Brats17_TCIA_653_1_t2_unbiased.nii.gz  Number of Slices:  138
+AUC :  0.8477511553769557
+DCS:  0.6272559580904596
+0.2
+Loading test set for subj
+Subject  Brats17_CBICA_AOP_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC :  0.845591336423412
+DCS:  0.2321948466698303
+0.22
+Loading test set for subj
+Subject  Brats17_CBICA_AWH_1_t2_unbiased.nii.gz  Number of Slices:  130
+AUC :  0.8442428013656424
+DCS:  0.55085682697623
+0.24
+Loading test set for subj
+Subject  Brats17_TCIA_449_1_t2_unbiased.nii.gz  Number of Slices:  131
+AUC :  0.8423984760181119
+DCS:  0.004113875577146108
+0.26
+Loading test set for subj
+Subject  Brats17_TCIA_460_1_t2_unbiased.nii.gz  Number of Slices:  134

@@ -1,0 +1,32 @@
+Name:  1subj_1K_4lr_15steps Lr_rate:  0.0001 Use Teacher:  False  Riter:  15  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFP_1_t2_unbiased']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 101, in <module>
+    slices.extend(subj_dict[subj])  # Slices for each subject
+KeyError: 'Brats17_CBICA_BFP_1_t2_unbiased'
+Name:  1subj_100K_4lr_15steps Lr_rate:  0.0001 Use Teacher:  False  Riter:  15  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFP_1_t2_unbiased']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 101, in <module>
+    slices.extend(subj_dict[subj])  # Slices for each subject
+KeyError: 'Brats17_CBICA_BFP_1_t2_unbiased'
+Name:  1subj_10000K_4lr_15steps Lr_rate:  0.0001 Use Teacher:  False  Riter:  15  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFP_1_t2_unbiased']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 101, in <module>
+    slices.extend(subj_dict[subj])  # Slices for each subject
+KeyError: 'Brats17_CBICA_BFP_1_t2_unbiased'
+Name:  1subj_1000000K_4lr_15steps Lr_rate:  0.0001 Use Teacher:  False  Riter:  15  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFP_1_t2_unbiased']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 101, in <module>
+    slices.extend(subj_dict[subj])  # Slices for each subject
+KeyError: 'Brats17_CBICA_BFP_1_t2_unbiased'

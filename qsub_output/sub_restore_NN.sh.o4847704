@@ -1,0 +1,105 @@
+ Vae model:  camcan_400_Aug_2_100  NN model:  app5_2_1000_5_2_10_200
+Using device: cuda:0
+Loading train set for subj
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 79, in <module>
+    device, riter, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/utils/threshold.py", line 376, in compute_threshold_subj
+    step_size=step_size, log=False)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 68, in run_map_NN
+    __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 53, in forward
+    mu, logvar, res = self.encode(x)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 35, in encode
+    res = self.res_encoder(x)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/activation.py", line 559, in forward
+    return F.leaky_relu(input, self.negative_slope, self.inplace)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/functional.py", line 1063, in leaky_relu
+    result = torch._C._nn.leaky_relu(input, negative_slope)
+RuntimeError: CUDA out of memory. Tried to allocate 128.00 MiB (GPU 0; 11.93 GiB total capacity; 11.39 GiB already allocated; 81.25 MiB free; 11.41 GiB reserved in total by PyTorch)
+ Vae model:  camcan_400_Aug_2_100  NN model:  app5_2_100_4_2_10_200
+Using device: cuda:0
+Loading train set for subj
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 79, in <module>
+    device, riter, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/utils/threshold.py", line 376, in compute_threshold_subj
+    step_size=step_size, log=False)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 68, in run_map_NN
+    __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 53, in forward
+    mu, logvar, res = self.encode(x)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 35, in encode
+    res = self.res_encoder(x)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/activation.py", line 559, in forward
+    return F.leaky_relu(input, self.negative_slope, self.inplace)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/functional.py", line 1063, in leaky_relu
+    result = torch._C._nn.leaky_relu(input, negative_slope)
+RuntimeError: CUDA out of memory. Tried to allocate 128.00 MiB (GPU 0; 11.93 GiB total capacity; 11.39 GiB already allocated; 81.25 MiB free; 11.41 GiB reserved in total by PyTorch)
+ Vae model:  camcan_400_Aug_2_100  NN model:  app5_2_10000_5_2_10_200
+Using device: cuda:0
+Loading train set for subj
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 79, in <module>
+    device, riter, step_rate)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/utils/threshold.py", line 376, in compute_threshold_subj
+    step_size=step_size, log=False)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 68, in run_map_NN
+    __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 53, in forward
+    mu, logvar, res = self.encode(x)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 35, in encode
+    res = self.res_encoder(x)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/activation.py", line 559, in forward
+    return F.leaky_relu(input, self.negative_slope, self.inplace)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/functional.py", line 1063, in leaky_relu
+    result = torch._C._nn.leaky_relu(input, negative_slope)
+RuntimeError: CUDA out of memory. Tried to allocate 128.00 MiB (GPU 0; 11.93 GiB total capacity; 11.39 GiB already allocated; 81.25 MiB free; 11.41 GiB reserved in total by PyTorch)
+ Vae model:  camcan_400_Aug_2_100  NN model:  app5_2_10000_4_2_10_100
+Using device: cuda:0
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 68, in <module>
+    net = torch.load(path, map_location=torch.device(device))
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py", line 525, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py", line 212, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py", line 193, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch_net/biwidl214/jonatank/logs/restore/app5_2_10000_4_2_10_100.pth'

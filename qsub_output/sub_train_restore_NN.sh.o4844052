@@ -1,0 +1,14 @@
+Name:  app5_2_1_ Lr_rate:  0.0001 Use Teacher:  False  Riter:  20  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7511086070071388
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146

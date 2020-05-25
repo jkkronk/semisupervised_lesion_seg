@@ -1,0 +1,93 @@
+Name:  app5_2_1000_7_ Lr_rate:  1e-07 Use Teacher:  False  Riter:  20  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7039407667452324
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.4200788165555577
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7276467019963799
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7266824533340146
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7473021987634809
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7105981695901554
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7107122311708529
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.7468801362872663
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+AUC :  0.712218995471265
+Loss :  nan
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 136, in <module>
+    
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 170, in train_run_map_NN
+    writer.flush()
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/utils/tensorboard/writer.py", line 1010, in flush
+    writer.flush()
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/utils/tensorboard/writer.py", line 137, in flush
+    self.event_writer.flush()
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/tensorboard/summary/writer/event_file_writer.py", line 106, in flush
+    self._async_writer.flush()
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/tensorboard/summary/writer/event_file_writer.py", line 156, in flush
+    self._writer.flush()
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/tensorboard/summary/writer/record_writer.py", line 42, in flush
+    self._writer.flush()
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/tensorflow_core/python/lib/io/file_io.py", line 232, in flush
+    pywrap_tensorflow.Set_TF_Status_from_Status(status, ret_status)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/tensorflow_core/python/framework/errors_impl.py", line 554, in __exit__
+    c_api.TF_GetCode(self.status.status))
+tensorflow.python.framework.errors_impl.AbortedError: /scratch_net/biwidl214/jonatank/logs/restore/app5_2_1000_7_/events.out.tfevents.1589957171.biwirender05.21375.0; Stale file handle

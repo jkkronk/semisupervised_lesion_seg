@@ -1,0 +1,18 @@
+Name:  app5_2_1000_3_2_10_ Lr_rate:  0.001 Use Teacher:  False  Riter:  10  Subjs:  2
+Using device: cuda:0
+['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_BFB_1_t2_unbiased.nii.gz  Number of Slices:  143
+AUC :  0.7522183018557439
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.48869251266965313
+AUC :  0.8236903070515473
+AUC :  0.8861165168444849
+AUC :  0.8735721882631444
+AUC :  0.9432187324161132
+AUC :  0.9247719805815672
+AUC :  0.9592432407239431
+AUC :  0.9600916773214565
+AUC :  0.937868540299502

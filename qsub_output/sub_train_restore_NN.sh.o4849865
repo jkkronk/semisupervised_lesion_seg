@@ -1,0 +1,43 @@
+Name:  10subj_10000K_4lr_15steps Lr_rate:  0.0001 Use Teacher:  False  Riter:  15  Subjs:  11
+Using device: cuda:0
+['Brats17_TCIA_231_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ATD_1_t2_unbiased.nii.gz', 'Brats17_TCIA_469_1_t2_unbiased.nii.gz', 'Brats17_TCIA_396_1_t2_unbiased.nii.gz', 'Brats17_TCIA_221_1_t2_unbiased.nii.gz', 'Brats17_TCIA_372_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ARW_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQN_1_t2_unbiased.nii.gz', 'Brats17_TCIA_425_1_t2_unbiased.nii.gz', 'Brats17_TCIA_165_1_t2_unbiased.nii.gz']
+validation subject ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_TCIA_165_1_t2_unbiased.nii.gz  Number of Slices:  1354
+AUC :  0.8260494786811946
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.47576105785297135
+AUC :  0.8720067166427901
+AUC :  0.8925021669663851
+AUC :  0.9069279075121278
+AUC :  0.9141166830033907
+AUC :  0.912768151075074
+AUC :  0.9259494717748498
+AUC :  0.9255269453633278
+AUC :  0.9374910387219985
+AUC :  0.9341723918099597
+AUC :  0.9384037386406322
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.5896432390212043
+AUC :  0.9379472271762451
+AUC :  0.9434679688436071
+AUC :  0.9423131919480084
+AUC :  0.9469632899823547
+AUC :  0.9494523753197619
+AUC :  0.9514228738664933
+AUC :  0.9415070588161357
+AUC :  0.9500676998954946
+AUC :  0.955332181884611
+AUC :  0.9550797145436616
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC Valid:  0.5925654931316384
+AUC :  0.9410032619115315
+AUC :  0.9526697648528961
+AUC :  0.9561577925999797
+AUC :  0.9532548868755817
+AUC :  0.9528981911373646
+AUC :  0.9524567824706518
+AUC :  0.9528231109262637

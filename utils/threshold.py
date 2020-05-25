@@ -402,8 +402,22 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
     gmeans = np.sqrt(tpr * (1 - fpr))
     ix = np.argmax(gmeans)
 
+    print('Fpr: ', fpr[ix])
+
     print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
 
     print('AUC training : ', metrics.auc(fpr, tpr))
+    y_pred = np.array(y_pred)
+    y_true = np.array(y_true)
+
+    y_pred[y_pred >= thresholds[ix]] = 1
+    y_pred[y_pred < thresholds[ix]] = 0
+
+    TP = np.sum(y_true[y_pred == 1])
+    FN = np.sum(y_true[y_pred == 0])
+    FP = np.sum(y_pred[y_true == 0])
+
+    dice = (2 * TP) / (2 * TP + FN + FP)
+    print('Dice training: ', dice)
 
     return thresholds[ix]

@@ -19,6 +19,7 @@ from utils.utils import normalize_tensor
 from sklearn.metrics import roc_auc_score
 
 
+
 if __name__ == "__main__":
     # Params init
     parser = argparse.ArgumentParser()
@@ -39,7 +40,7 @@ if __name__ == "__main__":
     #net_name = config['net_name']
     data_path = config['path']
     riter = config['riter']
-    batch_size = config["batch_size"]
+    batch_size = 32 #config["batch_size"]
     img_size = config["spatial_size"]
     lr_rate = float(config['lr_rate'])
     step_rate = float(config['step_rate'])
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     net.eval()
     #
     #Brats17_TCIA_462_1_t2_unbiased.nii.gz
-    train_subjs = ['Brats17_CBICA_AYA_1_t2_unbiased.nii.gz']
+    train_subjs = ['Brats17_TCIA_231_1_t2_unbiased.nii.gz']
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
@@ -93,14 +94,20 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     # Metrics init
-    y_true = np.array([])
-    y_pred = np.array([])
+    tot_error_m = np.array([])
+    tot_seg_m = np.array([])
     subj_dice = np.array([])
-
+    total_p = 0
+    total_n = 0
+    thresh_error = []
+    tot_AUC = []
     for i, subj in enumerate(subj_list):  # Iterate every subject
         TP = 0
         FN = 0
         FP = 0
+
+        y_pred = []
+        y_true = []
 
         print(i/len(subj_list))
         slices = subj_dict[subj]  # Slices for each subject
@@ -126,7 +133,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, writer,
+            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
                                         step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()
@@ -145,9 +152,12 @@ if __name__ == "__main__":
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
             error_batch_m = error_batch[mask > 0].ravel()
-            y_pred = np.append(y_pred, error_batch_m)
-
             seg_m = seg[mask > 0].ravel().astype(int)
+
+            tot_error_m = np.append(tot_error_m,error_batch_m)
+            tot_seg_m = np.append(tot_seg_m,seg_m)
+
+            y_pred = np.append(y_pred, error_batch_m)
             y_true = np.append(y_true, seg_m)
 
             # DICE
@@ -163,9 +173,26 @@ if __name__ == "__main__":
             if np.sum(seg_m) == 0:
                 seg_m[0] = 1 # Hacky way and not good
 
-            AUC = roc_auc_score(error_batch_m, seg_m)
-            print('AUC : ', AUC)
-            writer.add_scalar('AUC:', AUC)
+        auc_error = roc_auc_score(y_true, y_pred)
+        ## evaluate AUC for ROC using universal thresholds
+        '''
+        if not len(thresh_error):
+            thresh_error = np.concatenate((np.sort(tot_error_m[::100]), [15]))
+            error_tprfpr = np.zeros((2, len(thresh_error)))
+
+        error_tprfpr += compute_tpr_fpr(tot_seg_m, tot_error_m, thresh_error)
+
+        total_p += np.sum(tot_seg_m == 1)
+        total_n += np.sum(tot_seg_m == 0)
+
+        tpr_error = error_tprfpr[0] / total_p
+        fpr_error = error_tprfpr[1] / total_n
+
+        auc_error = 1. + np.trapz(fpr_error, tpr_error)
+        '''
+        print('AUC : ', auc_error)
+        writer.add_scalar('AUC:', auc_error)
+        tot_AUC = np.append(tot_AUC, auc_error)
 
         dice = (2*TP)/(2*TP+FN+FP)
         subj_dice = np.append(subj_dice, dice)
@@ -175,19 +202,25 @@ if __name__ == "__main__":
         writer.flush()
 
         ## Write to tensorboard
-        writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
-                         batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-                         batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
-
-        writer.flush()
+        #writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
+        #writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
+        #                 batch_idx, dataformats='NCHW')
+        #writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
+        #                 batch_idx, dataformats='NCHW')
+        #writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
+        #writer.flush()
 
 
     #AUC = roc_auc_score(y_pred.tolist(), y_true.tolist())
     #print('AUC TEST SET: ', AUC)
-    avrg_dcs = np.sum(subj_dice) / subj_dice.shape[0]
-    print('Avgr All DCS: ',  avrg_dcs)
-    writer.add_scalar('Dice:', avrg_dcs)
+    mean_AUC = np.mean(tot_AUC)
+    std_AUC = np.std(tot_AUC)
+    print('Mean All AUC: ', mean_AUC)
+    print('Std ALL AUC: ', std_AUC)
+
+    mean_dcs = np.mean(subj_dice)
+    std_dcs = np.std(subj_dice)
+    print('Mean All DCS: ',  mean_dcs)
+    print('Std ALL DCS: ', std_dcs)
+    writer.add_scalar('Dice:', mean_dcs)
     writer.flush()

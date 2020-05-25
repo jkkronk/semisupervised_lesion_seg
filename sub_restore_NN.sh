@@ -8,5 +8,4 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u restore_MAP_NN.py --name test_appRNN_4_20_20_ --config conf/conf_nn.yaml --netname appRNN_4_20_20 --fprate 0.1
-
+python -u restore_MAP_NN.py --name test_10subj_10000K_4lr_15steps_20 --config conf/conf_nn.yaml --netname 10subj_10000K_4lr_15steps20 --fprate 0.1
