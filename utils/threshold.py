@@ -12,7 +12,7 @@ from datasets import brats_dataset_subj, brats_dataset
 from sklearn import metrics
 
 import torch.utils.data as data
-
+import matplotlib.pyplot as plt
 #sys.path.append("/scratch_net/bmicdl01/chenx/PycharmProjects/refine_vae")
 #from preprocess.preprocess import *
 
@@ -295,13 +295,14 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
                 recon_batch, z_mean, z_cov, res = vae_model(scan)
                 decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
-            batch_median = decoded_mu / n_latent_samples
+            batch_med = decoded_mu / n_latent_samples
 
             # Remove channel
             # decoded_mu = decoded_mu.squeeze(1)
             scan = scan.squeeze(1)
+            mask_temp = torch.ones(scan.shape)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net_model, vae_model, riter, device, step_size=step_size)
+            restored_batch = run_map_NN(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
 
             # Predicted abnormalty is difference between restored and original batch
             error_batch = np.zeros([scan.size()[0], 128, 128])
@@ -419,5 +420,19 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
 
     dice = (2 * TP) / (2 * TP + FN + FP)
     print('Dice training: ', dice)
+
+    roc_auc = metrics.auc(fpr, tpr)
+
+    lw = 2
+    plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.plot(fpr[ix], tpr[ix], 'ro')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic example')
+    plt.legend(loc="lower right")
+    plt.savefig('qsub_output/trainingAUC.png')
 
     return thresholds[ix]

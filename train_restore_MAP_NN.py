@@ -84,7 +84,7 @@ if __name__ == "__main__":
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr-1]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
     if subj_nbr == 2:
-        subj_list = ['Brats17_TCIA_231_1_t2_unbiased']
+        subj_list = ['Brats17_TCIA_231_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 
@@ -107,12 +107,13 @@ if __name__ == "__main__":
 
     for ep in range(epochs):
         #random.shuffle(subj_list)
-        # Metrics init
-        y_pred = []
-        y_true = []
 
         optimizer.zero_grad() # not needed
         for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
+            # Metrics init
+            y_pred = []
+            y_true = []
+
             scan = scan.double().to(device)
             decoded_mu = torch.zeros(scan.size())
 
@@ -157,13 +158,12 @@ if __name__ == "__main__":
             # AUC
             y_pred.extend(error_batch_m.tolist())
             y_true.extend(seg_m.tolist())
+            if not all(element==0 for element in y_true):
+                AUC = roc_auc_score(y_true, y_pred)
 
-        AUC = roc_auc_score(y_true, y_pred)
-        print('AUC : ', AUC)
-        writer.add_scalar('AUC:', AUC, ep)
-
-
-        writer.flush()
+            print('AUC : ', AUC)
+            writer.add_scalar('AUC:', AUC, ep)
+            writer.flush()
 
         if ep % log_freq == 0:
             # Save model
@@ -231,7 +231,7 @@ if __name__ == "__main__":
                     y_pred_valid.extend(error_batch_m.tolist())
                     y_true_valid.extend(seg_m.tolist())
 
-                writer_valid.add_scalar('Loss', tot_loss)
+                writer_valid.add_scalar('Loss', tot_loss/(batch_idx+1))
                 AUC = roc_auc_score(y_true_valid, y_pred_valid)
                 print('AUC Valid: ', AUC)
                 writer_valid.add_scalar('AUC:', AUC, ep)

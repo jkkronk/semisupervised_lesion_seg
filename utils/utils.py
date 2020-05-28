@@ -6,6 +6,13 @@ def normalize_tensor(input_tens):
     input_tens = (input_tens-i_min)/(i_max-i_min)
     return input_tens
 
+def normalize_tensor_e(input_tens):
+    i_max = input_tens.max()
+    i_min = input_tens.min()
+    input_tens = (input_tens-i_min)/(i_max-i_min)
+    input_tens = input_tens*3 #e=2.718281
+    return input_tens
+
 class diceloss(torch.nn.Module):
     def init(self):
         super(diceloss, self).init()

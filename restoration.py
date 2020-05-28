@@ -5,20 +5,9 @@ import torch.nn as nn
 import torch.optim as optim
 from utils.utils import total_variation
 from utils.ssim import ssim
-from utils.utils import normalize_tensor
+from utils.utils import normalize_tensor, normalize_tensor_e
 from utils.utils import dice_loss, diceloss
 from torch.nn import functional as F
-import higher
-
-def update_teacher_variables(model, teacher_model, alpha, global_step):
-    alpha = min(1 - 1 / (global_step + 1), alpha)
-    for teacher_param, param in zip(teacher_model.parameters(), model.parameters()):
-        teacher_param.data.mul_(alpha).add_(1 - alpha, param.data)
-
-def symmetric_mse_loss(input1, input2):
-    assert input1.size() == input2.size()
-    num_classes = input1.size()[1]
-    return torch.sum((input1 - input2)**2) / num_classes
 
 def run_map_TV(input_img, dec_mu, vae_model, riter, device, weight = 1, step_size=0.003):
     # Init params
@@ -85,7 +74,7 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, seg=None,
         img_ano.data = img_ano_update
 
     # Log
-    if log:
+    if log and not writer == None :
         writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Seg', normalize_tensor(seg.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Restored', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
@@ -146,7 +135,9 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 
         img_ano = img_ano_update.detach() #clone()
 
-        img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
+        #img_ano_act = 1 - 2 * torch.sigmoid(-K_actf*(img_ano_update - input_img).pow(2))
+        img_ano_act = torch.tanh(normalize_tensor_e((img_ano_update - input_img).pow(2)))
+        #        img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
 
         loss = dice(img_ano_act, input_seg)
         #loss = nn.BCELoss(ano_grad_act.double(), input_seg.double())

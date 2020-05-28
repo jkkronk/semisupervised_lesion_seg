@@ -13,11 +13,12 @@ from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
 import argparse
+from sklearn import metrics
 import yaml
 import random
 from utils.utils import normalize_tensor
 from sklearn.metrics import roc_auc_score
-
+import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
@@ -73,13 +74,20 @@ if __name__ == "__main__":
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
-        thr_error = \
-            threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
+        if fprate == 0:
+            thr_error = \
+                threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
                                              train_subjs, batch_size, n_latent_samples,
                                              device, riter, step_rate)
+        else:
+            print('Healthy!')
+            thr_error = threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device, n_random_sub=5,
+                          net_model=net, riter=500, step_size=step_rate,
+                          renormalized=False)
     else:
         thr_error = preset_threshold
     print(thr_error)
+
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -101,13 +109,13 @@ if __name__ == "__main__":
     total_n = 0
     thresh_error = []
     tot_AUC = []
+    y_pred = []
+    y_true = []
+
     for i, subj in enumerate(subj_list):  # Iterate every subject
         TP = 0
         FN = 0
         FP = 0
-
-        y_pred = []
-        y_true = []
 
         print(i/len(subj_list))
         slices = subj_dict[subj]  # Slices for each subject
@@ -152,7 +160,7 @@ if __name__ == "__main__":
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
             error_batch_m = error_batch[mask > 0].ravel()
-            seg_m = seg[mask > 0].ravel().astype(int)
+            seg_m = seg[mask > 0].ravel().astype(bool)
 
             tot_error_m = np.append(tot_error_m,error_batch_m)
             tot_seg_m = np.append(tot_seg_m,seg_m)
@@ -217,6 +225,12 @@ if __name__ == "__main__":
     std_AUC = np.std(tot_AUC)
     print('Mean All AUC: ', mean_AUC)
     print('Std ALL AUC: ', std_AUC)
+    auc_error = roc_auc_score(y_true, y_pred)
+    print('All AUC: ', auc_error)
+
+    fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
+
+    roc_auc = metrics.auc(fpr, tpr)
 
     mean_dcs = np.mean(subj_dice)
     std_dcs = np.std(subj_dice)
@@ -224,3 +238,18 @@ if __name__ == "__main__":
     print('Std ALL DCS: ', std_dcs)
     writer.add_scalar('Dice:', mean_dcs)
     writer.flush()
+
+    ix = np.where(thresholds == thr_error)
+
+    lw = 2
+    plt.plot(fpr, tpr, color='darkorange',
+             lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[2])
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.plot(fpr[ix], tpr[ix], 'ro')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic example')
+    plt.legend(loc="lower right")
+    plt.savefig('testAUC.png')
