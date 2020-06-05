@@ -8,12 +8,6 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u restore_MAP_NN.py --name test_2subj_1K_4lr_15steps_norm --config conf/conf_nn.yaml --netname 2subj_1K_4lr_15steps_norm150 --fprate 0
+python -u restore_MAP_NN.py --name test_1subj_4lr_20steps_muchAug --config conf/conf_nn.yaml --netname 1subj_4lr_20steps_muchAug150 --fprate 0.005 --subj '['Brats17_TCIA_300_1_t2_unbiased.nii.gz']'
 
-python -u restore_MAP_NN.py --name test_2subj_1K_4lr_15steps_norm_healthy --config conf/conf_nn.yaml --netname 2subj_1K_4lr_15steps_norm150 --fprate 0.1
 
-python -u restore_MAP_NN.py --name test_2subj_100K_4lr_15steps_norm --config conf/conf_nn.yaml --netname 2subj_100K_4lr_15steps_norm150 --fprate 0
-
-python -u restore_MAP_NN.py --name test_2subj_1000K_4lr_15steps_norm --config conf/conf_nn.yaml --netname 2subj_1000K_4lr_15steps_norm150 --fprate 0
-
-python -u restore_MAP_NN.py --name test_2subj_10000K_4lr_15steps_norm --config conf/conf_nn.yaml --netname 2subj_10000K_4lr_15steps_norm150 --fprate 0

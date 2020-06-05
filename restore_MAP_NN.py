@@ -20,7 +20,6 @@ from utils.utils import normalize_tensor
 from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 
-
 if __name__ == "__main__":
     # Params init
     parser = argparse.ArgumentParser()
@@ -28,11 +27,15 @@ if __name__ == "__main__":
     parser.add_argument("--config", required=True, help="Path to config")
     parser.add_argument("--fprate", type=float, help="False positive rate")
     parser.add_argument("--netname", type=str, help="Net name of guiding net")
+    parser.add_argument("--subj", type=str, help="Training Subject for threshold calc")
 
     opt = parser.parse_args()
     name = opt.name
     fprate = opt.fprate
     net_name = opt.netname
+    train_subjs = opt.subj
+    print(train_subjs)
+    train_subjs = train_subjs.strip('[]').replace('"', '').replace(' ', '').split(',') # from list str to list
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
@@ -70,7 +73,7 @@ if __name__ == "__main__":
     net.eval()
     #
     #Brats17_TCIA_462_1_t2_unbiased.nii.gz
-    train_subjs = ['Brats17_TCIA_231_1_t2_unbiased.nii.gz']
+    #train_subjs = ['Brats17_TCIA_420_1_t2_unbiased.nii.gz', 'Brats17_TCIA_314_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ABB_1_t2_unbiased.nii.gz', 'Brats17_TCIA_255_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ANZ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_274_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ARW_1_t2_unbiased.nii.gz', 'Brats17_2013_24_1_t2_unbiased.nii.gz', 'Brats17_TCIA_480_1_t2_unbiased.nii.gz', 'Brats17_TCIA_231_1_t2_unbiased.nii.gz', 'Brats17_TCIA_474_1_t2_unbiased.nii.gz', 'Brats17_TCIA_121_1_t2_unbiased.nii.gz', 'Brats17_TCIA_473_1_t2_unbiased.nii.gz', 'Brats17_TCIA_361_1_t2_unbiased.nii.gz', 'Brats17_TCIA_300_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AYI_1_t2_unbiased.nii.gz', 'Brats17_2013_19_1_t2_unbiased.nii.gz', 'Brats17_TCIA_254_1_t2_unbiased.nii.gz', 'Brats17_TCIA_117_1_t2_unbiased.nii.gz', 'Brats17_TCIA_283_1_t2_unbiased.nii.gz', 'Brats17_2013_14_1_t2_unbiased.nii.gz', 'Brats17_TCIA_499_1_t2_unbiased.nii.gz', 'Brats17_2013_16_1_t2_unbiased.nii.gz', 'Brats17_TCIA_437_1_t2_unbiased.nii.gz', 'Brats17_TCIA_276_1_t2_unbiased.nii.gz', 'Brats17_TCIA_135_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ASK_1_t2_unbiased.nii.gz', 'Brats17_TCIA_208_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ANG_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AYU_1_t2_unbiased.nii.gz', 'Brats17_TCIA_150_1_t2_unbiased.nii.gz', 'Brats17_CBICA_APZ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_606_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AOZ_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQU_1_t2_unbiased.nii.gz', 'Brats17_TCIA_198_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQA_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AUR_1_t2_unbiased.nii.gz', 'Brats17_TCIA_165_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AAG_1_t2_unbiased.nii.gz', 'Brats17_TCIA_412_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQQ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_428_1_t2_unbiased.nii.gz', 'Brats17_TCIA_625_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AUN_1_t2_unbiased.nii.gz', 'Brats17_TCIA_280_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ATB_1_t2_unbiased.nii.gz', 'Brats17_TCIA_378_1_t2_unbiased.nii.gz', 'Brats17_TCIA_644_1_t2_unbiased.nii.gz', 'Brats17_TCIA_105_1_t2_unbiased.nii.gz']
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
@@ -78,12 +81,12 @@ if __name__ == "__main__":
             thr_error = \
                 threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
                                              train_subjs, batch_size, n_latent_samples,
-                                             device, riter, step_rate)
+                                             device, name, riter, step_rate)
         else:
             print('Healthy!')
-            thr_error = threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device, n_random_sub=5,
-                          net_model=net, riter=500, step_size=step_rate,
-                          renormalized=False)
+            thr_error = threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device,
+                                                    n_random_sub=10, net_model=net, riter=500,
+                                                    step_size=step_rate, renormalized=False)
     else:
         thr_error = preset_threshold
     print(thr_error)
@@ -200,7 +203,7 @@ if __name__ == "__main__":
         '''
         print('AUC : ', auc_error)
         writer.add_scalar('AUC:', auc_error)
-        tot_AUC = np.append(tot_AUC, auc_error)
+        #tot_AUC = np.append(tot_AUC, auc_error)
 
         dice = (2*TP)/(2*TP+FN+FP)
         subj_dice = np.append(subj_dice, dice)
@@ -221,10 +224,10 @@ if __name__ == "__main__":
 
     #AUC = roc_auc_score(y_pred.tolist(), y_true.tolist())
     #print('AUC TEST SET: ', AUC)
-    mean_AUC = np.mean(tot_AUC)
-    std_AUC = np.std(tot_AUC)
-    print('Mean All AUC: ', mean_AUC)
-    print('Std ALL AUC: ', std_AUC)
+    #mean_AUC = np.mean(tot_AUC)
+    #std_AUC = np.std(tot_AUC)
+    #print('Mean All AUC: ', mean_AUC)
+    #print('Std ALL AUC: ', std_AUC)
     auc_error = roc_auc_score(y_true, y_pred)
     print('All AUC: ', auc_error)
 
@@ -239,17 +242,24 @@ if __name__ == "__main__":
     writer.add_scalar('Dice:', mean_dcs)
     writer.flush()
 
-    ix = np.where(thresholds == thr_error)
+    # Get threshold closest to auc threshold x
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error - thres))
+    ix = aux.index(min(aux))
 
     lw = 2
     plt.plot(fpr, tpr, color='darkorange',
-             lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[2])
-    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+             lw=lw, label='Test ROC curve (area = %0.2f)' % roc_auc)
+    #plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
-    plt.plot(fpr[ix], tpr[ix], 'ro')
+    plt.plot(fpr[ix], tpr[ix], 'r+')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic example')
     plt.legend(loc="lower right")
-    plt.savefig('testAUC.png')
+    plt.savefig('qsub_output/' + name + '_testAUC.png')
+    plt.clf()
+    plt.cla()
+    plt.close()

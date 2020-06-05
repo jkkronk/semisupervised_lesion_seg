@@ -41,7 +41,7 @@ def run_map_TV(input_img, dec_mu, vae_model, riter, device, weight = 1, step_siz
 
     return img_ano
 
-def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, seg=None, threshold=None, writer=None, step_size=0.003, log=True):
+def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg=None, threshold=None, writer=None, step_size=0.003, log=True):
     # Init params
     input_img = input_img.to(device)
     mask = mask.to(device)
@@ -61,13 +61,13 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, seg=None,
 
         gfunc = l2_loss + kl_loss
 
-        grad, = torch.autograd.grad(gfunc, img_ano,
+        ELBO_grad, = torch.autograd.grad(gfunc, img_ano,
                                     grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
                                     create_graph=True)
 
         NN_input = torch.stack([input_img, img_ano.detach()]).permute((1, 0, 2, 3)).float()
         out = net(NN_input).squeeze(1)
-        img_grad = grad.detach() * out
+        img_grad = ELBO_grad.detach() * out
 
         img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
         img_ano_update[mask > 0] = img_ano.detach()[mask > 0] - step_size * img_grad[mask > 0]
@@ -76,12 +76,13 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, seg=None,
     # Log
     if log and not writer == None :
         writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('Seg', normalize_tensor(seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Restored', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Restored_Img', normalize_tensor((img_ano - input_img).pow(2).unsqueeze(1)[:16]),
                          dataformats='NCHW')
         writer.add_image('Out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('Grad', normalize_tensor(grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('ELBO', normalize_tensor(ELBO_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Grad', normalize_tensor(img_grad.unsqueeze(1)[:16]), dataformats='NCHW')
 
         resultSeg = torch.abs(img_ano - input_img)
         resultSeg[resultSeg >= threshold] = 1
@@ -122,12 +123,12 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 
         gfunc = l2_loss + kl_loss
 
-        grad, = torch.autograd.grad(gfunc, img_ano, grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
+        ELBO_grad, = torch.autograd.grad(gfunc, img_ano, grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
                                     create_graph=True)
 
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
         out = net(NN_input).squeeze(1)
-        img_grad = grad * out
+        img_grad = ELBO_grad * out
 
         img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
 
@@ -136,7 +137,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         img_ano = img_ano_update.detach() #clone()
 
         #img_ano_act = 1 - 2 * torch.sigmoid(-K_actf*(img_ano_update - input_img).pow(2))
-        img_ano_act = torch.tanh(normalize_tensor_e((img_ano_update - input_img).pow(2)))
+        img_ano_act = torch.tanh(K_actf*normalize_tensor_e((img_ano_update - input_img).pow(2)))
         #        img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
 
         loss = dice(img_ano_act, input_seg)
@@ -162,7 +163,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         writer.add_image('Restored_Img', normalize_tensor((img_ano-input_img).pow(2).unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Restored_Img_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('Grad', normalize_tensor(grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('ELBO', normalize_tensor(ELBO_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Grad', normalize_tensor(img_grad.unsqueeze(1)[:16]), dataformats='NCHW')
         #writer.add_histogram('hist-out-torch', out.flatten())
         #writer.add_histogram('hist-grad-torch', grad.flatten())
         #writer.add_histogram('hist-out-mask-torch', out[input_seg > 0].flatten())

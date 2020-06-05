@@ -341,7 +341,7 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
 
 
 
-def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_size, n_latent_samples, device, riter=500, step_size=0.003):
+def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_size, n_latent_samples, device, name, riter=500, step_size=0.003):
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
     subj_dict = pickle.load(f)
     f.close()
@@ -354,8 +354,8 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
         slices = subj_dict[subj]  # Slices for each subject CHANGE
 
         # Load data
-        subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
-        subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+        subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=False)
+        subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=False, num_workers=1)
 
         for batch_idx, (scan, seg, mask) in enumerate(subj_loader):
             scan = scan.double().to(device)
@@ -396,43 +396,53 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg_m = seg[mask > 0].ravel().astype(int)
             y_true.extend(seg_m.tolist())
 
-            print(error_batch_m.max(), error_batch_m.min())
+            #print(error_batch_m.max(), error_batch_m.min())
+
+    thresholds_f1 = []
+    for thresh in np.arange(min(y_pred), max(y_pred), 0.01):
+        thresh = np.round(thresh, 3)
+        res = metrics.f1_score(y_true, (y_pred > thresh).astype(float))
+        thresholds_f1.append([thresh, res])
+        print(thresh, ':', res)
+
+    thresholds_f1.sort(key=lambda x: x[1], reverse=True)
+    best_thresh = thresholds_f1[0][0]
+    #print("Best threshold: ", best_thresh)
 
     fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
-
-    gmeans = np.sqrt(tpr * (1 - fpr))
-    ix = np.argmax(gmeans)
-
-    print('Fpr: ', fpr[ix])
-
-    print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
-
-    print('AUC training : ', metrics.auc(fpr, tpr))
-    y_pred = np.array(y_pred)
-    y_true = np.array(y_true)
-
-    y_pred[y_pred >= thresholds[ix]] = 1
-    y_pred[y_pred < thresholds[ix]] = 0
-
-    TP = np.sum(y_true[y_pred == 1])
-    FN = np.sum(y_true[y_pred == 0])
-    FP = np.sum(y_pred[y_true == 0])
-
-    dice = (2 * TP) / (2 * TP + FN + FP)
-    print('Dice training: ', dice)
-
     roc_auc = metrics.auc(fpr, tpr)
 
+    #gmeans = np.sqrt(tpr * (1 - fpr))
+    #ix = np.argmax(gmeans)
+    #print('Fpr: ', fpr[ix])
+    #print('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
+
+    print('AUC training : ', roc_auc, ' - Dice training : ', thresholds_f1[0][1])
+
+    #y_pred = np.array(y_pred)
+    #y_true = np.array(y_true)
+    #y_pred[y_pred >= thresholds[ix]] = 1
+    #y_pred[y_pred < thresholds[ix]] = 0
+    #TP = np.sum(y_true[y_pred == 1])
+    #FN = np.sum(y_true[y_pred == 0])
+    #FP = np.sum(y_pred[y_true == 0])
+    #dice = (2 * TP) / (2 * TP + FN + FP)
+    #print('Dice training: ', dice)
+
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(best_thresh - thres))
+    ix = aux.index(min(aux))
+
     lw = 2
-    plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
-    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.plot(fpr, tpr, color='lightblue', lw=lw, label='Train ROC curve (area = %0.2f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], color='gray', lw=lw, linestyle='--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
-    plt.plot(fpr[ix], tpr[ix], 'ro')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic example')
-    plt.legend(loc="lower right")
-    plt.savefig('qsub_output/trainingAUC.png')
-
-    return thresholds[ix]
+    plt.plot(fpr[ix], tpr[ix], 'r+')
+    #plt.xlabel('False Positive Rate')
+    #plt.ylabel('True Positive Rate')
+    #plt.title('Receiver operating characteristic example')
+    #plt.legend(loc="lower right")
+    #plt.savefig('qsub_output/' + name + '_trainingAUC.png')
+    return best_thresh

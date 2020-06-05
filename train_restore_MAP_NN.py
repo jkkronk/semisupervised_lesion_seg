@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser.add_argument('--name', type=str, default=0)
     parser.add_argument("--config", required=True, help="Path to config")
     parser.add_argument('--subjs', type=int, required=True, help="Number of subjects")
-    parser.add_argument('--K_actf', type=int, required=True, help="Activation param")
+    parser.add_argument('--K_actf', type=int, default=1, help="Activation param")
 
     opt = parser.parse_args()
     name = opt.name
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     epochs = config['epochs']
 
     use_teacher = False
-    validation = True
+    validation = False
 
     print('Name: ', name, 'Lr_rate: ', lr_rate, 'Use Teacher: ', use_teacher,' Riter: ', riter, ' Subjs: ', subj_nbr)
 
@@ -83,8 +83,8 @@ if __name__ == "__main__":
     subj_list_all = list(subj_dict.keys())
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr-1]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
-    if subj_nbr == 2:
-        subj_list = ['Brats17_TCIA_231_1_t2_unbiased.nii.gz']
+    #if subj_nbr == 2:
+    subj_list = ['Brats17_TCIA_300_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         slices.extend(subj_dict[subj])  # Slices for each subject
 
     # Load data
-    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
+    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True) # USE_AUG = TRUE
     subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
     print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
