@@ -49,6 +49,9 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg
     img_ano = nn.Parameter(input_img.clone().to(device), requires_grad=True)
 
     net.eval()
+
+    step_decay = 0.75
+
     for i in range(riter):
         img_ano.detach_()
         img_ano.requires_grad = True
@@ -73,6 +76,7 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg
         img_ano_update[mask > 0] = img_ano.detach()[mask > 0] - step_size * img_grad[mask > 0]
         img_ano.data = img_ano_update
 
+        step_size = step_size*step_decay
     # Log
     if log and not writer == None :
         writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
@@ -112,7 +116,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
     # Init MAP Optimizer
     dice = diceloss()
     tot_loss = 0
-
+    step_decay = 0.75
     for i in range(riter):
         img_ano.requires_grad = True
 
@@ -152,6 +156,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 
         tot_loss += loss.item()
 
+        step_size = step_size * step_decay
     #if train:
         #optimizer.step() # Update network parameters
 
