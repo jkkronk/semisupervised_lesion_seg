@@ -40,10 +40,11 @@ class camcan_dataset(Dataset):
 
             seq_all = iaa.Sequential([
                 #iaa.Fliplr(0.5), # Horizontal flips
-                iaa.ElasticTransformation(alpha=3, sigma=3), # Elastic
-                iaa.LinearContrast((0.8, 1.2)),  # Contrast
-                iaa.Multiply((0.8, 1.2), per_channel=1)
-                ], random_order=True)
+                iaa.ElasticTransformation(alpha=(0.0, 10.0), sigma=4.0),  # Elastic
+                iaa.LinearContrast((0.85, 1.15)),  # Contrast
+                iaa.Multiply((0.85, 1.15), per_channel=1),
+                iaa.blur.AverageBlur(k=(0, 2))  # Gausian blur
+            ], random_order=True)
 
             images_aug = seq_all(images=img) # Intensity and contrast only on input image
 

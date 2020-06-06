@@ -1,0 +1,26 @@
+Using device: cuda:0
+Loading data...
+Train data loaded
+Valid data loaded
+Start training:
+Epoch: 0
+Traceback (most recent call last):
+  File "train_vae.py", line 69, in <module>
+    loss, lat_loss, l2_loss, res_loss = train_vae(vae_model, train_data_loader, device, optimizer, epoch)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 92, in train_vae
+    recon_batch, mu, logvar, res = model(data.double())
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 55, in forward
+    return self.decode(z), mu, logvar, res
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/vae.py", line 40, in decode
+    z = self.decoder(z)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/networks/vae_bilinear_conv.py", line 87, in forward
+    out += F.leaky_relu(self.shortcut(x), 0.02)
+RuntimeError: The size of tensor a (16) must match the size of tensor b (4) at non-singleton dimension 3

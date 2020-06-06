@@ -20,7 +20,9 @@ class shallow_UNet(nn.Module):
         self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.bottleneck = shallow_UNet._block(features * 4, features * 8, name="bottleneck")
-
+        #self.upconv3 = nn.ConvTranspose2d(
+        #    features * 8, features * 4, kernel_size=2, stride=2
+        #)
         self.upconv3 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 8, features * 4, kernel_size=2, stride=2)

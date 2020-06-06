@@ -83,7 +83,7 @@ def train_vae(model, train_loader, device, optimizer, epoch):
     train_gen_loss = 0
     train_res_loss = 0
 
-    weight = 1#(epoch%25+1)/25 #if epoch < 50 else 1
+    weight = (epoch+1)/25 if epoch < 25 else 1
 
     for batch_idx, (data, _) in enumerate(train_loader): #tqdm(enumerate(train_loader), total=len(train_loader), desc='train'):
         data = data.to(device)
