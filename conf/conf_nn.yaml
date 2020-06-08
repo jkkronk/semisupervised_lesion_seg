@@ -1,9 +1,9 @@
-riter: 20
-batch_size: 32
+riter: 10
+batch_size: 64
 spatial_size: 128
 orig_size: 200
 log_freq: 50
-step_rate: 5e-1
+step_rate: 5e-5
 vae_name: camcan_400_Aug_2_100
 lr_rate: 1e-4
 log_dir: /scratch_net/biwidl214/jonatank/logs/restore/

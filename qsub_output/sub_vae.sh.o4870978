@@ -1,0 +1,9 @@
+Using device: cuda:0
+Loading data...
+Train data loaded
+Valid data loaded
+Start training:
+Epoch: 0
+epoch 0: train_gen_loss 198.228831 train_lat_loss 824.150949 train_res_loss 23.181676 total train_loss 231.194869
+epoch 0: test_gen_loss 96.734257 test_lat_loss 171.608934 res_loss 23.181676 total loss 291.524866
+Epoch: 1

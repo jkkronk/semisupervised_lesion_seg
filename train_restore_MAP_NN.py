@@ -82,26 +82,27 @@ if __name__ == "__main__":
 
     subj_list_all = list(subj_dict.keys())
     random.shuffle(subj_list_all)
-    subj_list = subj_list_all[:subj_nbr-1]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
-    #if subj_nbr == 2:
-    subj_list = ['Brats17_TCIA_300_1_t2_unbiased.nii.gz']
+    subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
+    if subj_nbr == 1:
+        subj_list = ['Brats17_TCIA_300_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
 
-    subj_val_list = ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz'] #[]
-    #subj_val_list.append(subj_list_all[subj_nbr])
-    print('validation subject', subj_val_list)
-    writer_valid = SummaryWriter(log_dir + 'valid_' + name)
+    if validation:
+        subj_val_list = ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz'] # []
+        # subj_val_list.append(subj_list_all[subj_nbr])
+        print('validation subject', subj_val_list)
+        writer_valid = SummaryWriter(log_dir + 'valid_' + name)
 
     slices = []
     for subj in subj_list:  # Iterate every subject
         slices.extend(subj_dict[subj])  # Slices for each subject
 
     # Load data
-    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True) # USE_AUG = TRUE
+    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
     subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
     print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
@@ -131,7 +132,7 @@ if __name__ == "__main__":
             mask = mask.squeeze(1)
 
             restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, K_actf, step_rate,
-                                                    device, writer, seg, mask, log=bool(batch_idx%2))
+                                                    device, writer, seg, mask)
 
             optimizer.step()
             optimizer.zero_grad()

@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from utils.utils import total_variation
 from utils.ssim import ssim
-from utils.utils import normalize_tensor, normalize_tensor_e
+from utils.utils import normalize_tensor, normalize_tensor_N
 from utils.utils import dice_loss, diceloss
 from torch.nn import functional as F
 
@@ -50,7 +50,7 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg
 
     net.eval()
 
-    step_decay = 0.75
+    step_decay = 1
 
     for i in range(riter):
         img_ano.detach_()
@@ -116,7 +116,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
     # Init MAP Optimizer
     dice = diceloss()
     tot_loss = 0
-    step_decay = 0.75
+    step_decay = 1
     for i in range(riter):
         img_ano.requires_grad = True
 
@@ -141,14 +141,14 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         img_ano = img_ano_update.detach() #clone()
 
         #img_ano_act = 1 - 2 * torch.sigmoid(-K_actf*(img_ano_update - input_img).pow(2))
-        img_ano_act = torch.tanh(K_actf*normalize_tensor_e((img_ano_update - input_img).pow(2)))
-        #        img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
+        img_ano_act = torch.tanh(normalize_tensor_N((img_ano_update - input_img).pow(2), 10))
+        #img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
 
         loss = dice(img_ano_act, input_seg)
         #loss = nn.BCELoss(ano_grad_act.double(), input_seg.double())
         #loss = 1 - ssim(img_ano_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
         if train:
-            loss.backward()#retain_graph=True)
+            loss.backward()
 
         #for name, param in net.named_parameters():
         #    if param.requires_grad:
@@ -159,6 +159,12 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         step_size = step_size * step_decay
     #if train:
         #optimizer.step() # Update network parameters
+
+    #
+    #img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
+    #loss = dice(img_ano_act, input_seg)
+    #loss.backward()  # retain_graph=True)
+    #tot_loss += loss.item()
 
     # Log
     if log:
