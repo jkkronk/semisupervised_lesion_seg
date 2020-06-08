@@ -61,7 +61,6 @@ if __name__ == "__main__":
     writer_train = SummaryWriter(log_dir + '/train_' + vae_model.name)
     writer_valid = SummaryWriter(log_dir + '/valid_' + vae_model.name)
 
-
     # Start training
     print('Start training:')
     for epoch in range(epochs):

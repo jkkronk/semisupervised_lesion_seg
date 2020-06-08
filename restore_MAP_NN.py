@@ -13,11 +13,12 @@ from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
 import argparse
+from sklearn import metrics
 import yaml
 import random
 from utils.utils import normalize_tensor
 from sklearn.metrics import roc_auc_score
-
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     # Params init
@@ -26,11 +27,15 @@ if __name__ == "__main__":
     parser.add_argument("--config", required=True, help="Path to config")
     parser.add_argument("--fprate", type=float, help="False positive rate")
     parser.add_argument("--netname", type=str, help="Net name of guiding net")
+    parser.add_argument("--subj", type=str, help="Training Subject for threshold calc")
 
     opt = parser.parse_args()
     name = opt.name
     fprate = opt.fprate
     net_name = opt.netname
+    train_subjs = opt.subj
+    print(train_subjs)
+    train_subjs = train_subjs.strip('[]').replace('"', '').replace(' ', '').split(',') # from list str to list
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
@@ -39,7 +44,7 @@ if __name__ == "__main__":
     #net_name = config['net_name']
     data_path = config['path']
     riter = config['riter']
-    batch_size = config["batch_size"]
+    batch_size = 32 #config["batch_size"]
     img_size = config["spatial_size"]
     lr_rate = float(config['lr_rate'])
     step_rate = float(config['step_rate'])
@@ -68,17 +73,24 @@ if __name__ == "__main__":
     net.eval()
     #
     #Brats17_TCIA_462_1_t2_unbiased.nii.gz
-    train_subjs = ['Brats17_2013_11_1_t2_unbiased.nii.gz']
+    #train_subjs = ['Brats17_TCIA_420_1_t2_unbiased.nii.gz', 'Brats17_TCIA_314_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ABB_1_t2_unbiased.nii.gz', 'Brats17_TCIA_255_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ANZ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_274_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ARW_1_t2_unbiased.nii.gz', 'Brats17_2013_24_1_t2_unbiased.nii.gz', 'Brats17_TCIA_480_1_t2_unbiased.nii.gz', 'Brats17_TCIA_231_1_t2_unbiased.nii.gz', 'Brats17_TCIA_474_1_t2_unbiased.nii.gz', 'Brats17_TCIA_121_1_t2_unbiased.nii.gz', 'Brats17_TCIA_473_1_t2_unbiased.nii.gz', 'Brats17_TCIA_361_1_t2_unbiased.nii.gz', 'Brats17_TCIA_300_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AYI_1_t2_unbiased.nii.gz', 'Brats17_2013_19_1_t2_unbiased.nii.gz', 'Brats17_TCIA_254_1_t2_unbiased.nii.gz', 'Brats17_TCIA_117_1_t2_unbiased.nii.gz', 'Brats17_TCIA_283_1_t2_unbiased.nii.gz', 'Brats17_2013_14_1_t2_unbiased.nii.gz', 'Brats17_TCIA_499_1_t2_unbiased.nii.gz', 'Brats17_2013_16_1_t2_unbiased.nii.gz', 'Brats17_TCIA_437_1_t2_unbiased.nii.gz', 'Brats17_TCIA_276_1_t2_unbiased.nii.gz', 'Brats17_TCIA_135_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ASK_1_t2_unbiased.nii.gz', 'Brats17_TCIA_208_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ANG_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AYU_1_t2_unbiased.nii.gz', 'Brats17_TCIA_150_1_t2_unbiased.nii.gz', 'Brats17_CBICA_APZ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_606_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AOZ_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQU_1_t2_unbiased.nii.gz', 'Brats17_TCIA_198_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQA_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AUR_1_t2_unbiased.nii.gz', 'Brats17_TCIA_165_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AAG_1_t2_unbiased.nii.gz', 'Brats17_TCIA_412_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQQ_1_t2_unbiased.nii.gz', 'Brats17_TCIA_428_1_t2_unbiased.nii.gz', 'Brats17_TCIA_625_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AUN_1_t2_unbiased.nii.gz', 'Brats17_TCIA_280_1_t2_unbiased.nii.gz', 'Brats17_CBICA_ATB_1_t2_unbiased.nii.gz', 'Brats17_TCIA_378_1_t2_unbiased.nii.gz', 'Brats17_TCIA_644_1_t2_unbiased.nii.gz', 'Brats17_TCIA_105_1_t2_unbiased.nii.gz']
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
-        thr_error = \
-            threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
+        if fprate == 0:
+            thr_error = \
+                threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
                                              train_subjs, batch_size, n_latent_samples,
-                                             device, riter, step_rate)
+                                             device, name, riter, step_rate)
+        else:
+            print('Healthy!')
+            thr_error = threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device,
+                                                    n_random_sub=10, net_model=net, riter=500,
+                                                    step_size=step_rate, renormalized=False)
     else:
         thr_error = preset_threshold
     print(thr_error)
+
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -93,9 +105,15 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     # Metrics init
-    y_true = np.array([])
-    y_pred = np.array([])
+    tot_error_m = np.array([])
+    tot_seg_m = np.array([])
     subj_dice = np.array([])
+    total_p = 0
+    total_n = 0
+    thresh_error = []
+    tot_AUC = []
+    y_pred = []
+    y_true = []
 
     for i, subj in enumerate(subj_list):  # Iterate every subject
         TP = 0
@@ -126,7 +144,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, writer,
+            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
                                         step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()
@@ -145,9 +163,12 @@ if __name__ == "__main__":
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
             error_batch_m = error_batch[mask > 0].ravel()
-            y_pred = np.append(y_pred, error_batch_m)
+            seg_m = seg[mask > 0].ravel().astype(bool)
 
-            seg_m = seg[mask > 0].ravel().astype(int)
+            tot_error_m = np.append(tot_error_m,error_batch_m)
+            tot_seg_m = np.append(tot_seg_m,seg_m)
+
+            y_pred = np.append(y_pred, error_batch_m)
             y_true = np.append(y_true, seg_m)
 
             # DICE
@@ -163,9 +184,26 @@ if __name__ == "__main__":
             if np.sum(seg_m) == 0:
                 seg_m[0] = 1 # Hacky way and not good
 
-            AUC = roc_auc_score(error_batch_m, seg_m)
-            print('AUC : ', AUC)
-            writer.add_scalar('AUC:', AUC)
+        auc_error = roc_auc_score(y_true, y_pred)
+        ## evaluate AUC for ROC using universal thresholds
+        '''
+        if not len(thresh_error):
+            thresh_error = np.concatenate((np.sort(tot_error_m[::100]), [15]))
+            error_tprfpr = np.zeros((2, len(thresh_error)))
+
+        error_tprfpr += compute_tpr_fpr(tot_seg_m, tot_error_m, thresh_error)
+
+        total_p += np.sum(tot_seg_m == 1)
+        total_n += np.sum(tot_seg_m == 0)
+
+        tpr_error = error_tprfpr[0] / total_p
+        fpr_error = error_tprfpr[1] / total_n
+
+        auc_error = 1. + np.trapz(fpr_error, tpr_error)
+        '''
+        print('AUC : ', auc_error)
+        writer.add_scalar('AUC:', auc_error)
+        #tot_AUC = np.append(tot_AUC, auc_error)
 
         dice = (2*TP)/(2*TP+FN+FP)
         subj_dice = np.append(subj_dice, dice)
@@ -175,19 +213,53 @@ if __name__ == "__main__":
         writer.flush()
 
         ## Write to tensorboard
-        writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
-                         batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-                         batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
-
-        writer.flush()
+        #writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
+        #writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
+        #                 batch_idx, dataformats='NCHW')
+        #writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
+        #                 batch_idx, dataformats='NCHW')
+        #writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
+        #writer.flush()
 
 
     #AUC = roc_auc_score(y_pred.tolist(), y_true.tolist())
     #print('AUC TEST SET: ', AUC)
-    avrg_dcs = np.sum(subj_dice) / subj_dice.shape[0]
-    print('Avgr All DCS: ',  avrg_dcs)
-    writer.add_scalar('Dice:', avrg_dcs)
+    #mean_AUC = np.mean(tot_AUC)
+    #std_AUC = np.std(tot_AUC)
+    #print('Mean All AUC: ', mean_AUC)
+    #print('Std ALL AUC: ', std_AUC)
+    auc_error = roc_auc_score(y_true, y_pred)
+    print('All AUC: ', auc_error)
+
+    fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
+
+    roc_auc = metrics.auc(fpr, tpr)
+
+    mean_dcs = np.mean(subj_dice)
+    std_dcs = np.std(subj_dice)
+    print('Mean All DCS: ',  mean_dcs)
+    print('Std ALL DCS: ', std_dcs)
+    writer.add_scalar('Dice:', mean_dcs)
     writer.flush()
+
+    # Get threshold closest to auc threshold x
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error - thres))
+    ix = aux.index(min(aux))
+
+    lw = 2
+    plt.plot(fpr, tpr, color='darkorange',
+             lw=lw, label='Test ROC curve (area = %0.2f)' % roc_auc)
+    #plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.plot(fpr[ix], tpr[ix], 'r+')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic example')
+    plt.legend(loc="lower right")
+    plt.savefig('qsub_output/' + name + '_testAUC.png')
+    plt.clf()
+    plt.cla()
+    plt.close()

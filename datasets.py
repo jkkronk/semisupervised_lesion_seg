@@ -40,10 +40,11 @@ class camcan_dataset(Dataset):
 
             seq_all = iaa.Sequential([
                 #iaa.Fliplr(0.5), # Horizontal flips
-                iaa.ElasticTransformation(alpha=3, sigma=3), # Elastic
-                iaa.LinearContrast((0.8, 1.2)),  # Contrast
-                iaa.Multiply((0.8, 1.2), per_channel=1)
-                ], random_order=True)
+                iaa.ElasticTransformation(alpha=(0.0, 10.0), sigma=4.0),  # Elastic
+                iaa.LinearContrast((0.85, 1.15)),  # Contrast
+                iaa.Multiply((0.85, 1.15), per_channel=1),
+                iaa.blur.AverageBlur(k=(0, 2))  # Gausian blur
+            ], random_order=True)
 
             images_aug = seq_all(images=img) # Intensity and contrast only on input image
 
@@ -272,16 +273,17 @@ class brats_dataset_subj(Dataset):
             seq_all = iaa.Sequential([
                 iaa.Fliplr(0.5),  # Horizontal flips
                 iaa.Affine(
-                    scale={"x": (0.9, 1.1), "y": (0.9, 1.1)},
+                    scale={"x": (0.85, 1.15), "y": (0.85, 1.15)},
                     translate_percent={"x": (0, 0), "y": (0, 0)},
                     rotate=(-15, 15),
                     shear=(0, 0)),  # Scaling, rotating
-                iaa.ElasticTransformation(alpha=10, sigma=10)  # Elastic
+                iaa.ElasticTransformation(alpha=(0.0, 10.0), sigma=4.0)  # Elastic
             ], random_order=True)
 
             seq_img = iaa.Sequential([
-                iaa.LinearContrast((0.95, 1.05)),  # Contrast
-                iaa.Multiply((0.9, 1.1), per_channel=1),  # Intensity
+                iaa.blur.AverageBlur(k=(0, 2)),  # Gausian blur
+                iaa.LinearContrast((0.85, 1.15)),  # Contrast
+                iaa.Multiply((0.85, 1.15), per_channel=1),  # Intensity
             ], random_order=True)
 
             img, seg = seq_all(images=img, segmentation_maps=segmap)  # Rest of augmentations
