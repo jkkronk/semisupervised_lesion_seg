@@ -1,18 +1,21 @@
+import sys
+sys.path.insert(0, '/scratch_net/biwidl214/jonatank/code_home/restor_MAP/')
+
+import os
+import yaml
 import numpy as np
 from skimage.transform import resize
+from sklearn.metrics import roc_auc_score
 
+import pickle
+import argparse
 import torch
 import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 
-from restoration import run_map_TV
+from baselines.unsupervised_TVnorm.resotration import run_map_TV
 from datasets import brats_dataset_subj
-from utils.auc_score import compute_tpr_fpr
 from utils import threshold
-import pickle
-import argparse
-import os
-import yaml
 
 if __name__ == "__main__":
     # Params init
@@ -20,16 +23,18 @@ if __name__ == "__main__":
     parser.add_argument('--name', type=str, default=0)
     parser.add_argument("--config", required=True, help="Path to config")
     parser.add_argument("--fprate", type=float, help="False positive rate")
+    parser.add_argument('--vae', type=str, default=0)
 
     opt = parser.parse_args()
     name = opt.name
     fprate = opt.fprate
+    model_name = opt.vae
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
 
     weight = config['weight']
-    model_name = config['vae_name'] # camcan_400_Aug_2_100
+    #model_name = config['vae_name'] # camcan_400_Aug_2_100
     data_path = config['path']
     riter = config['riter']
     batch_size = config["batch_size"]
@@ -73,21 +78,19 @@ if __name__ == "__main__":
     writer = SummaryWriter(log_dir + name)
 
     subj_dice = []
-    subj_dice_b = []
     thresh_error = []
     total_p = 0
     total_n = 0
     auc_error_tot = 0
+
+    y_pred = []
+    y_true = []
 
     for subj in subj_list: # Iterate every subject
         # Metrics init
         TP = 0
         FN = 0
         FP = 0
-
-        TP_b = 0
-        FN_b = 0
-        FP_b = 0
 
         slices = subj_dict[subj] # Slices for each subject
 
@@ -130,50 +133,27 @@ if __name__ == "__main__":
             error_batch_m = error_batch[mask > 0].ravel()
             seg_m = seg[mask > 0].ravel()
 
-            # AUC
-            if not len(thresh_error): # Create total error list
-                thresh_error = np.concatenate((np.sort(error_batch_m[::100]), [15]))
-                error_tprfpr = np.zeros((2, len(thresh_error)))
-
-            # Compute true positive rate and false positve rate
-            error_tprfpr += compute_tpr_fpr(seg_m, error_batch_m, thresh_error)
-
-            # Number of total positive and negative in segmentation
-            total_p += np.sum(seg_m > 0)
-            total_n += np.sum(seg_m == 0)
-
-            # TP-rate and FP-rate calculation
-            tpr_error = error_tprfpr[0] / total_p
-            fpr_error = error_tprfpr[1] / total_n
-
-            # Add to total AUC
-            auc_error = 1. + np.trapz(fpr_error, tpr_error)
-
-            # DICE
-            error_batch_m_a = np.copy(error_batch_m)
-            # Create binary prediction map
-            error_batch_m_a[error_batch_m >= thr_error_corr] = 1
-            error_batch_m_a[error_batch_m < thr_error_corr] = 0
-
-            # Calculate and sum total TP, FN, FP
-            TP += np.sum(seg_m[error_batch_m_a == 1])
-            FN += np.sum(seg_m[error_batch_m_a == 0])
-            FP += np.sum(error_batch_m_a[seg_m == 0])
+            # for AUC
+            y_pred.extend(error_batch_m.tolist())
+            y_true.extend(seg_m.tolist())
 
             # DICE
             error_batch_m_b = np.copy(error_batch_m)
             # Create binary prediction map
-            error_batch_m_b[error_batch_m >= thr_error_MAD] = 1
-            error_batch_m_b[error_batch_m < thr_error_MAD] = 0
+            error_batch_m_b[error_batch_m >= thr_error_corr] = 1
+            error_batch_m_b[error_batch_m < thr_error_corr] = 0
 
             # Calculate and sum total TP, FN, FP
-            TP_b += np.sum(seg_m[error_batch_m_b == 1])
-            FN_b += np.sum(seg_m[error_batch_m_b == 0])
-            FP_b += np.sum(error_batch_m_b[seg_m == 0])
+            TP += np.sum(seg_m[error_batch_m_b == 1])
+            FN += np.sum(seg_m[error_batch_m_b == 0])
+            FP += np.sum(error_batch_m_b[seg_m == 0])
 
-        print('AUC: ', auc_error)
-        #writer.add_scalar('AUC:', auc_error, batch_idx)
-        #writer.flush()
+        # AUC
+        if not all(element == 0 for element in y_true):
+            AUC = roc_auc_score(y_true, y_pred)
+        print('AUC : ', AUC)
+        writer.add_scalar('AUC:', AUC)
+        writer.flush()
 
         dice =  (2*TP)/(2*TP+FN+FP)
 
@@ -182,24 +162,10 @@ if __name__ == "__main__":
         writer.flush()
         subj_dice.append(dice)
 
-        dice_b = (2 * TP_b) / (2 * TP_b + FN_b + FP_b)
-
-        print('DCS: ', dice_b)
-        writer.add_scalar('Dice:', dice_b)
-        writer.flush()
-        subj_dice_b.append(dice_b)
+    if not all(element == 0 for element in y_true):
+        AUC = roc_auc_score(y_true, y_pred)
+    print('to AUC: ', AUC)
+    writer.add_scalar('AUC:', AUC)
+    writer.flush()
 
     print('Dice mean: ', np.mean(np.array(subj_dice), axis=0), ' std: ', np.std(np.array(subj_dice), axis=0))
-    print('Dice mean b: ', np.mean(np.array(subj_dice_b), axis=0), ' std: ', np.std(np.array(subj_dice_b), axis=0))
-
-
-######
-#if batch_idx % log_freq == 0:
-#    # Write to tensorboard
-#    writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-#   writer.add_image('Batch of Restored', np.clip(np.expand_dims(restored_batch_resized, axis=1), 0, 1)[:16], batch_idx,
-#                    dataformats='NCHW')
-#    writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-#                     batch_idx, dataformats='NCHW')
-#    writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
-#    writer.flush()

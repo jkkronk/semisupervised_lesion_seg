@@ -298,3 +298,33 @@ Epoch: 97
 epoch 97: train_gen_loss 61.807851 train_lat_loss 13.032054 train_res_loss 9.079960 total train_loss 74.839905
 epoch 97: test_gen_loss 52.380082 test_lat_loss 12.670730 res_loss 9.079960 total loss 74.130772
 Epoch: 98
+epoch 98: train_gen_loss 61.951036 train_lat_loss 13.119965 train_res_loss 6.302287 total train_loss 75.071001
+epoch 98: test_gen_loss 50.229856 test_lat_loss 12.996472 res_loss 6.302287 total loss 69.528615
+Epoch: 99
+epoch 99: train_gen_loss 62.118316 train_lat_loss 13.164078 train_res_loss 7.290412 total train_loss 75.282393
+epoch 99: test_gen_loss 50.484397 test_lat_loss 13.733500 res_loss 7.290412 total loss 71.508309
+Epoch: 100
+epoch 100: train_gen_loss 61.762042 train_lat_loss 13.078549 train_res_loss 8.480281 total train_loss 74.840590
+epoch 100: test_gen_loss 55.589946 test_lat_loss 13.511409 res_loss 8.480281 total loss 77.581636
+Epoch: 101
+epoch 101: train_gen_loss 61.827491 train_lat_loss 13.102511 train_res_loss 7.614904 total train_loss 74.930002
+epoch 101: test_gen_loss 52.077902 test_lat_loss 12.582423 res_loss 7.614904 total loss 72.275230
+Epoch: 102
+epoch 102: train_gen_loss 61.779308 train_lat_loss 13.068560 train_res_loss 7.388490 total train_loss 74.847868
+epoch 102: test_gen_loss 55.979520 test_lat_loss 13.452128 res_loss 7.388490 total loss 76.820138
+Epoch: 103
+epoch 103: train_gen_loss 62.001529 train_lat_loss 13.098957 train_res_loss 6.977659 total train_loss 75.100486
+epoch 103: test_gen_loss 53.185665 test_lat_loss 13.087192 res_loss 6.977659 total loss 73.250516
+Epoch: 104
+epoch 104: train_gen_loss 61.603633 train_lat_loss 13.140586 train_res_loss 6.975781 total train_loss 74.744219
+epoch 104: test_gen_loss 51.117840 test_lat_loss 13.419095 res_loss 6.975781 total loss 71.512715
+Epoch: 105
+epoch 105: train_gen_loss 61.423719 train_lat_loss 13.093354 train_res_loss 7.099225 total train_loss 74.517073
+epoch 105: test_gen_loss 52.560017 test_lat_loss 13.973277 res_loss 7.099225 total loss 73.632520
+Epoch: 106
+epoch 106: train_gen_loss 61.159356 train_lat_loss 13.084346 train_res_loss 8.146818 total train_loss 74.243702
+epoch 106: test_gen_loss 51.259977 test_lat_loss 12.897564 res_loss 8.146818 total loss 72.304359
+Epoch: 107
+epoch 107: train_gen_loss 61.548338 train_lat_loss 13.075786 train_res_loss 6.832319 total train_loss 74.624124
+epoch 107: test_gen_loss 56.773811 test_lat_loss 13.513078 res_loss 6.832319 total loss 77.119207
+Epoch: 108
