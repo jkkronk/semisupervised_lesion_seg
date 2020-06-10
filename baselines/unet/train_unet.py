@@ -1,33 +1,38 @@
 __author__ = 'jonatank'
+import sys
+sys.path.insert(0, '/scratch_net/biwidl214/jonatank/code_home/restor_MAP/')
+
 import torch
-from torchvision import utils
 import torch.utils.data as data
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
 
-from unet import UNet, train_unet, valid_unet
+from models.unet import UNET, train_unet, valid_unet
 import argparse
 import yaml
+import pickle
 import numpy as np
+import random
 
-from datasets import brats_dataset
+from datasets import brats_dataset_subj
 
 if __name__ == "__main__":
     # Params init
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', type=str, default=0)
     parser.add_argument("--config", required=True, help="path to config")
-    parser.add_argument("--prop_subj", type=float, help="Procentage subjects of full training set")
+    parser.add_argument("--subjs", type=float, help="Number of subjects for training")
     parser.add_argument("--aug", type=int)
 
     opt = parser.parse_args()
+    model_name = opt.model_name
+    subj_nbr = opt.subjs
+    aug = bool(opt.aug)
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
 
-    model_name = opt.model_name
-    prop_train_subjects = opt.prop_subj
-    aug = bool(opt.aug)
+
 
     lr_rate = float(config['lr_rate'])
     data_path = config['path']
@@ -42,22 +47,53 @@ if __name__ == "__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print('Using device: ' + str(device))
 
-    # Load data
-    train_dataset = brats_dataset(data_path, 'train', img_size, prop_subjects=prop_train_subjects, use_aug=aug)
-    train_data_loader  = data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=3, drop_last=False)
-    print('TRAIN loaded: Slices: ' + str(len(train_data_loader.dataset)) + ' Subjects: ' + str(int(200*prop_train_subjects)))
-    print(train_dataset.keys)
+    # Load list of subjects
+    f = open(data_path + 'subj_t2_dict.pkl', 'rb')
+    subj_dict = pickle.load(f)
+    f.close()
 
-    valid_dataset = brats_dataset(data_path, 'valid', img_size, prop_subjects=1)
-    valid_data_loader  = data.DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=3, drop_last=False)
-    print('VALIDATION loaded: Slices: ' + str(len(valid_data_loader.dataset)) + ' Subjects: ' + str(int(35*1)))
+    subj_list_all = list(subj_dict.keys())
+    random.shuffle(subj_list_all)
+    subj_list = subj_list_all[:subj_nbr]
+    #if subj_nbr == 1:
+    #    subj_list = ['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
+
+    print(subj_list)
+
+    slices = []
+    for subj in subj_list:  # Iterate every subject
+        slices.extend(subj_dict[subj])  # Slices for each subject
+
+    # Load data
+    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
+    subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
+    print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
+
+    # Load list of validation subjects
+    f = open(data_path + 'subj_t2_valid_dict.pkl', 'rb')
+    val_subj_dict = pickle.load(f)
+    f.close()
+
+    val_subj_list_all = list(val_subj_dict.keys())
+    # if subj_nbr == 1:
+    #    subj_list = ['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
+
+    print(val_subj_list_all)
+
+    slices = []
+    for subj in val_subj_list_all:  # Iterate every subject
+        slices.extend(val_subj_dict[subj])  # Slices for each subject
+
+    # Load validation data
+    val_subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=False)
+    val_subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
+    print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
     # Create unet
-    model = UNet(model_name, 1,1,32).to(device)
+    model = UNET(model_name, 1,1,32).to(device)
 
     # Create optimizer and scheduler
     optimizer = optim.Adam(model.parameters(), lr=lr_rate)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, eta_min=lr_rate//100)
 
     # Tensorboard Init
     writer_train = SummaryWriter(log_dir + model.name + '_train')
@@ -68,11 +104,8 @@ if __name__ == "__main__":
     for epoch in range(epochs):
         print('Epoch:', epoch)
 
-        loss = train_unet(model, train_data_loader, device, optimizer)
-        loss_valid = valid_unet(model, valid_data_loader, device)
-
-        # Cosine annealing
-        scheduler.step()
+        loss = train_unet(model, subj_loader, device, optimizer)
+        loss_valid = valid_unet(model, val_subj_loader, device)
 
         writer_train.add_scalar('Loss',loss, epoch)
         writer_train.flush()

@@ -4,19 +4,14 @@ from skimage.transform import resize
 import torch
 import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
-import torch.optim as optim
 
 from restoration import run_map_NN
-from models.shallow_UNET import shallow_UNet
 from datasets import brats_dataset_subj
-from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
 import argparse
 from sklearn import metrics
 import yaml
-import random
-from utils.utils import normalize_tensor
 from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 

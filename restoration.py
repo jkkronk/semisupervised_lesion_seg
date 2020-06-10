@@ -2,12 +2,9 @@ __author__ = 'jonatank'
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from utils.utils import total_variation
 from utils.ssim import ssim
 from utils.utils import normalize_tensor, normalize_tensor_N
-from utils.utils import dice_loss, diceloss
-from torch.nn import functional as F
+from utils.utils import diceloss
 
 def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg=None, threshold=None, writer=None, step_size=0.003, log=True):
     # Init params

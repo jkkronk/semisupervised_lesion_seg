@@ -1,25 +1,17 @@
 import numpy as np
 from skimage.transform import resize
-
-import torch
-import torch.utils.data as data
-from torch.utils.tensorboard import SummaryWriter
-import torch.optim as optim
-
-from restoration import train_run_map_NN_teacher, train_run_map_NN
-from models.shallow_UNET import shallow_UNet
-from models.unet import UNet
-from models.covnet import ConvNet
-from datasets import brats_dataset_subj
-from utils.auc_score import compute_tpr_fpr
-from utils import threshold
+from sklearn.metrics import roc_auc_score
 import pickle
 import argparse
 import yaml
 import random
-from utils.utils import normalize_tensor
-from sklearn.metrics import roc_auc_score
-
+import torch
+import torch.utils.data as data
+import torch.optim as optim
+from torch.utils.tensorboard import SummaryWriter
+from restoration import train_run_map_NN
+from models.shallow_UNET import shallow_UNet
+from datasets import brats_dataset_subj
 
 if __name__ == "__main__":
     # Params init

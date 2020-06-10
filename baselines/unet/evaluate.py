@@ -2,8 +2,7 @@ __author__ = 'jonatank'
 import torch
 import torch.utils.data as data
 
-from unet  import UNet, dice_loss
-from datasets import brats_dataset, brats_dataset_subj
+from datasets import brats_dataset_subj
 import numpy as np
 import argparse
 import yaml
@@ -60,7 +59,7 @@ if __name__ == "__main__":
 
             # Load data
             subj_dataset = brats_dataset_subj(data_path, 'test', img_size, slices)  # Change rand_subj to True
-            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=False, num_workers=1)
+            subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=False, num_workers=3)
             #print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
 

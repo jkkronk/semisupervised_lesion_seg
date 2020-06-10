@@ -48,8 +48,6 @@ class shallow_UNet(nn.Module):
             in_channels=features, out_channels=out_channels, kernel_size=1
         )
 
-        self.tanh = nn.Tanh()
-
 
     def forward(self, x):
         enc1 = self.encoder1(x)
@@ -72,9 +70,7 @@ class shallow_UNet(nn.Module):
         dec1 = self.upconv1(dec2)
         dec1 = torch.cat((dec1, enc1), dim=1)
         dec1 = self.decoder1(dec1)
-        #torch.sigmoid
-        #torch.Tanhshrink
-        #torch.tanh
+
         return torch.sigmoid(self.conv(dec1))
 
     @staticmethod

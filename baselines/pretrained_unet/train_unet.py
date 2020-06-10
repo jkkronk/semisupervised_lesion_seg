@@ -14,7 +14,7 @@ import pickle
 import numpy as np
 import random
 
-from datasets import brats_dataset_subj
+from datasets import brats_dataset_subj, camcan_dataset
 
 if __name__ == "__main__":
     # Params init
@@ -32,8 +32,6 @@ if __name__ == "__main__":
     with open(opt.config) as f:
         config = yaml.safe_load(f)
 
-
-
     lr_rate = float(config['lr_rate'])
     data_path = config['path']
     epochs = config['epochs']
@@ -46,6 +44,13 @@ if __name__ == "__main__":
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print('Using device: ' + str(device))
+
+    # Load healthy subjects
+    print("Loading healthy data...")
+    path_2_healthy = '/scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/'
+    healthy_train_dataset = camcan_dataset(path_2_healthy, True, img_size, data_aug=1)
+    healthy_train_data_loader = data.DataLoader(healthy_train_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
+    print('Healthy train data loaded')
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')

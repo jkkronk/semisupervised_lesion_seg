@@ -60,12 +60,12 @@ if __name__ == "__main__":
 
     # Compute threshold with help of camcan set
     if not preset_threshold:
-        thr_error, thr_error_corr, thr_error_MAD= \
+        thr_error = \
             threshold.compute_threshold_TV(fprate, vae_model, img_size, batch_size, n_latent_samples,
-                              device, renormalized=True, n_random_sub=100)
+                              device, riter, step_rate, weight, renormalized=True, n_random_sub=100)
     else:
         thr_error = preset_threshold
-    print(thr_error, thr_error_corr, thr_error_MAD)
+    print(thr_error)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -140,8 +140,8 @@ if __name__ == "__main__":
             # DICE
             error_batch_m_b = np.copy(error_batch_m)
             # Create binary prediction map
-            error_batch_m_b[error_batch_m >= thr_error_corr] = 1
-            error_batch_m_b[error_batch_m < thr_error_corr] = 0
+            error_batch_m_b[error_batch_m >= thr_error] = 1
+            error_batch_m_b[error_batch_m < thr_error] = 0
 
             # Calculate and sum total TP, FN, FP
             TP += np.sum(seg_m[error_batch_m_b == 1])
