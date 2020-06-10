@@ -1,0 +1,71 @@
+Name:  10subj_4lr_10steps_100K_4fch_BCE_ Lr_rate:  0.0001 Use Teacher:  False  Riter:  10  Subjs:  10
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_TCIA_109_1_t2_unbiased.nii.gz', 'Brats17_2013_1_1_t2_unbiased.nii.gz', 'Brats17_TCIA_211_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AXM_1_t2_unbiased.nii.gz', 'Brats17_TCIA_408_1_t2_unbiased.nii.gz', 'Brats17_TCIA_378_1_t2_unbiased.nii.gz', 'Brats17_2013_7_1_t2_unbiased.nii.gz', 'Brats17_CBICA_AQU_1_t2_unbiased.nii.gz', 'Brats17_TCIA_409_1_t2_unbiased.nii.gz', 'Brats17_TCIA_150_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_TCIA_150_1_t2_unbiased.nii.gz  Number of Slices:  1342
+AUC :  0.6922437688677608
+AUC :  0.7646438424598367
+AUC :  0.7978070349905326
+AUC :  0.6597920299405917
+AUC :  0.618740376148443
+AUC :  0.6240897147008503
+AUC :  0.6722773002802678
+AUC :  0.7250790692833523
+AUC :  0.7153801465741062
+AUC :  0.7354087863816162
+AUC :  0.6881562515315949
+AUC :  0.7737566960444247
+AUC :  0.6953938280550203
+AUC :  0.6241682009785693
+AUC :  0.7668837602646965
+AUC :  0.7338664373553893
+AUC :  0.6729455932440415
+AUC :  0.7616344472768413
+AUC :  0.7623722343109316
+AUC :  0.6310837820775026
+AUC :  0.6997036492208157
+AUC :  0.7678366116487595
+AUC :  0.7692264330230852
+AUC :  0.5909581509798953
+AUC :  0.6242838466314551
+AUC :  0.784535139316457
+AUC :  0.7380265830197879
+AUC :  0.7515493480932313
+AUC :  0.6735817048854086
+AUC :  0.68278536590868
+AUC :  0.7484348661803544
+AUC :  0.7450360899326756
+AUC :  0.688214090293084
+AUC :  0.729766235726582
+AUC :  0.7350833591619149
+AUC :  0.6989271191423891
+AUC :  0.7873713742382256
+AUC :  0.7060536084972335
+AUC :  0.7014244350864024
+AUC :  0.8363886154174311
+AUC :  0.7116107173211681
+AUC :  0.8025939943290532
+AUC :  0.6312773348125789
+AUC :  0.7167703510001578
+AUC :  0.7467488271274297
+AUC :  0.7128529997796129
+AUC :  0.6542661112390576
+AUC :  0.7431868323403152
+AUC :  0.7313697849403904
+AUC :  0.750046736132244
+AUC :  0.7010892483153492
+AUC :  0.7657294182651886
+AUC :  0.7370269666614708
+AUC :  0.7318975364061531
+AUC :  0.6257307133726484
+AUC :  0.7614154125667438
+AUC :  0.6817902156313601
+AUC :  0.6619323343554386
+AUC :  0.6757931400611029
+AUC :  0.7134079888416369
+AUC :  0.7798576119799289
+AUC :  0.7385123973491095

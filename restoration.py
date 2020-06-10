@@ -49,13 +49,7 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg
     img_ano = nn.Parameter(input_img.clone().to(device), requires_grad=True)
 
     net.eval()
-
-    step_decay = 1
-
     for i in range(riter):
-        img_ano.detach_()
-        img_ano.requires_grad = True
-
         # Gradient function
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
@@ -72,11 +66,11 @@ def run_map_NN(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg
         out = net(NN_input).squeeze(1)
         img_grad = ELBO_grad.detach() * out
 
-        img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
-        img_ano_update[mask > 0] = img_ano.detach()[mask > 0] - step_size * img_grad[mask > 0]
-        img_ano.data = img_ano_update
+        img_ano_update = img_ano - step_size * img_grad * mask
 
-        step_size = step_size*step_decay
+        img_ano = img_ano_update.detach()
+        img_ano.requires_grad = True
+
     # Log
     if log and not writer == None :
         writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
@@ -114,12 +108,10 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         net.train()
 
     # Init MAP Optimizer
-    dice = diceloss()
+    #criterion = diceloss()
+    criterion = nn.BCELoss()
     tot_loss = 0
-    step_decay = 1
     for i in range(riter):
-        img_ano.requires_grad = True
-
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
@@ -128,27 +120,26 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         gfunc = l2_loss + kl_loss
 
         ELBO_grad, = torch.autograd.grad(gfunc, img_ano, grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
-                                    create_graph=True)
+                                         create_graph=True)
 
-        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
+        NN_input = torch.stack([input_img, img_ano.detach()]).permute((1, 0, 2, 3)).float()
         out = net(NN_input).squeeze(1)
-        img_grad = ELBO_grad * out
+        img_grad = ELBO_grad.detach() * out
 
-        img_ano_update = torch.zeros(img_ano.detach().shape).to(device).double()
+        img_ano_update = img_ano.detach() - step_size * img_grad * mask
 
-        img_ano_update[mask > 0] = img_ano[mask > 0] - step_size * img_grad[mask > 0]
+        # img_ano_act = 1 - 2 * torch.sigmoid(-K_actf*(img_ano_update - input_img).pow(2))
+        # img_ano_act = torch.tanh(normalize_tensor_N((img_ano_update - input_img).pow(2), K_actf))
+        img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
 
-        img_ano = img_ano_update.detach() #clone()
-
-        #img_ano_act = 1 - 2 * torch.sigmoid(-K_actf*(img_ano_update - input_img).pow(2))
-        img_ano_act = torch.tanh(normalize_tensor_N((img_ano_update - input_img).pow(2), 10))
-        #img_ano_act = torch.tanh(K_actf*(img_ano_update - input_img).pow(2))
-
-        loss = dice(img_ano_act, input_seg)
-        #loss = nn.BCELoss(ano_grad_act.double(), input_seg.double())
+        #loss = criterion(img_ano_act, input_seg)
+        loss = criterion(img_ano_act.double(), input_seg.double())
         #loss = 1 - ssim(img_ano_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
-        if train:
-            loss.backward()
+
+        loss.backward()
+
+        img_ano = img_ano_update.detach()
+        img_ano.requires_grad = True
 
         #for name, param in net.named_parameters():
         #    if param.requires_grad:
@@ -156,11 +147,6 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 
         tot_loss += loss.item()
 
-        step_size = step_size * step_decay
-    #if train:
-        #optimizer.step() # Update network parameters
-
-    #
     #img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
     #loss = dice(img_ano_act, input_seg)
     #loss.backward()  # retain_graph=True)

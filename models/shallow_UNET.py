@@ -7,7 +7,7 @@ from collections import OrderedDict
 # Archtecture from github https://github.com/mateuszbuda/brain-segmentation-pytorch/blob/master/unet.py
 
 class shallow_UNet(nn.Module):
-    def __init__(self, name,in_channels=2, out_channels=1, init_features=8):
+    def __init__(self, name,in_channels=2, out_channels=1, init_features=2):
         super(shallow_UNet, self).__init__()
         self.name = name
 

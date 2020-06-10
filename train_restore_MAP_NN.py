@@ -10,7 +10,7 @@ from restoration import train_run_map_NN_teacher, train_run_map_NN
 from models.shallow_UNET import shallow_UNet
 from models.unet import UNet
 from models.covnet import ConvNet
-from datasets import brats_dataset_subj, brats_dataset_subj_teacher
+from datasets import brats_dataset_subj
 from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
@@ -66,14 +66,10 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 16).to(device)
+    net = shallow_UNet(name, 2, 1, 4).to(device)
     #net = ConvNet(name, 2, 1, 4).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
-
-    # Create mean teacher
-    if use_teacher:
-        net_teacher = shallow_UNet(name, 2, 1, 16).to(device)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
@@ -84,7 +80,7 @@ if __name__ == "__main__":
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
     if subj_nbr == 1:
-        subj_list = ['Brats17_TCIA_300_1_t2_unbiased.nii.gz']
+        subj_list = ['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 
