@@ -1,0 +1,25 @@
+Using device: cuda:0
+Loading healthy training data...
+Loading healthy validation data...
+Healthy data loaded
+Epoch: 0
+Traceback (most recent call last):
+  File "train_pretrained_unet.py", line 79, in <module>
+    loss = train_unet_noskip(model, healthy_train_data_loader, device, optimizer)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/unet_noskip.py", line 112, in train_unet_noskip
+    pred = model(scan.float())
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/unet_noskip.py", line 54, in forward
+    dec4 = self.decoder4(dec4)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
+    input = module(input)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 345, in forward
+    return self.conv2d_forward(input, self.weight)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 342, in conv2d_forward
+    self.padding, self.dilation, self.groups)
+RuntimeError: Given groups=1, weight of size 256 512 3 3, expected input[32, 256, 16, 16] to have 512 channels, but got 256 channels instead

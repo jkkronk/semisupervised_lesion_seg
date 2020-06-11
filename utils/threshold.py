@@ -8,11 +8,11 @@ import torch
 from restoration import run_map_NN
 from utils import losses
 import pickle
-from datasets import brats_dataset_subj, brats_dataset
+from datasets import brats_dataset_subj
 from sklearn import metrics
 import torch.utils.data as data
 import matplotlib.pyplot as plt
-from baselines.unsupervised_TVnorm.resotration import run_map_TV
+from baselines.restore_TVnorm.resotration import run_map_TV
 #sys.path.append("/scratch_net/bmicdl01/chenx/PycharmProjects/refine_vae")
 #from preprocess.preprocess import *
 
@@ -224,7 +224,6 @@ def compute_threshold_TV(fprate, model, img_size, batch_size, n_latent_samples, 
     # thr_error = determine_threshold(dif_vae, fprate)
     # thr_error_corr = determine_threshold(dif, fprate)
     thr_MAD = determine_threshold(dif_prob, fprate)
-    print(type(thr_MAD))
     return thr_MAD
 
 def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device, n_random_sub = 100, net_model = None, riter=500, step_size=0.003,
@@ -334,7 +333,6 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
     #thr_error = determine_threshold(dif_vae, fprate)
     #thr_error_corr = determine_threshold(dif, fprate)
     thr_MAD = determine_threshold(dif_prob, fprate)
-    print(type(thr_MAD))
     return thr_MAD
 
 

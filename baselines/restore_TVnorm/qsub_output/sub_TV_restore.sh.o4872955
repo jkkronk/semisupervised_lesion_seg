@@ -1,0 +1,160 @@
+ Vae model:  camcan_400_Aug_6_100  Fprate:  0.005
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+0 6912
+1 21472
+2 14880
+3 2880
+4 19776
+5 21248
+6 3520
+7 16512
+8 23104
+9 18080
+10 16256
+11 5472
+12 17376
+13 13088
+14 22528
+15 20608
+16 20320
+17 10720
+18 10272
+19 15808
+20 6496
+21 6112
+22 15104
+23 6336
+24 14016
+25 20096
+26 19168
+27 1184
+28 64
+29 3744
+30 9152
+31 2240
+32 10848
+33 3360
+34 23136
+35 17184
+36 8672
+37 9280
+38 1856
+39 13568
+40 12544
+41 18048
+42 2144
+43 1728
+44 22784
+45 6752
+46 14368
+47 2944
+48 4032
+49 16000
+50 11424
+51 96
+52 16928
+53 8000
+54 18368
+55 7808
+56 4064
+57 11680
+58 6592
+59 6624
+60 5952
+61 9632
+62 2848
+63 17280
+64 5280
+65 1152
+66 672
+67 17728
+68 17696
+69 13120
+70 7776
+71 23296
+72 5984
+73 832
+74 17088
+75 14912
+76 10016
+77 13056
+78 11904
+79 9792
+80 3328
+81 9536
+82 2560
+83 12960
+84 4928
+85 16352
+86 16704
+87 11456
+88 21696
+89 480
+90 8768
+91 9856
+92 9440
+93 3872
+94 20736
+95 22304
+96 20160
+97 3616
+98 2112
+99 7200
+<class 'numpy.float64'>
+0.0112873245497092
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+Traceback (most recent call last):
+  File "restore_MAP_TV.py", line 153, in <module>
+    AUC = roc_auc_score(y_true, y_pred)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_ranking.py", line 395, in roc_auc_score
+    sample_weight=sample_weight)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_base.py", line 74, in _average_binary_score
+    raise ValueError("{0} format is not supported".format(y_type))
+ValueError: continuous format is not supported
+ Vae model:  camcan_400_Aug_6_100  Fprate:  0.001
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+0 20608
+1 9376
+2 17536
+3 17760
+4 5216
+5 4864
+6 416
+7 7104
+8 2272
+9 4512
+10 16032
+11 11296
+12 17472
+13 20896
+14 16576
+15 9632
+16 352
+17 12288
+18 12864
+19 5632
+20 19072
+21 18208
+22 12704
+23 2176
+24 19968
+0.013231815435379463
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+Traceback (most recent call last):
+  File "restore_MAP_TV.py", line 153, in <module>
+    AUC = roc_auc_score(y_true, y_pred)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_ranking.py", line 395, in roc_auc_score
+    sample_weight=sample_weight)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_base.py", line 74, in _average_binary_score
+    raise ValueError("{0} format is not supported".format(y_type))
+ValueError: continuous format is not supported

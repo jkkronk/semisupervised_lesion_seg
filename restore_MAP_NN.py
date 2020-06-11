@@ -80,7 +80,7 @@ if __name__ == "__main__":
         else:
             print('Healthy!')
             thr_error = threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device,
-                                                    n_random_sub=10, net_model=net, riter=500,
+                                                    n_random_sub=25, net_model=net, riter=riter,
                                                     step_size=step_rate, renormalized=False)
     else:
         thr_error = preset_threshold

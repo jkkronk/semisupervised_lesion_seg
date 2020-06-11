@@ -13,7 +13,7 @@ import torch
 import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 
-from baselines.unsupervised_TVnorm.resotration import run_map_TV
+from baselines.restore_TVnorm.resotration import run_map_TV
 from datasets import brats_dataset_subj
 from utils import threshold
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     if not preset_threshold:
         thr_error = \
             threshold.compute_threshold_TV(fprate, vae_model, img_size, batch_size, n_latent_samples,
-                              device, riter, step_rate, weight, renormalized=True, n_random_sub=100)
+                              device, riter, step_rate, weight, renormalized=True, n_random_sub=25)
     else:
         thr_error = preset_threshold
     print(thr_error)
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
             # for AUC
             y_pred.extend(error_batch_m.tolist())
-            y_true.extend(seg_m.tolist())
+            y_true.extend(seg_m.tolist()).astype(bool)
 
             # DICE
             error_batch_m_b = np.copy(error_batch_m)

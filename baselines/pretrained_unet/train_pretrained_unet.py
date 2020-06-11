@@ -8,8 +8,10 @@ import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
 
 from models.unet import UNET, train_unet, valid_unet
+from models.unet_noskip import UNET_noskip, train_unet_noskip, valid_unet_noskip
 import argparse
 import yaml
+from utils.utils import normalize_tensor
 import pickle
 import numpy as np
 import random
@@ -40,18 +42,60 @@ if __name__ == "__main__":
     log_freq = config['log_freq']
     log_dir = config['log_dir']
     log_model = config['model_dir']
+    epochs_unsupervised = config['epochs_unsupervised']
 
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print('Using device: ' + str(device))
 
     # Load healthy subjects
-    print("Loading healthy data...")
+    print("Loading healthy training data...")
     path_2_healthy = '/scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/'
     healthy_train_dataset = camcan_dataset(path_2_healthy, True, img_size, data_aug=1)
-    healthy_train_data_loader = data.DataLoader(healthy_train_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-    print('Healthy train data loaded')
+    healthy_train_data_loader = data.DataLoader(healthy_train_dataset, batch_size=batch_size, shuffle=True,
+                                                num_workers=1)
 
+    # Load healthy subjects
+    print("Loading healthy validation data...")
+    val_healthy_train_dataset = camcan_dataset(path_2_healthy, False, img_size, data_aug=1)
+    val_healthy_train_data_loader = data.DataLoader(healthy_train_dataset, batch_size=batch_size, shuffle=True,
+                                                num_workers=1)
+    print('Healthy data loaded')
+
+    # Create unet with no skip connections
+    model = UNET_noskip(model_name, 1, 1, 32).to(device)
+
+    # Create optimizer and scheduler
+    optimizer = optim.Adam(model.parameters(), lr=lr_rate)
+
+    # Tensorboard log
+    writer_train_noskip = SummaryWriter(log_dir + model.name + '_train')
+    writer_valid_noskip = SummaryWriter(log_dir + model.name + '_valid')
+
+    # Pretrain Autoencoder unsupervised
+    for epoch in range(epochs_unsupervised):
+        print('Epoch:', epoch)
+
+        loss = train_unet_noskip(model, healthy_train_data_loader, device, optimizer)
+        loss_valid = valid_unet_noskip(model, val_healthy_train_data_loader, device)
+
+        writer_train_noskip.add_scalar('Loss',loss, epoch)
+        writer_train_noskip.flush()
+        writer_valid_noskip.add_scalar('Loss',loss_valid, epoch)
+        writer_valid_noskip.flush()
+
+        if epoch % log_freq == 0 and not epoch == 0:
+            data_path = log_model + model_name + str(epoch) + '.pth'
+            torch.save(model, data_path)
+
+            log_sujb, mask = next(iter(val_healthy_train_data_loader))
+            enc_log_subj = model(log_sujb)
+
+            writer_valid_noskip.add_image('Original', normalize_tensor(log_sujb.unsqueeze(1)[:16]), epoch, dataformats='NCHW')
+            writer_valid_noskip.add_image('Reconstruted', normalize_tensor(enc_log_subj.unsqueeze(1)[:16]), epoch, dataformats='NCHW')
+
+    # Start training
+    """
     # Load list of subjects
     f = open(data_path + 'subj_t2_dict.pkl', 'rb')
     subj_dict = pickle.load(f)
@@ -103,8 +147,7 @@ if __name__ == "__main__":
     # Tensorboard Init
     writer_train = SummaryWriter(log_dir + model.name + '_train')
     writer_valid = SummaryWriter(log_dir + model.name + '_valid')
-
-    # Start training
+    
     print('Start training:')
     for epoch in range(epochs):
         print('Epoch:', epoch)
@@ -120,3 +163,4 @@ if __name__ == "__main__":
         if epoch % log_freq == 0 and not epoch == 0:
             data_path = log_model + model_name + str(epoch) + '.pth'
             torch.save(model, data_path)
+    """
