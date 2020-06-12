@@ -4,73 +4,81 @@ Using device: cuda:0
   warnings.warn(msg, SourceChangeWarning)
 /scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
   warnings.warn(msg, SourceChangeWarning)
-0 4352
-1 14912
-2 18912
-3 12448
-4 22880
-5 21504
-6 13216
-7 2816
-8 7776
-9 21344
-10 3264
-11 9120
-12 64
-13 21216
-14 8448
-15 19904
-16 23168
-17 17248
-18 18240
-19 6272
-20 18336
-21 7168
-22 7232
-23 10528
-24 11456
-0.011807630145188801
+0 2112
+1 9440
+2 192
+3 960
+4 22784
+5 5248
+6 21824
+7 9184
+8 10560
+9 9248
+10 22560
+11 9568
+12 14496
+13 14592
+14 18816
+15 12128
+16 13056
+17 6720
+18 6784
+19 5024
+20 20992
+21 10944
+22 19552
+23 992
+24 9376
+0.012441382511500863
 Loading test set for subj
 Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
 Traceback (most recent call last):
-  File "restore_MAP_TV.py", line 138, in <module>
-    y_true.extend(seg_m.tolist()).astype(bool)
-AttributeError: 'NoneType' object has no attribute 'astype'
+  File "restore_MAP_TV.py", line 153, in <module>
+    AUC = roc_auc_score(y_true, y_pred)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_ranking.py", line 395, in roc_auc_score
+    sample_weight=sample_weight)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_base.py", line 74, in _average_binary_score
+    raise ValueError("{0} format is not supported".format(y_type))
+ValueError: continuous format is not supported
  Vae model:  camcan_400_Aug_6_100  Fprate:  0.001
 Using device: cuda:0
 /scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
   warnings.warn(msg, SourceChangeWarning)
 /scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
   warnings.warn(msg, SourceChangeWarning)
-0 13920
-1 21728
-2 2080
-3 7232
-4 6272
-5 19776
-6 1568
-7 11072
-8 10528
-9 8352
-10 7488
-11 18080
-12 10080
-13 7328
-14 7808
-15 22560
-16 704
-17 1696
-18 16032
-19 20128
-20 20448
-21 3264
-22 20704
-23 5536
-24 14592
-0.013164409473954353
+0 3168
+1 10720
+2 3872
+3 10912
+4 10656
+5 1824
+6 2304
+7 10368
+8 7072
+9 12448
+10 6656
+11 10944
+12 21696
+13 20000
+14 11552
+15 6624
+16 17824
+17 16928
+18 4928
+19 14880
+20 11136
+21 4096
+22 4192
+23 13024
+24 17664
+0.01656276956684443
 Loading test set for subj
 Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
 Traceback (most recent call last):
-  File "restore_MAP_TV.py", line 138, in <module>
-    y_true.extend(seg_m.tolist()).astype(bool)
-AttributeError: 'NoneType' object has no attribute 'astype'
+  File "restore_MAP_TV.py", line 153, in <module>
+    AUC = roc_auc_score(y_true, y_pred)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_ranking.py", line 395, in roc_auc_score
+    sample_weight=sample_weight)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_base.py", line 74, in _average_binary_score
+    raise ValueError("{0} format is not supported".format(y_type))
+ValueError: continuous format is not supported

@@ -1,0 +1,6 @@
+1Traceback (most recent call last):
+  File "restore_MAP_TV.py", line 65, in <module>
+    device, riter, step_rate, weight, renormalized=True, n_random_sub=25)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/utils/threshold.py", line 141, in compute_threshold_TV
+    print(num, ind)
+OSError: [Errno 28] No space left on device

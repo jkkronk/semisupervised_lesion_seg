@@ -131,11 +131,11 @@ if __name__ == "__main__":
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
             error_batch_m = error_batch[mask > 0].ravel()
-            seg_m = seg[mask > 0].ravel()
+            seg_m = seg[mask > 0].ravel().astype(bool)
 
             # for AUC
-            y_pred.extend(error_batch_m.tolist())
-            y_true.extend(seg_m.tolist()).astype(bool)
+            y_pred = np.append(y_pred, error_batch_m)
+            y_true = np.append(y_true, seg_m)
 
             # DICE
             error_batch_m_b = np.copy(error_batch_m)

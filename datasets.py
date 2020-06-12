@@ -146,11 +146,11 @@ class brats_dataset_subj(Dataset):
                     translate_percent={"x": (0, 0), "y": (0, 0)},
                     rotate=(-15, 15),
                     shear=(0, 0)),  # Scaling, rotating
-                iaa.ElasticTransformation(alpha=(0.0, 10.0), sigma=4.0)  # Elastic
+                iaa.ElasticTransformation(alpha=(0.0, 15.0), sigma=5.0)  # Elastic
             ], random_order=True)
 
             seq_img = iaa.Sequential([
-                iaa.blur.AverageBlur(k=(0, 2)),  # Gausian blur
+                iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
                 iaa.LinearContrast((0.85, 1.15)),  # Contrast
                 iaa.Multiply((0.85, 1.15), per_channel=1),  # Intensity
             ], random_order=True)

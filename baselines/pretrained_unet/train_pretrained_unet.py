@@ -89,7 +89,8 @@ if __name__ == "__main__":
             torch.save(model, data_path)
 
             log_sujb, mask = next(iter(val_healthy_train_data_loader))
-            enc_log_subj = model(log_sujb)
+            log_sujb = log_sujb.to(device)
+            enc_log_subj = model(log_sujb.float())
 
             writer_valid_noskip.add_image('Original', normalize_tensor(log_sujb.unsqueeze(1)[:16]), epoch, dataformats='NCHW')
             writer_valid_noskip.add_image('Reconstruted', normalize_tensor(enc_log_subj.unsqueeze(1)[:16]), epoch, dataformats='NCHW')
