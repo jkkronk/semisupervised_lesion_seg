@@ -9,8 +9,9 @@ import torch
 import torch.utils.data as data
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
-from restoration import train_run_map_NN
+from restoration import train_run_map_GGNN, train_run_map_GNN, train_run_map_NN, train_run_map_CNN
 from models.shallow_UNET import shallow_UNet
+from models.covnet import ConvNet
 from datasets import brats_dataset_subj
 
 if __name__ == "__main__":
@@ -59,8 +60,12 @@ if __name__ == "__main__":
 
     # Create guiding net
     net = shallow_UNet(name, 2, 1, 2).to(device)
-    #net = ConvNet(name, 2, 1, 4).to(device)
+    #net = ConvNet(name, 2, 1, 32).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
+
+    #path = '/scratch_net/biwidl214/jonatank/logs/restore/1subj_1e1_1steps_2fch_2MSEloss_pretrain_aug_mask1.pth'
+    #net = torch.load(path, map_location=torch.device(device))
+
     optimizer = optim.Adam(net.parameters(), lr=lr_rate)
 
     # Load list of subjects
@@ -72,12 +77,9 @@ if __name__ == "__main__":
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
     if subj_nbr == 1:
-        subj_list = ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+        subj_list = ['Brats17_TCIA_141_1_t2_unbiased.nii.gz']
 
     print(subj_list)
-
-    # Init logging with Tensorboard
-    writer = SummaryWriter(log_dir + name)
 
     if validation:
         subj_val_list = ['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz'] # []
@@ -93,6 +95,9 @@ if __name__ == "__main__":
     subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
     subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
     print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
+
+    # Init logging with Tensorboard
+    writer = SummaryWriter(log_dir + name)
 
     for ep in range(epochs):
         #random.shuffle(subj_list)
@@ -119,8 +124,8 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, K_actf, step_rate,
-                                                    device, writer, seg, mask)
+            restored_batch, loss = train_run_map_GGNN(scan, decoded_mu, net, vae_model, riter, step_rate,
+                                                    device, writer, seg, mask) #riter instead of epochs
 
             optimizer.step()
             optimizer.zero_grad()
@@ -148,7 +153,7 @@ if __name__ == "__main__":
             y_pred.extend(error_batch_m.tolist())
             y_true.extend(seg_m.tolist())
             if not all(element==0 for element in y_true):
-                AUC = roc_auc_score(y_true, y_pred)
+                AUC = roc_auc_score(y_true, y_pred.fillna())
 
             print('AUC : ', AUC)
             writer.add_scalar('AUC:', AUC, ep)
@@ -192,7 +197,7 @@ if __name__ == "__main__":
                     seg = seg.squeeze(1)
                     mask = mask.squeeze(1)
 
-                    restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, riter, K_actf,
+                    restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, ep+1, K_actf,
                                                             step_rate, device, writer_valid, seg, mask,
                                                             train=False, log=bool(batch_idx % 2))
 

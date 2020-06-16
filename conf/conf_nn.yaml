@@ -1,5 +1,5 @@
-riter: 20
-batch_size: 64
+riter: 10
+batch_size: 32
 spatial_size: 128
 orig_size: 200
 log_freq: 50
@@ -9,4 +9,3 @@ lr_rate: 1e-3
 log_dir: /scratch_net/biwidl214/jonatank/logs/restore/
 path: /scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/brats17/
 epochs: 501
-net_name: train_nn_ssim_30

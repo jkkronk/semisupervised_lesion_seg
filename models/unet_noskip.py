@@ -58,7 +58,7 @@ class UNET_noskip(nn.Module):
         dec2 = self.decoder2(dec2)
         dec1 = self.upconv1(dec2)
         dec1 = self.decoder1(dec1)
-        return torch.sigmoid(self.conv(dec1))
+        return self.conv(dec1)
 
     @staticmethod
     def _block(in_channels, features, name):

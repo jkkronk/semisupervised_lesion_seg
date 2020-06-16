@@ -70,8 +70,8 @@ class shallow_UNet(nn.Module):
         dec1 = self.upconv1(dec2)
         dec1 = torch.cat((dec1, enc1), dim=1)
         dec1 = self.decoder1(dec1)
-
-        return torch.sigmoid(self.conv(dec1))
+        #torch.sigmoid(
+        return self.conv(dec1)
 
     @staticmethod
     def _block(in_channels, features, name):

@@ -5,7 +5,7 @@ import random
 import numpy as np
 from skimage.transform import resize
 import torch
-from restoration import run_map_NN
+from restoration import run_map_NN, run_map_GGNN
 from utils import losses
 import pickle
 from datasets import brats_dataset_subj
@@ -369,7 +369,7 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
+            restored_batch = run_map_GGNN(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
                                         step_size=step_size, log=False)
 
             seg = seg.cpu().detach().numpy()

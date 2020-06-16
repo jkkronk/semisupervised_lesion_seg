@@ -1,0 +1,14 @@
+Name:  1subj_1e1_1steps_2fch_2MSEloss_pretrain_aug_mask Lr_rate:  0.001 Use Teacher:  False  Riter:  10  Subjs:  1
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Train data loaded
+0
+Traceback (most recent call last):
+  File "pretrain_restore_MAP_NN.py", line 103, in <module>
+    device, writer_train, seg, mask, healthy=True)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 256, in train_run_map_GNN
+    loss_healthy = torch.mean((ELBO_grad[input_seg == 0] * mask - pyx_grad[input_seg == 0] * mask) ** 2)
+RuntimeError: The size of tensor a (524288) must match the size of tensor b (128) at non-singleton dimension 2

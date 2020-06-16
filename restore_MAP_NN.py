@@ -5,7 +5,7 @@ import torch
 import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 
-from restoration import run_map_NN
+from restoration import run_map_NN, run_map_GGNN
 from datasets import brats_dataset_subj
 from utils import threshold
 import pickle
@@ -82,6 +82,10 @@ if __name__ == "__main__":
             thr_error = threshold.compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device,
                                                     n_random_sub=25, net_model=net, riter=riter,
                                                     step_size=step_rate, renormalized=False)
+            train_thr_error = \
+                threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
+                                                 train_subjs, batch_size, n_latent_samples,
+                                                 device, name, riter, step_rate)
     else:
         thr_error = preset_threshold
     print(thr_error)
@@ -139,7 +143,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
+            restored_batch = run_map_GGNN(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
                                         step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()

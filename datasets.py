@@ -39,11 +39,11 @@ class camcan_dataset(Dataset):
             img = np.expand_dims(img, axis=0)
 
             seq_all = iaa.Sequential([
-                #iaa.Fliplr(0.5), # Horizontal flips
-                iaa.ElasticTransformation(alpha=(0.0, 10.0), sigma=4.0),  # Elastic
-                iaa.LinearContrast((0.85, 1.15)),  # Contrast
-                iaa.Multiply((0.85, 1.15), per_channel=1),
-                iaa.blur.AverageBlur(k=(0, 2))  # Gausian blur
+                iaa.Fliplr(0.5), # Horizontal flips
+                iaa.ElasticTransformation(alpha=(0.0, 20.0), sigma=5.0),  # Elastic
+                iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
+                iaa.LinearContrast((0.8, 1.2)),  # Contrast
+                iaa.Multiply((0.8, 1.2), per_channel=1)  # Intensity
             ], random_order=True)
 
             images_aug = seq_all(images=img) # Intensity and contrast only on input image
@@ -65,12 +65,12 @@ class camcan_dataset(Dataset):
         # Expand to data with channel [1,128,128]
         data_img = np.expand_dims(data_img, axis=-1)
 
+        mask = torch.zeros(data_img.shape)
+        mask[data_img > 0] = 1
+
         img_trans = self.transform(data_img)
 
-        mask = torch.zeros(img_trans.size())
-        mask[img_trans > 0] = 1
-
-        return img_trans, mask
+        return img_trans, mask.squeeze(-1)
 
     def __len__(self):
         return self.size
@@ -146,13 +146,13 @@ class brats_dataset_subj(Dataset):
                     translate_percent={"x": (0, 0), "y": (0, 0)},
                     rotate=(-15, 15),
                     shear=(0, 0)),  # Scaling, rotating
-                iaa.ElasticTransformation(alpha=(0.0, 15.0), sigma=5.0)  # Elastic
+                iaa.ElasticTransformation(alpha=(0.0, 20.0), sigma=5.0)  # Elastic
             ], random_order=True)
 
             seq_img = iaa.Sequential([
                 iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
-                iaa.LinearContrast((0.85, 1.15)),  # Contrast
-                iaa.Multiply((0.85, 1.15), per_channel=1),  # Intensity
+                iaa.LinearContrast((0.8, 1.2)),  # Contrast
+                iaa.Multiply((0.8, 1.2), per_channel=1),  # Intensity
             ], random_order=True)
 
             img, seg = seq_all(images=img, segmentation_maps=segmap)  # Rest of augmentations
