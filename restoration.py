@@ -281,6 +281,57 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 
     return img_ano, loss.item()#tot_loss/riter
 
+
+def composed_tranforms(img_tensor, seg_tensor):
+    # Function for data augmentation
+    # 1) Affine Augmentations: Rotation (-15 to +15 degrees), Scaling, Flipping.
+    # 2) Elastic deformations
+    # 3) Intensity augmentations
+
+    ia.seed(int(time.time()))  # Seed for random augmentations
+
+    # Needed for iaa
+    for i in range(img_tensor.shape[0]):
+        img = img_tensor[i].detach().cpu().numpy().transpose((1, 2, 0))
+
+        seg = seg_tensor[i].detach().cpu().numpy().astype('bool')
+
+        segmap = SegmentationMapsOnImage(seg, shape=img.shape)  # Create segmentation map
+
+        seq_all = iaa.Sequential([
+            iaa.Fliplr(0.5),  # Horizontal flips
+            iaa.Flipud(0.5),
+            iaa.Affine(
+                scale={"x": (0.7, 1.3), "y": (0.7, 1.3)},
+                translate_percent={"x": (0, 0), "y": (0, 0)},
+                rotate=(-90, 90),
+                shear=(0, 0)),  # Scaling, rotating
+            iaa.ElasticTransformation(alpha=(0.0, 0.30), sigma=7.0)  # Elastic
+        ], random_order=True)
+
+        seq_img = iaa.Sequential([
+            iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
+            iaa.LinearContrast((0.7, 1.3)),  # Contrast
+            iaa.Multiply((0.7, 1.3), per_channel=1),  # Intensity
+        ], random_order=True)
+
+        img, seg = seq_all(image=img, segmentation_maps=segmap)  # Rest of augmentations
+        img = seq_img(image=img)  # Intensity and contrast only on input image
+
+        seg = seg.draw(size=img.shape)[0]
+        seg = seg[:, :, 0]
+        # seg = seg[:, :, 0]
+        # seg[seg > 0] = 255
+
+        # To PIL for Flip and ToTensor
+        img = torch.from_numpy(img.transpose(2, 0, 1))
+        seg = torch.from_numpy(seg)
+
+        img_tensor[i] = img
+        seg_tensor[i] = seg
+
+    return img_tensor, seg_tensor
+
 def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
                      train=True,log=True, healthy=False):
     # Init params
@@ -306,40 +357,20 @@ def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, devi
 
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
-        composed_tranforms = transforms.Compose([
-                                                transforms.ToPILImage,
-                                                transforms.RandomAffine(90, translate=(0.1,0.1), scale=(0.8,1.2)),
-                                                transforms.RandomHorizontalFlip(p=0.5),
-                                                transforms.RandomVerticalFlip(p=0.5),
-                                                transforms.ToTensor
-                                                ])
-
-        seed = np.random.randint(2147483647)  # make a seed with numpy generator
-        random.seed(seed)  # apply this seed to img tranfsorms
-        NN_input_aug = composed_tranforms(NN_input).to(device)
-
-        random.seed(seed)  # apply this seed to target tranfsorms
-        input_seg_aug = input_seg.composed_tranforms(input_seg).to(device)
-
-        random.seed(seed)  # apply this seed to target tranfsorms
-        mask_aug = mask.composed_tranforms(mask).to(device)
+        NN_input_aug, seg_aug = composed_tranforms(NN_input.clone(), input_seg.clone())
+        seg_aug = seg_aug.detach().to(device)
 
         out = net(NN_input_aug.detach().to(device)).squeeze(1)
 
-        loss = criterion((out * mask_aug).double(), ((1-input_seg_aug)* mask_aug).double())
-
-        writer.add_image('NN_aug', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('Seg_aug', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('mask_aug', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+        loss = criterion(out.double(), ((1-seg_aug)).double())
 
         tot_loss += loss.item()
         loss.backward()
 
-        img_grad = ELBO_grad - net(NN_input.detach()).squeeze(1) * ELBO_grad
+        img_grad = ELBO_grad - net(NN_input.to(device)).squeeze(1) * ELBO_grad
 
-        img_ano = img_ano.detach() - step_size * img_grad.detach() * mask
+        img_ano = img_ano.detach() - step_size * img_grad.detach() * mask.to(device)
         img_ano.requires_grad = True
-        img_ano = img_ano.to(device)
 
     # Log
     if log:

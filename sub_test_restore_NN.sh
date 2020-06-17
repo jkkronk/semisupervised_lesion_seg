@@ -8,8 +8,6 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u restore_MAP_NN.py --name test_1subj_1e1_10steps_2fch3sh_DCS_1_100 --config conf/conf_nn.yaml --netname 1subj_1e1_10steps_2fch3sh_DCS_1_100 --fprate 0 --subj '['Brats17_TCIA_141_1_t2_unbiased.nii.gz']'
+python -u restore_MAP_NN.py --name 1subj_1e1_10steps_2fch3sh_BCE_1_200 --config conf/conf_nn.yaml --netname 1subj_1e1_10steps_2fch3sh_BCE_1_200 --fprate 0 --subj '['Brats17_TCIA_141_1_t2_unbiased.nii.gz']'
 
-python -u restore_MAP_NN.py --name 1subj_1e1_10steps_2fch3sh_DCS_1_200 --config conf/conf_nn.yaml --netname 1subj_1e1_10steps_2fch3sh_DCS_1_200 --fprate 0 --subj '['Brats17_TCIA_141_1_t2_unbiased.nii.gz']'
-
-python -u restore_MAP_NN.py --name 1subj_1e1_10steps_2fch3sh_DCS_1_400 --config conf/conf_nn.yaml --netname 1subj_1e1_10steps_2fch3sh_DCS_1_400 --fprate 0 --subj '['Brats17_TCIA_141_1_t2_unbiased.nii.gz']'
+python -u restore_MAP_NN.py --name 1subj_1e1_10steps_2fch3sh_BCE_1_400 --config conf/conf_nn.yaml --netname 1subj_1e1_10steps_2fch3sh_BCE_1_400 --fprate 0 --subj '['Brats17_TCIA_141_1_t2_unbiased.nii.gz']'
