@@ -180,9 +180,6 @@ if __name__ == "__main__":
             FN += np.sum(seg_m[error_batch_m == 0])
             FP += np.sum(error_batch_m[seg_m == 0])
 
-            if np.sum(seg_m) == 0:
-                seg_m[0] = 1 # Hacky way and not good
-
         auc_error = roc_auc_score(y_true, y_pred)
         ## evaluate AUC for ROC using universal thresholds
         '''

@@ -3,7 +3,7 @@ __author__ = 'jonatank'
 import torch
 import torch.nn as nn
 from utils.ssim import ssim
-from utils.utils import normalize_tensor
+from utils.utils import normalize_tensor, diceloss
 
 import numpy as np
 from skimage.transform import resize
@@ -284,16 +284,15 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
                      train=True,log=True, healthy=False):
     # Init params
-    input_img = input_img.to(device)
-    mask = mask.to(device)
     dec_mu = dec_mu.to(device).float()
-    input_seg = input_seg.to(device)
     img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
 
     if train:
         net.train()
 
     tot_loss = 0
+    criterion = nn.BCELoss()
+    #criterion = diceloss()
     for i in range(riter):
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
@@ -307,24 +306,40 @@ def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, devi
 
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
-        out = net(NN_input.detach()).squeeze(1)
-        pyx_grad =  out * ELBO_grad.detach()
+        composed_tranforms = transforms.Compose([
+                                                transforms.ToPILImage,
+                                                transforms.RandomAffine(90, translate=(0.1,0.1), scale=(0.8,1.2)),
+                                                transforms.RandomHorizontalFlip(p=0.5),
+                                                transforms.RandomVerticalFlip(p=0.5),
+                                                transforms.ToTensor
+                                                ])
 
-        #loss_healthy = torch.mean(((ELBO_grad * mask)[input_seg == 0]  - (pyx_grad * mask)[input_seg == 0]) ** 2)
-        loss_healthy = torch.mean((torch.ones((out * mask)[input_seg == 0].shape).to(device)
-                                      - (out * mask)[input_seg == 0]) ** 2)
+        seed = np.random.randint(2147483647)  # make a seed with numpy generator
+        random.seed(seed)  # apply this seed to img tranfsorms
+        NN_input_aug = composed_tranforms(NN_input).to(device)
 
-        loss_lesion = torch.mean((torch.zeros((out * mask)[input_seg > 0].shape).to(device)
-                                      - (out * mask)[input_seg > 0]) ** 2)
+        random.seed(seed)  # apply this seed to target tranfsorms
+        input_seg_aug = input_seg.composed_tranforms(input_seg).to(device)
 
-        loss = loss_healthy + loss_lesion
+        random.seed(seed)  # apply this seed to target tranfsorms
+        mask_aug = mask.composed_tranforms(mask).to(device)
+
+        out = net(NN_input_aug.detach().to(device)).squeeze(1)
+
+        loss = criterion((out * mask_aug).double(), ((1-input_seg_aug)* mask_aug).double())
+
+        writer.add_image('NN_aug', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Seg_aug', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('mask_aug', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+
         tot_loss += loss.item()
         loss.backward()
 
-        img_grad = ELBO_grad - pyx_grad
+        img_grad = ELBO_grad - net(NN_input.detach()).squeeze(1) * ELBO_grad
 
         img_ano = img_ano.detach() - step_size * img_grad.detach() * mask
         img_ano.requires_grad = True
+        img_ano = img_ano.to(device)
 
     # Log
     if log:

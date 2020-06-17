@@ -92,7 +92,7 @@ if __name__ == "__main__":
         slices.extend(subj_dict[subj])  # Slices for each subject
 
     # Load data
-    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=True)
+    subj_dataset = brats_dataset_subj(data_path, 'train', img_size, slices, use_aug=False)
     subj_loader = data.DataLoader(subj_dataset, batch_size=batch_size, shuffle=True, num_workers=3)
     print('Subject ', subj, ' Number of Slices: ', subj_dataset.size)
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
             y_pred.extend(error_batch_m.tolist())
             y_true.extend(seg_m.tolist())
             if not all(element==0 for element in y_true):
-                AUC = roc_auc_score(y_true, y_pred.fillna())
+                AUC = roc_auc_score(y_true, y_pred)
 
             print('AUC : ', AUC)
             writer.add_scalar('AUC:', AUC, ep)

@@ -1,0 +1,21 @@
+Name:  1subj_1e1_10steps_2fch3sh_BCE_ Lr_rate:  0.001 Use Teacher:  False  Riter:  10  Subjs:  1
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_TCIA_141_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_TCIA_141_1_t2_unbiased.nii.gz  Number of Slices:  134
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 128, in <module>
+    device, writer, seg, mask) #riter instead of epochs
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 317, in train_run_map_GGNN
+    (out * mask)[input_seg == 0].double())
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/loss.py", line 498, in forward
+    return F.binary_cross_entropy(input, target, weight=self.weight, reduction=self.reduction)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/functional.py", line 2077, in binary_cross_entropy
+    input, target, weight, reduction_enum)
+RuntimeError: the derivative for 'target' is not implemented
