@@ -59,7 +59,7 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 1).to(device)
+    net = shallow_UNet(name, 3, 1, 2).to(device)
     #net = ConvNet(name, 2, 1, 32).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
     if subj_nbr == 1:
-        subj_list = ['Brats17_TCIA_141_1_t2_unbiased.nii.gz']
+        subj_list = ['Brats17_2013_14_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 

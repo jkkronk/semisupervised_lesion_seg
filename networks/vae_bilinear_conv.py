@@ -42,7 +42,6 @@ class ResBlock_Down(nn.Module):
             out = self.bn2(self.conv2(out))
 
         out += self.shortcut(x)
-        #print(out.size())
         return out
 
 class ResBlock_Up(nn.Module):

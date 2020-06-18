@@ -299,7 +299,7 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
             scan = scan.squeeze(1)
             mask_temp = torch.ones(scan.shape)
 
-            restored_batch = run_map_NN(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
+            restored_batch = run_map_GGNN(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
 
             # Predicted abnormalty is difference between restored and original batch
             error_batch = np.zeros([scan.size()[0], 128, 128])

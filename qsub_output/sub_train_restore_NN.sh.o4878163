@@ -1,4 +1,4 @@
-Name:  1subj_1e1_10steps_2fch3sh_app3_3_ Lr_rate:  0.001 Use Teacher:  False  Riter:  10  Subjs:  1
+Name:  1subj_1e1_10steps_2fch2sh_DCS_lessaug_pelbo_mask_ Lr_rate:  0.001 Use Teacher:  False  Riter:  10  Subjs:  1
 Using device: cuda:0
 /scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
   warnings.warn(msg, SourceChangeWarning)
@@ -10,12 +10,12 @@ Subject  Brats17_TCIA_141_1_t2_unbiased.nii.gz  Number of Slices:  134
 Traceback (most recent call last):
   File "train_restore_MAP_NN.py", line 128, in <module>
     device, writer, seg, mask) #riter instead of epochs
-  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 310, in train_run_map_GGNN
-    out = net(NN_input.detach()).squeeze(1)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py", line 373, in train_run_map_GGNN
+    out = net(NN_input_aug.detach().to(device)).squeeze(1)
   File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
     result = self.forward(*input, **kwargs)
-  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/shallow_UNET.py", line 58, in forward
-    bottleneck = self.bottleneck(self.pool2(enc2))
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/models/shallow_UNET.py", line 64, in forward
+    dec3 = self.upconv3(bottleneck)
   File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
     result = self.forward(*input, **kwargs)
   File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/container.py", line 100, in forward
@@ -26,4 +26,4 @@ Traceback (most recent call last):
     return self.conv2d_forward(input, self.weight)
   File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 342, in conv2d_forward
     self.padding, self.dilation, self.groups)
-RuntimeError: Given groups=1, weight of size 16 8 3 3, expected input[32, 4, 32, 32] to have 8 channels, but got 4 channels instead
+RuntimeError: Given groups=1, weight of size 8 16 2 2, expected input[32, 8, 128, 128] to have 16 channels, but got 8 channels instead

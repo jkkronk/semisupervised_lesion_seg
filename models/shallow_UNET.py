@@ -19,7 +19,7 @@ class shallow_UNet(nn.Module):
         self.encoder3 = shallow_UNet._block(features*2, features * 4, name="enc2")
         self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.bottleneck = shallow_UNet._block(features * 4, features * 8, name="bottleneck")
+        self.bottleneck = shallow_UNet._block(features * 2, features * 4, name="bottleneck")
         #self.upconv3 = nn.ConvTranspose2d(
         #    features * 8, features * 4, kernel_size=2, stride=2
         #)
@@ -52,19 +52,19 @@ class shallow_UNet(nn.Module):
     def forward(self, x):
         enc1 = self.encoder1(x)
         enc2 = self.encoder2(self.pool1(enc1))
-        enc3 = self.encoder3(self.pool2(enc2))
+        #enc3 = self.encoder3(self.pool2(enc2))
         #enc4 = self.encoder4(self.pool3(enc3))
 
-        bottleneck = self.bottleneck(self.pool3(enc3))
+        bottleneck = self.bottleneck(self.pool2(enc2))
 
         #dec4 = self.upconv4(bottleneck)
         #dec4 = torch.cat((dec4, enc4), dim=1)
         #dec4 = self.decoder4(dec4)
 
-        dec3 = self.upconv3(bottleneck)
-        dec3 = torch.cat((dec3, enc3), dim=1)
-        dec3 = self.decoder3(dec3)
-        dec2 = self.upconv2(dec3)
+        #dec3 = self.upconv3(bottleneck)
+        #dec3 = torch.cat((dec3, enc3), dim=1)
+        #dec3 = self.decoder3(dec3)
+        dec2 = self.upconv2(bottleneck)
         dec2 = torch.cat((dec2, enc2), dim=1)
         dec2 = self.decoder2(dec2)
         dec1 = self.upconv1(dec2)

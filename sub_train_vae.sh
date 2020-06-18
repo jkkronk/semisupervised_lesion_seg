@@ -8,4 +8,4 @@
 #$ -q gpu.48h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u train_vae.py --model_name camcan_400_Aug_6_ --config conf/conf_vae.yaml
+python -u train_vae.py --model_name camcan_400_Aug_7_ --config conf/conf_vae.yaml
