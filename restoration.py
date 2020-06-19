@@ -242,7 +242,7 @@ def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, devi
 
         out = net(NN_input_aug.detach().to(device)).squeeze(1)
 
-        loss = criterion(out.double(), (1-seg_aug).double())
+        loss = criterion(out[mask > 0].double(), (1-seg_aug)[mask > 0].double())
 
         tot_loss += loss.item()
         loss.backward()

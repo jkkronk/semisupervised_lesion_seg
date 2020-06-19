@@ -1,0 +1,60 @@
+Name:  1subj_3e1_10steps_2fch2sh_muchaug_lr1_0_ Lr_rate:  0.1 Use Teacher:  False  Riter:  10  Subjs:  1  Step size:  0.3
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_2013_14_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_2013_14_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC :  0.7151157698668281
+AUC :  0.7465698856102475
+AUC :  0.6981140126567159
+AUC :  0.7220172103837647
+AUC :  0.6679071554226782
+AUC :  0.7314439261018624
+AUC :  0.713871395555917
+AUC :  0.7067567510626778
+AUC :  0.715195099271541
+AUC :  0.741176934037716
+AUC :  0.6972538472503833
+AUC :  0.7277291438032883
+AUC :  0.7070769755877755
+AUC :  0.7274702248474636
+AUC :  0.7807011433660055
+AUC :  0.7194815527537692
+AUC :  0.7356582916107646
+AUC :  0.7250239715385496
+AUC :  0.7069541108630324
+AUC :  0.7744596789219942
+AUC :  0.706395239690021
+AUC :  0.7156577309747741
+AUC :  0.7352638718976685
+AUC :  0.7252039847852412
+AUC :  0.746742725035831
+AUC :  0.7135119729585933
+AUC :  0.7232024775552112
+AUC :  0.723580360311997
+AUC :  0.7193876740977424
+AUC :  0.7995056321699694
+AUC :  0.7163416211285236
+AUC :  0.7213310883912335
+AUC :  0.7170698132421962
+AUC :  0.7365043194344045
+AUC :  0.7127519366979883
+AUC :  0.7273771231598838
+AUC :  0.7377280804444049
+AUC :  0.7257245203235104
+AUC :  0.720280798912917
+AUC :  0.7129308006028108
+AUC :  0.7408376637159046
+AUC :  0.7321096842430342
+AUC :  0.7397226577214269
+AUC :  0.7326252580701401
+AUC :  0.7817712300527329
+AUC :  0.7506443689137099
+AUC :  0.74885405226496
+AUC :  0.7861055910926948
+AUC :  0.7680260453697754
+AUC :  0.7265806331195562
+AUC :  0.7478165233742513

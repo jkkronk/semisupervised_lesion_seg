@@ -76,8 +76,8 @@ if __name__ == "__main__":
     subj_list_all = list(subj_dict.keys())
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
-    #if subj_nbr == 1:
-    #    subj_list = ['Brats17_2013_14_1_t2_unbiased.nii.gz']
+    if subj_nbr == 1:
+        subj_list = ['Brats17_2013_14_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 
