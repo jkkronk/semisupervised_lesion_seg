@@ -9,7 +9,7 @@ import torch
 import torch.utils.data as data
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
-from restoration import train_run_map_GGNN, train_run_map_GNN, train_run_map_NN, train_run_map_CNN
+from restoration import train_run_map_GGNN, train_run_map_NN, train_run_map_CNN
 from models.shallow_UNET import shallow_UNet
 from models.covnet import ConvNet
 from datasets import brats_dataset_subj
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     batch_size = config["batch_size"]
     img_size = config["spatial_size"]
     lr_rate = float(config['lr_rate'])
-    step_rate = float(config['step_rate'])
+    step_size = float(config['step_rate'])
     log_freq = config['log_freq']
     original_size = config['orig_size']
     log_dir = config['log_dir']
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     use_teacher = False
     validation = False
 
-    print('Name: ', name, 'Lr_rate: ', lr_rate, 'Use Teacher: ', use_teacher,' Riter: ', riter, ' Subjs: ', subj_nbr)
+    print('Name: ', name, 'Lr_rate: ', lr_rate, 'Use Teacher: ', use_teacher,' Riter: ', riter, ' Subjs: ', subj_nbr, ' Step size: ', step_size)
 
     # Cuda
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -76,8 +76,8 @@ if __name__ == "__main__":
     subj_list_all = list(subj_dict.keys())
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
-    if subj_nbr == 1:
-        subj_list = ['Brats17_2013_14_1_t2_unbiased.nii.gz']
+    #if subj_nbr == 1:
+    #    subj_list = ['Brats17_2013_14_1_t2_unbiased.nii.gz']
 
     print(subj_list)
 
@@ -124,8 +124,8 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch, loss = train_run_map_GGNN(scan, decoded_mu, net, vae_model, riter, step_rate,
-                                                    device, writer, seg, mask) #riter instead of epochs
+            restored_batch, loss = train_run_map_GGNN(scan, decoded_mu, net, vae_model, riter, step_size,
+                                                      device, writer, seg, mask) #riter instead of epochs
 
             optimizer.step()
             optimizer.zero_grad()
@@ -197,8 +197,8 @@ if __name__ == "__main__":
                     seg = seg.squeeze(1)
                     mask = mask.squeeze(1)
 
-                    restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, ep+1, K_actf,
-                                                            step_rate, device, writer_valid, seg, mask,
+                    restored_batch, loss = train_run_map_NN(scan, decoded_mu, net, vae_model, ep + 1, K_actf,
+                                                            step_size, device, writer_valid, seg, mask,
                                                             train=False, log=bool(batch_idx % 2))
 
                     tot_loss += loss

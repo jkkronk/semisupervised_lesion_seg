@@ -178,7 +178,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         #tot_loss += loss.item()
 
     img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
-    loss = criterion(img_ano_act.double(), input_seg.double())
+    loss = criterion(img_ano_act[mask > 0].double(), input_seg[mask > 0].double())
     loss.backward()
 
     #img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
@@ -242,12 +242,12 @@ def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, devi
 
         out = net(NN_input_aug.detach().to(device)).squeeze(1)
 
-        loss = criterion(out[mask_aug > 0].double(), (1-seg_aug)[mask_aug > 0].double())
+        loss = criterion(out.double(), (1-seg_aug).double())
 
         tot_loss += loss.item()
         loss.backward()
 
-        img_grad = elbo_grad - net(NN_input.to(device)).squeeze(1) * elbo_grad
+        img_grad = elbo_grad - elbo_grad * net(NN_input.to(device)).squeeze(1)
 
         img_ano = img_ano.detach() - step_size * img_grad.detach() * mask.to(device)
         img_ano.requires_grad = True
