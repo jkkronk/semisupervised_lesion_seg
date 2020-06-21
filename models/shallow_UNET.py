@@ -18,11 +18,24 @@ class shallow_UNet(nn.Module):
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
         self.encoder3 = shallow_UNet._block(features*2, features * 4, name="enc2")
         self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.encoder4 = shallow_UNet._block(features * 4, features * 8, name="enc2")
+        self.pool4 = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.bottleneck = shallow_UNet._block(features * 2, features * 4, name="bottleneck")
-        #self.upconv3 = nn.ConvTranspose2d(
-        #    features * 8, features * 4, kernel_size=2, stride=2
-        #)
+
+        self.upconv4 = nn.ConvTranspose2d(
+            features * 16, features * 8, kernel_size=2, stride=2
+        )
+        self.upconv4 = nn.Sequential(
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
+            nn.Conv2d(features * 16, features * 8, kernel_size=2, stride=2)
+        )
+        self.decoder4 = shallow_UNet._block((features * 2) * 8, features * 8, name="dec2")
+
+
+        self.upconv3 = nn.ConvTranspose2d(
+            features * 8, features * 4, kernel_size=2, stride=2
+        )
         self.upconv3 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 8, features * 4, kernel_size=2, stride=2)
@@ -60,8 +73,7 @@ class shallow_UNet(nn.Module):
         #dec4 = self.upconv4(bottleneck)
         #dec4 = torch.cat((dec4, enc4), dim=1)
         #dec4 = self.decoder4(dec4)
-
-        #dec3 = self.upconv3(bottleneck)
+        #dec3 = self.upconv3(dec4)
         #dec3 = torch.cat((dec3, enc3), dim=1)
         #dec3 = self.decoder3(dec3)
         dec2 = self.upconv2(bottleneck)

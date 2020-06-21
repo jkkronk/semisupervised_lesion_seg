@@ -98,17 +98,17 @@ def composed_tranforms(img_tensor, seg_tensor):
             iaa.Fliplr(0.5),  # Horizontal flips
             iaa.Flipud(0.5),
             iaa.Affine(
-                scale={"x": (0.7, 1.3), "y": (0.7, 1.3)},
+                scale={"x": (0.6, 1.4), "y": (0.6, 1.4)},
                 translate_percent={"x": (0, 0), "y": (0, 0)},
                 rotate=(-90, 90),
                 shear=(0, 0)),  # Scaling, rotating
-            iaa.ElasticTransformation(alpha=(0.0, 0.40), sigma=6.0)  # Elastic
+            iaa.ElasticTransformation(alpha=(0.0, 0.50), sigma=6.0)  # Elastic
         ], random_order=True)
 
         seq_img = iaa.Sequential([
-            iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
-            iaa.LinearContrast((0.7, 1.3)),  # Contrast
-            iaa.Multiply((0.8, 1.2), per_channel=1),  # Intensity
+            iaa.blur.AverageBlur(k=(0, 4)),  # Gausian blur
+            iaa.LinearContrast((0.6, 1.4)),  # Contrast
+            iaa.Multiply((0.7, 1.3), per_channel=1),  # Intensity
         ], random_order=True)
 
         img, seg = seq_all(image=img, segmentation_maps=segmap)  # Rest of augmentations

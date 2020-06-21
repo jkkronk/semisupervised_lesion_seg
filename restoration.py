@@ -91,7 +91,7 @@ def run_map_GGNN(input_img, mask, dec_mu, net, vae_model, riter, device, input_s
         elbo_grad, = torch.autograd.grad(elbo, img_ano, grad_outputs=elbo.data.new(elbo.shape).fill_(1),
                                          create_graph=True)
 
-        nn_input = torch.stack([input_img, img_ano, elbo_grad]).permute((1, 0, 2, 3)).float()
+        nn_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
         pyx_grad = net(nn_input).squeeze(1) * elbo_grad
 
@@ -124,8 +124,8 @@ def run_map_GGNN(input_img, mask, dec_mu, net, vae_model, riter, device, input_s
 
     return img_ano
 
-def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size, device, writer, input_seg, mask,
-                     train=True,log=True):
+def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
+                     train=True,log=True, K_actf=1):
     # Init params
     input_img = input_img.to(device)
     mask = mask.to(device)
@@ -137,8 +137,8 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         net.train()
 
     # Init MAP Optimizer
-    #criterion = diceloss()
-    criterion = nn.BCELoss()
+    criterion = diceloss()
+    #criterion = nn.BCELoss()
     tot_loss = 0
     for i in range(riter):
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
@@ -146,17 +146,28 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
         l2_loss = torch.sum((dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2))
 
-        gfunc = l2_loss + kl_loss
+        elbo = l2_loss + kl_loss
 
-        ELBO_grad, = torch.autograd.grad(gfunc, img_ano, grad_outputs=gfunc.data.new(gfunc.shape).fill_(1),
+        elbo_grad, = torch.autograd.grad(elbo, img_ano, grad_outputs=elbo.data.new(elbo.shape).fill_(1),
                                          create_graph=True)
 
-        NN_input = torch.stack([input_img, img_ano, ELBO_grad]).permute((1, 0, 2, 3)).float() #img_ano.detach()
-        out = net(NN_input).squeeze(1)
-        img_grad = ELBO_grad * out #elbo.detach()
+        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
-        #img_ano_update = img_ano.detach() - step_size * img_grad * mask
-        img_ano = img_ano - step_size * img_grad * mask
+        out = net(NN_input.detach().to(device)).squeeze(1)
+
+        img_grad = elbo_grad.detach() - elbo_grad.detach() * out
+
+        n_img_ano = img_ano.detach() - step_size * img_grad * mask
+
+        img_ano_act = torch.tanh((n_img_ano - input_img).pow(2)+2)
+
+        loss = criterion(img_ano_act.double(), input_seg.double())
+
+        tot_loss += loss.item()
+        loss.backward()
+
+        img_ano = n_img_ano.detach()
+        img_ano.requires_grad = True
 
         # img_ano_act = 1 - 2 * torch.sigmoid(-K_actf*(img_ano_update - input_img).pow(2))
         # img_ano_act = torch.tanh(normalize_tensor_N((img_ano_update - input_img).pow(2), K_actf))
@@ -177,9 +188,9 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
 
         #tot_loss += loss.item()
 
-    img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
-    loss = criterion(img_ano_act[mask > 0].double(), input_seg[mask > 0].double())
-    loss.backward()
+    #img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
+    #loss = criterion(img_ano_act[mask > 0].double(), input_seg[mask > 0].double())
+    #loss.backward()
 
     #img_ano_act = torch.tanh(K_actf * (img_ano - input_img).pow(2))
     #loss = dice(img_ano_act, input_seg)
@@ -194,7 +205,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         writer.add_image('Restored_Img', normalize_tensor((img_ano-input_img).pow(2).unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Restored_Img_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
-        writer.add_image('ELBO', normalize_tensor(ELBO_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('ELBO', normalize_tensor(elbo_grad.unsqueeze(1)[:16]), dataformats='NCHW')
         writer.add_image('Grad', normalize_tensor(img_grad.unsqueeze(1)[:16]), dataformats='NCHW')
         #writer.add_histogram('hist-out-torch', out.flatten())
         #writer.add_histogram('hist-grad-torch', grad.flatten())
@@ -202,18 +213,12 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, K_actf, step_size
         #writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
         writer.flush()
 
-    #del grad
-    #del out
-    #del input_img
-    #del input_seg
-    #del img_ano_act
-    #del img_ano_update
 
-    return img_ano, loss.item()#tot_loss/riter
+    return img_ano, tot_loss/riter
 
 
 def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
-                     train=True,log=True, healthy=False):
+                     train=True,log=True, healthy=False, K_actf=0):
     # Init params
     dec_mu = dec_mu.to(device).float()
     img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
@@ -235,7 +240,7 @@ def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, devi
         elbo_grad, = torch.autograd.grad(elbo, img_ano, grad_outputs=elbo.data.new(elbo.shape).fill_(1),
                                          create_graph=True)
 
-        NN_input = torch.stack([input_img, img_ano, elbo_grad]).permute((1, 0, 2, 3)).float()
+        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
         NN_input_aug, seg_aug, mask_aug = composed_tranforms(NN_input.clone(), input_seg.clone())
         seg_aug = seg_aug.detach().to(device)

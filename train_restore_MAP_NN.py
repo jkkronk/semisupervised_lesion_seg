@@ -59,7 +59,7 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 3, 1, 2).to(device)
+    net = shallow_UNet(name, 2, 1, 2).to(device)
     #net = ConvNet(name, 2, 1, 32).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     random.shuffle(subj_list_all)
     subj_list = subj_list_all[:subj_nbr]#['Brats17_CBICA_BFB_1_t2_unbiased.nii.gz'] #
     if subj_nbr == 1:
-        subj_list = ['Brats17_2013_14_1_t2_unbiased.nii.gz']
+        subj_list = ['Brats17_TCIA_105_1_t2_unbiased.nii.gz'] #3 Brats17_TCIA_105_1_t2_unbiased 2 Brats17_CBICA_AXW_1_t2_unbiased 1 Brats17_TCIA_241_1_t2_unbiased  0 Brats17_2013_14_1_t2_unbiased
 
     print(subj_list)
 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
             mask = mask.squeeze(1)
 
             restored_batch, loss = train_run_map_GGNN(scan, decoded_mu, net, vae_model, riter, step_size,
-                                                      device, writer, seg, mask) #riter instead of epochs
+                                                      device, writer, seg, mask, K_actf=K_actf)
 
             optimizer.step()
             optimizer.zero_grad()
