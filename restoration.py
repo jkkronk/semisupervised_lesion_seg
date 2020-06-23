@@ -151,6 +151,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, step_size, device
         elbo_grad, = torch.autograd.grad(elbo, img_ano, grad_outputs=elbo.data.new(elbo.shape).fill_(1),
                                          create_graph=True)
 
+
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
         out = net(NN_input.detach().to(device)).squeeze(1)
@@ -159,12 +160,29 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, step_size, device
 
         n_img_ano = img_ano.detach() - step_size * img_grad * mask
 
+        #NN_input_aug, seg_aug, mask_aug = composed_tranforms(NN_input.clone(), input_seg.clone())
+        #seg_aug = seg_aug.detach().to(device)
+
+        #out = net(NN_input_aug[:,:1].detach().to(device)).squeeze(1)
+
+        #img_grad = NN_input_aug[2].detach() - NN_input_aug[2].detach() * out
+
+        #n_img_ano = NN_input_aug[1].detach() - step_size * img_grad * mask_aug
+
         img_ano_act = torch.tanh((n_img_ano - input_img).pow(2)+2)
 
         loss = criterion(img_ano_act.double(), input_seg.double())
 
         tot_loss += loss.item()
         loss.backward()
+
+        #NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
+
+        #out = net(NN_input.detach().to(device)).squeeze(1)
+
+        #img_grad = elbo_grad.detach() - elbo_grad.detach() * out
+
+        #n_img_ano = img_ano.detach() - step_size * img_grad * mask
 
         img_ano = n_img_ano.detach()
         img_ano.requires_grad = True
@@ -218,7 +236,7 @@ def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, step_size, device
 
 
 def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
-                     train=True,log=True, healthy=False, K_actf=0):
+                     train=True,log=True, healthy=False, K_actf=0, aug=False):
     # Init params
     dec_mu = dec_mu.to(device).float()
     img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
@@ -242,12 +260,16 @@ def train_run_map_GGNN(input_img, dec_mu, net, vae_model, riter, step_size, devi
 
         NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
 
-        NN_input_aug, seg_aug, mask_aug = composed_tranforms(NN_input.clone(), input_seg.clone())
+        if aug:
+            NN_input_aug, seg_aug, mask_aug = composed_tranforms(NN_input.clone(), input_seg.clone())
+        else:
+            NN_input_aug, seg_aug, mask_aug = NN_input, input_seg, mask
+
         seg_aug = seg_aug.detach().to(device)
 
         out = net(NN_input_aug.detach().to(device)).squeeze(1)
 
-        loss = criterion(out[mask > 0].double(), (1-seg_aug)[mask > 0].double())
+        loss = criterion(out.double(), (1-seg_aug).double())
 
         tot_loss += loss.item()
         loss.backward()

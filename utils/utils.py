@@ -76,6 +76,7 @@ def total_variation(images):
 
     return tot_var
 
+
 def composed_tranforms(img_tensor, seg_tensor):
     # Function for data augmentation
     # 1) Affine Augmentations: Rotation (-15 to +15 degrees), Scaling, Flipping.
@@ -84,7 +85,7 @@ def composed_tranforms(img_tensor, seg_tensor):
 
     ia.seed(int(time.time()))  # Seed for random augmentations
     N, C, H, W = img_tensor.shape
-    mask_tensor = torch.zeros((N,H,W))
+    mask_tensor = torch.zeros((N, H, W))
 
     # Needed for iaa
     for i in range(img_tensor.shape[0]):
@@ -98,17 +99,17 @@ def composed_tranforms(img_tensor, seg_tensor):
             iaa.Fliplr(0.5),  # Horizontal flips
             iaa.Flipud(0.5),
             iaa.Affine(
-                scale={"x": (0.6, 1.4), "y": (0.6, 1.4)},
+                scale={"x": (0.8, 1.2), "y": (0.8, 1.2)},
                 translate_percent={"x": (0, 0), "y": (0, 0)},
-                rotate=(-90, 90),
+                rotate=(-20, 20),
                 shear=(0, 0)),  # Scaling, rotating
-            iaa.ElasticTransformation(alpha=(0.0, 0.50), sigma=6.0)  # Elastic
+            iaa.ElasticTransformation(alpha=(0.0, 600), sigma=20.0)  # Elastic
         ], random_order=True)
 
         seq_img = iaa.Sequential([
             iaa.blur.AverageBlur(k=(0, 4)),  # Gausian blur
-            iaa.LinearContrast((0.6, 1.4)),  # Contrast
-            iaa.Multiply((0.7, 1.3), per_channel=1),  # Intensity
+            iaa.LinearContrast((0.7, 1.3)),  # Contrast
+            iaa.Multiply((0.8, 1.2), per_channel=1),  # Intensity
         ], random_order=True)
 
         img, seg = seq_all(image=img, segmentation_maps=segmap)  # Rest of augmentations
@@ -116,7 +117,7 @@ def composed_tranforms(img_tensor, seg_tensor):
         # Fix mask array before intensity augmentation
         mask_aug = np.zeros(img.shape)
         mask_aug[img[:, :, 0] > 0] = 1
-        mask_aug = mask_aug[:,:,0]
+        mask_aug = mask_aug[:, :, 0]
 
         img = seq_img(image=img)  # Intensity and contrast only on input image
 

@@ -8,4 +8,4 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u evaluate.py --model_name AUG_100_1_50 --config conf.yaml
+python -u evaluate.py --model_name 3subj_0_500 --config conf.yaml

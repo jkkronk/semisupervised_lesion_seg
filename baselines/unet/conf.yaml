@@ -1,5 +1,5 @@
-epochs: 51
-batch_size: 32
+epochs: 1001
+batch_size: 64
 spatial_size: 128
 log_freq: 25
 lr_rate: 1e-3

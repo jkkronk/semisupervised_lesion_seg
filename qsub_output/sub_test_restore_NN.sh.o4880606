@@ -1,0 +1,110 @@
+[Brats17_CBICA_ASH_1_t2_unbiased.nii.gz, Brats17_TCIA_430_1_t2_unbiased.nii.gz, Brats17_2013_17_1_t2_unbiased.nii.gz]
+ Vae model:  camcan_400_Aug_6_100  NN model:  3subj_1e1_10steps_2fch3sh_saug_4_100
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+0.0 : 0.09844105922692169
+0.01 : 0.6947344668601957
+0.02 : 0.7800978077692857
+0.03 : 0.8063021822604227
+0.04 : 0.8099716084996407
+0.05 : 0.8023902776302699
+0.06 : 0.7870278794705716
+0.07 : 0.7674606284520078
+0.08 : 0.7436653399900198
+0.09 : 0.7142472689578184
+0.1 : 0.6813697458644369
+0.11 : 0.6447581837212463
+0.12 : 0.6060532647656384
+0.13 : 0.5659991129610044
+0.14 : 0.5224623864100432
+0.15 : 0.47600009721479614
+0.16 : 0.4257674190444446
+0.17 : 0.36984406602727216
+0.18 : 0.3110380116959064
+0.19 : 0.25114011085385535
+0.2 : 0.1937070062770382
+0.21 : 0.14019264252034405
+0.22 : 0.09596748266201259
+0.23 : 0.0690803776632089
+0.24 : 0.05224570363291714
+0.25 : 0.04069925496329975
+0.26 : 0.03127585701786683
+0.27 : 0.02296355489824235
+0.28 : 0.01690853043336085
+0.29 : 0.012533521975628374
+0.3 : 0.008848990574423614
+0.31 : 0.00607061804826021
+0.32 : 0.003621152024151719
+0.33 : 0.0020249665518917766
+0.34 : 0.0015191094321424265
+0.35 : 0.0013022351016667806
+0.36 : 0.0010451378979061065
+0.37 : 0.0008442346811607021
+0.38 : 0.0006915212260832157
+0.39 : 0.0005066263510036026
+0.4 : 0.0003699429403225742
+0.41 : 0.0002573660992548447
+0.42 : 0.0001447765815836145
+0.43 : 0.00010456296701440556
+0.44 : 2.41308859252586e-05
+AUC training :  0.9696225592265322  - Dice training :  0.8099716084996407
+0 5248
+1 11808
+2 10720
+3 16960
+4 4160
+5 20448
+6 22784
+7 2048
+8 20192
+9 14016
+10 22752
+11 6784
+12 5024
+13 11936
+14 20288
+15 13472
+16 12576
+17 20416
+18 8000
+19 5152
+20 9504
+21 3648
+22 2496
+23 3456
+24 15392
+0 23264
+1 11392
+2 22112
+3 14656
+4 21376
+5 13504
+6 896
+7 7680
+8 21344
+9 20064
+10 13696
+11 224
+12 20256
+13 20000
+14 17632
+15 608
+16 13472
+17 13920
+18 12128
+19 16032
+20 5024
+21 12768
+22 4384
+23 23072
+24 14176
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 86, in <module>
+    print(thr_error, thr_error_h5, thr_error_h1)
+NameError: name 'thr_error' is not defined

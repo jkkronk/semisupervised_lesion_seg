@@ -1,4 +1,7 @@
 __author__ = 'jonatank'
+import sys
+sys.path.insert(0, '/scratch_net/biwidl214/jonatank/code_home/restor_MAP/')
+
 import torch
 import torch.utils.data as data
 
@@ -7,6 +10,7 @@ import numpy as np
 import argparse
 import yaml
 import pickle
+from sklearn.metrics import roc_auc_score
 
 if __name__ == "__main__":
     # Params init
@@ -50,6 +54,9 @@ if __name__ == "__main__":
     subj_list = list(subj_dict.keys())
 
     with torch.no_grad():
+        pred_list = []
+        seg_list = []
+
         for subj in subj_list:
             TP = 0
             FN = 0
@@ -74,6 +81,9 @@ if __name__ == "__main__":
                 pred_m = pred_seg[mask > 0].ravel()
                 seg_m = seg[mask > 0].ravel()
 
+                pred_list.extend(pred_m)
+                seg_list.extend(seg_m)
+
                 pred_m = np.rint(pred_m)
 
                 TP += np.sum(seg_m[pred_m == 1])
@@ -86,4 +96,6 @@ if __name__ == "__main__":
 
             print(subj, ' DICE: ', dice)
 
+        AUC = roc_auc_score(seg_list, pred_list)
+        print('AUC', AUC)
         print('mean: ', np.mean(np.array(subj_dice), axis=0), ' std: ', np.std(np.array(subj_dice), axis=0))

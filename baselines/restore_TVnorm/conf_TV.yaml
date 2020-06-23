@@ -5,6 +5,6 @@ orig_size: 200
 log_freq: 20
 step_rate: 0.003
 vae_name: VAE_400_40ep
-weight: 1
+weight: 1.5
 log_dir: /scratch_net/biwidl214/jonatank/logs/restore/
 path: /scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/brats17/

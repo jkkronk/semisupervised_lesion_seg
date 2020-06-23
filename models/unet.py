@@ -8,7 +8,7 @@ from collections import OrderedDict
 
 class UNET(nn.Module):
     def __init__(self, name,in_channels=1, out_channels=1, init_features=32):
-        super(UNet, self).__init__()
+        super(UNET, self).__init__()
         self.name = name
 
         features = init_features
