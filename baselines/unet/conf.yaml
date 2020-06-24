@@ -1,4 +1,4 @@
-epochs: 1001
+epochs: 501
 batch_size: 64
 spatial_size: 128
 log_freq: 25

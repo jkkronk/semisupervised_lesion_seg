@@ -2,60 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="122b9f0d-d8e5-41b3-9477-c64850657a9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/baselines/SimCLR/datasets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/baselines/SimCLR/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/conf.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/evaluate.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/qsub_output/sub_train_unet.sh.o4874738" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/sub_test_unet.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/sub_train_unet.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/pretrained_unet/train_pretrained_unet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/restore_TVnorm/conf_TV.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/restore_TVnorm/conf_TV.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/SimCLR/._simclr.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/SimCLR/simclr.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/SimCLR/simclr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/unet/conf.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/conf.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/unet/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880617" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880617" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880620" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880620" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/unet/sub_test_unet.sh" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/sub_test_unet.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/unet/sub_train_unet.sh" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/sub_train_unet.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/unet/train_unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/unet/train_unet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/conf_nn.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf/conf_nn.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/shallow_UNET.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/shallow_UNET.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/unet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4878928" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4878999" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879004" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879286" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879317" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879378" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879385" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879404" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879410" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879522" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879584" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879615" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4879626" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879468" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879469" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879470" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879471" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879472" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879473" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879475" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879480" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879529" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879530" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879591" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879616" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879628" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879639" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/sub_vae.sh.o4870978" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/test_1subj_3e1_10steps_2fch2sh_xlaug_lr1_0_100_testAUC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qsub_output/test_1subj_3e1_10steps_2fch2sh_xlaug_lr1_0_50_testAUC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/restoration.py" beforeDir="false" afterPath="$PROJECT_DIR$/restoration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/unet_noskip.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/unet_encoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880606" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880622" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/SimCLR/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880354" beforeDir="false" afterPath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880354" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880521" beforeDir="false" afterPath="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880521" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qsub_output/test_3subj_1e1_10steps_2fch3sh_saug_4__testAUC.png" beforeDir="false" afterPath="$PROJECT_DIR$/qsub_output/test_3subj_1e1_10steps_2fch3sh_saug_4__testAUC.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restore_MAP_NN.py" beforeDir="false" afterPath="$PROJECT_DIR$/restore_MAP_NN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sub_test_restore_NN.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sub_test_restore_NN.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sub_train_restore_NN.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sub_train_restore_NN.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_restore_MAP_NN.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_restore_MAP_NN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/threshold.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/threshold.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +38,7 @@
         <counts>
           <entry key="project.closed" value="16" />
           <entry key="project.open.time.0" value="31" />
-          <entry key="project.open.time.1" value="43" />
+          <entry key="project.open.time.1" value="44" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
@@ -77,13 +46,13 @@
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.2" value="20" />
           <entry key="project.open.time.24" value="1" />
-          <entry key="project.open.time.3" value="5" />
+          <entry key="project.open.time.3" value="6" />
           <entry key="project.open.time.36" value="1" />
           <entry key="project.open.time.4" value="17" />
           <entry key="project.open.time.5" value="8" />
           <entry key="project.open.time.6" value="3" />
           <entry key="project.open.time.7" value="2" />
-          <entry key="project.opened" value="136" />
+          <entry key="project.opened" value="138" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -1176,19 +1145,19 @@
           <entry key="o4880098" value="1" />
           <entry key="o4880114" value="1" />
           <entry key="o4880121" value="1" />
-          <entry key="o4880130" value="3" />
+          <entry key="o4880130" value="6" />
           <entry key="o4880132" value="2" />
           <entry key="o4880133" value="2" />
           <entry key="o4880138" value="2" />
           <entry key="o4880142" value="3" />
-          <entry key="o4880152" value="4" />
-          <entry key="o4880172" value="4" />
-          <entry key="o4880202" value="3" />
-          <entry key="o4880203" value="3" />
-          <entry key="o4880204" value="5" />
-          <entry key="o4880205" value="8" />
+          <entry key="o4880152" value="5" />
+          <entry key="o4880172" value="6" />
+          <entry key="o4880202" value="9" />
+          <entry key="o4880203" value="6" />
+          <entry key="o4880204" value="6" />
+          <entry key="o4880205" value="11" />
           <entry key="o4880341" value="1" />
-          <entry key="o4880354" value="4" />
+          <entry key="o4880354" value="9" />
           <entry key="o4880446" value="1" />
           <entry key="o4880447" value="1" />
           <entry key="o4880448" value="1" />
@@ -1200,7 +1169,7 @@
           <entry key="o4880513" value="3" />
           <entry key="o4880519" value="1" />
           <entry key="o4880520" value="2" />
-          <entry key="o4880521" value="3" />
+          <entry key="o4880521" value="9" />
           <entry key="o4880582" value="1" />
           <entry key="o4880592" value="1" />
           <entry key="o4880596" value="1" />
@@ -1210,41 +1179,91 @@
           <entry key="o4880606" value="2" />
           <entry key="o4880608" value="1" />
           <entry key="o4880609" value="1" />
-          <entry key="png" value="304" />
-          <entry key="py" value="1228" />
+          <entry key="o4880617" value="6" />
+          <entry key="o4880620" value="6" />
+          <entry key="o4880622" value="2" />
+          <entry key="o4880663" value="1" />
+          <entry key="o4880668" value="8" />
+          <entry key="o4880669" value="9" />
+          <entry key="o4880671" value="1" />
+          <entry key="o4880732" value="1" />
+          <entry key="o4880736" value="1" />
+          <entry key="o4880742" value="1" />
+          <entry key="o4880747" value="1" />
+          <entry key="o4880751" value="2" />
+          <entry key="o4880754" value="4" />
+          <entry key="o4880764" value="3" />
+          <entry key="o4880765" value="5" />
+          <entry key="o4880766" value="2" />
+          <entry key="o4880787" value="6" />
+          <entry key="o4880788" value="8" />
+          <entry key="o4880793" value="6" />
+          <entry key="o4880795" value="1" />
+          <entry key="o4880809" value="3" />
+          <entry key="o4880810" value="2" />
+          <entry key="o4880811" value="3" />
+          <entry key="o4880813" value="4" />
+          <entry key="o4880823" value="1" />
+          <entry key="o4880827" value="2" />
+          <entry key="o4880829" value="1" />
+          <entry key="o4880830" value="2" />
+          <entry key="o4880832" value="3" />
+          <entry key="o4880833" value="2" />
+          <entry key="o4880857" value="2" />
+          <entry key="o4880871" value="2" />
+          <entry key="o4880873" value="2" />
+          <entry key="o4880990" value="1" />
+          <entry key="o4880992" value="2" />
+          <entry key="o4881051" value="3" />
+          <entry key="o4881085" value="1" />
+          <entry key="o4881118" value="1" />
+          <entry key="o4881119" value="3" />
+          <entry key="o4881120" value="3" />
+          <entry key="o4881154" value="3" />
+          <entry key="o4881157" value="2" />
+          <entry key="o4881302" value="1" />
+          <entry key="o4881576" value="1" />
+          <entry key="o4881582" value="1" />
+          <entry key="o4881584" value="2" />
+          <entry key="o4881585" value="1" />
+          <entry key="o4881588" value="1" />
+          <entry key="o4881634" value="1" />
+          <entry key="png" value="319" />
+          <entry key="py" value="1270" />
           <entry key="qsub_output" value="2" />
-          <entry key="sh" value="618" />
+          <entry key="sh" value="655" />
           <entry key="txt" value="1" />
-          <entry key="yaml" value="309" />
+          <entry key="yaml" value="317" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Image" value="304" />
-          <entry key="PLAIN_TEXT" value="3067" />
-          <entry key="Python" value="1228" />
-          <entry key="YAML" value="309" />
+          <entry key="Image" value="319" />
+          <entry key="PLAIN_TEXT" value="3264" />
+          <entry key="Python" value="1270" />
+          <entry key="YAML" value="317" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="17" />
+          <entry key="dummy" value="24" />
           <entry key="gitignore" value="38" />
           <entry key="o4822115" value="5" />
           <entry key="o4836150" value="1" />
           <entry key="o4842930" value="1" />
           <entry key="o4878564" value="2" />
           <entry key="o4878928" value="1" />
-          <entry key="py" value="24622" />
-          <entry key="sh" value="4330" />
-          <entry key="yaml" value="1049" />
+          <entry key="o4880832" value="2" />
+          <entry key="py" value="25118" />
+          <entry key="sh" value="4438" />
+          <entry key="yaml" value="1068" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="4395" />
-          <entry key="Python" value="24622" />
-          <entry key="YAML" value="1049" />
+          <entry key="PLAIN_TEXT" value="4512" />
+          <entry key="Python" value="25118" />
+          <entry key="YAML" value="1068" />
         </counts>
       </usages-collector>
     </session>
@@ -1252,68 +1271,69 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baselines/unet/train_unet.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="541">
-              <caret line="89" column="414" selection-start-line="89" selection-start-column="414" selection-end-line="89" selection-end-column="414" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880204">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-end-line="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880205">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="20" selection-start-line="8" selection-end-line="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baselines/unet/sub_train_unet.sh">
+        <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
+              <caret line="10" column="73" selection-start-line="10" selection-start-column="73" selection-end-line="10" selection-end-column="73" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880606">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881302">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="641">
-              <caret line="109" column="25" selection-start-line="109" selection-end-line="110" />
+            <state relative-caret-position="15">
+              <caret line="1" column="73" lean-forward="true" selection-start-line="1" selection-start-column="73" selection-end-line="1" selection-end-column="73" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baselines/unet/conf.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baselines/unet/sub_test_unet.sh">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/restore_MAP_NN.py">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880873">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="81" column="34" lean-forward="true" selection-start-line="81" selection-start-column="34" selection-end-line="81" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="90">
+              <caret line="6" column="124" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="124" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881051">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881584">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881585">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881588">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881634">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="30" selection-start-line="6" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -1322,7 +1342,16 @@
         <entry file="file://$PROJECT_DIR$/sub_test_restore_NN.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="10" column="291" selection-start-line="10" selection-start-column="291" selection-end-line="10" selection-end-column="291" />
+              <caret line="10" column="61" selection-start-line="10" selection-start-column="61" selection-end-line="10" selection-end-column="61" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881119">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="20" lean-forward="true" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -1375,9 +1404,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/gfunc.py" />
-        <option value="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4836150" />
-        <option value="$PROJECT_DIR$/qsub_output/sub_restore_NN.sh.o4842930" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/sub_restore_NN_1.sh" />
         <option value="$PROJECT_DIR$/models/gmvae.py" />
@@ -1397,35 +1423,38 @@
         <option value="$PROJECT_DIR$/baselines/restore_TVnorm/sub_TV_restore.sh" />
         <option value="$PROJECT_DIR$/baselines/restore_TVnorm/restore_MAP_TV.py" />
         <option value="$PROJECT_DIR$/baselines/pretrained_unet/train_pretrained_unet.py" />
-        <option value="$PROJECT_DIR$/models/unet_noskip.py" />
         <option value="$PROJECT_DIR$/datasets.py" />
         <option value="$PROJECT_DIR$/sub_pretrain_restore_NN.sh" />
         <option value="$PROJECT_DIR$/networks/vae_bilinear_conv.py" />
         <option value="$PROJECT_DIR$/models/vae.py" />
         <option value="$PROJECT_DIR$/conf/conf_vae.yaml" />
         <option value="$PROJECT_DIR$/sub_train_vae.sh" />
-        <option value="$PROJECT_DIR$/utils/threshold.py" />
         <option value="$PROJECT_DIR$/pretrain_restore_MAP_NN.py" />
         <option value="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4878564" />
         <option value="$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4878928" />
         <option value="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4879668" />
         <option value="$PROJECT_DIR$/models/unet.py" />
-        <option value="$PROJECT_DIR$/baselines/unet/sub_test_unet.sh" />
-        <option value="$PROJECT_DIR$/baselines/unet/conf.yaml" />
-        <option value="$PROJECT_DIR$/baselines/unet/evaluate.py" />
         <option value="$PROJECT_DIR$/restoration.py" />
         <option value="$PROJECT_DIR$/models/shallow_UNET.py" />
         <option value="$PROJECT_DIR$/utils/utils.py" />
-        <option value="$PROJECT_DIR$/train_restore_MAP_NN.py" />
-        <option value="$PROJECT_DIR$/conf/conf_nn.yaml" />
-        <option value="$PROJECT_DIR$/sub_train_restore_NN.sh" />
         <option value="$PROJECT_DIR$/baselines/restore_TVnorm/conf_TV.yaml" />
         <option value="$PROJECT_DIR$/baselines/SimCLR/data_aug/dataset_wrapper.py" />
         <option value="$PROJECT_DIR$/baselines/SimCLR/datasets.py" />
-        <option value="$PROJECT_DIR$/sub_test_restore_NN.sh" />
-        <option value="$PROJECT_DIR$/baselines/unet/sub_train_unet.sh" />
-        <option value="$PROJECT_DIR$/baselines/unet/train_unet.py" />
+        <option value="$PROJECT_DIR$/models/unet_noskip.py" />
+        <option value="$PROJECT_DIR$/models/unet_encoder.py" />
+        <option value="$PROJECT_DIR$/baselines/SimCLR/simclr.py" />
+        <option value="$PROJECT_DIR$/baselines/unet/conf.yaml" />
         <option value="$PROJECT_DIR$/restore_MAP_NN.py" />
+        <option value="$PROJECT_DIR$/baselines/unet/evaluate.py" />
+        <option value="$PROJECT_DIR$/utils/threshold.py" />
+        <option value="$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880832" />
+        <option value="$PROJECT_DIR$/baselines/unet/train_unet.py" />
+        <option value="$PROJECT_DIR$/baselines/unet/sub_train_unet.sh" />
+        <option value="$PROJECT_DIR$/baselines/unet/sub_test_unet.sh" />
+        <option value="$PROJECT_DIR$/train_restore_MAP_NN.py" />
+        <option value="$PROJECT_DIR$/conf/conf_nn.yaml" />
+        <option value="$PROJECT_DIR$/sub_train_restore_NN.sh" />
+        <option value="$PROJECT_DIR$/sub_test_restore_NN.sh" />
       </list>
     </option>
   </component>
@@ -1451,17 +1480,6 @@
             <path>
               <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
               <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
-              <item name="baselines" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
-              <item name="baselines" type="462c0819:PsiDirectoryNode" />
-              <item name="unet" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="restor_MAP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="restor_MAP" type="462c0819:PsiDirectoryNode" />
               <item name="conf" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -1479,19 +1497,19 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/baselines/SimCLR/models" />
+      <recent name="$PROJECT_DIR$/baselines" />
+      <recent name="$PROJECT_DIR$/qsub_output/old" />
+      <recent name="$PROJECT_DIR$/models" />
+      <recent name="$PROJECT_DIR$/qsub_output" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/baselines/SimCLR" />
       <recent name="$PROJECT_DIR$/baselines/unet" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/baselines/pretrained_unet" />
       <recent name="$PROJECT_DIR$/models" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/baselines" />
-      <recent name="$PROJECT_DIR$/qsub_output/old" />
-      <recent name="$PROJECT_DIR$/models" />
-      <recent name="$PROJECT_DIR$/qsub_output" />
-      <recent name="$PROJECT_DIR$/baselines/unsupervised_TVnorm" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1534,7 +1552,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.25732484" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.25732484" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.21019109" />
@@ -1547,191 +1565,79 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880132">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880823">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="42" selection-start-line="6" selection-end-line="6" selection-end-column="124" />
+        <state relative-caret-position="300">
+          <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880519" />
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880509" />
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/requirements.txt">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880620">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/config.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="6" lean-forward="true" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/restore_TVnorm/qsub_output/sub_TV_restore.sh.o4874543">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880617">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/restore_TVnorm/qsub_output/sub_TV_restore.sh.o4874461">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2990" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/restore_TVnorm/sub_TV_restore.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="75" lean-forward="true" selection-start-line="10" selection-start-column="75" selection-end-line="10" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/restore_TVnorm/resotration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="85" selection-start-line="26" selection-start-column="85" selection-end-line="26" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/restore_TVnorm/conf_TV.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/restore_TVnorm/restore_MAP_TV.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-128" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datasets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-306" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/data_aug/gaussian_blur.py">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880765">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="84" column="65" lean-forward="true" selection-start-line="70" selection-start-column="4" selection-end-line="84" selection-end-column="65" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880813">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_vae.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="38" column="29" selection-start-line="38" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/datasets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/restoration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1389" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/conf_nn.yaml">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880202">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="72" />
+          <caret line="9" selection-start-line="7" selection-end-line="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/data_aug/dataset_wrapper.py">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4880829">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-7767" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/run.py">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880152">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880354">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
+          <caret line="7" column="37" selection-start-line="7" selection-end-line="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/SimCLR/simclr.py">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880787">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="63" column="25" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="40" selection-start-column="7" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880511">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880793">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4485">
-          <caret line="299" column="57" selection-start-line="299" selection-start-column="57" selection-end-line="299" selection-end-column="123" />
+        <state>
+          <caret column="44" selection-start-column="7" selection-end-column="44" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880513">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880788">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="82" selection-start-line="1" selection-start-column="46" selection-end-line="1" selection-end-column="82" />
+        <state relative-caret-position="453">
+          <caret line="330" column="29" selection-start-line="325" selection-start-column="5" selection-end-line="330" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880520">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880990">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="82" selection-start-line="1" selection-start-column="46" selection-end-line="1" selection-end-column="82" />
-        </state>
+        <state relative-caret-position="-4226" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh">
+    <entry file="file://$PROJECT_DIR$/utils/threshold.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="115" selection-start-line="10" selection-start-column="115" selection-end-line="10" selection-end-column="115" />
+        <state relative-caret-position="381">
+          <caret line="437" column="5" selection-start-line="437" selection-start-column="5" selection-end-line="437" selection-end-column="5" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880582">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-124">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880592">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="60" column="27" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880596">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880142">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="124" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="124" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880598">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880602">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880130">
       <provider selected="true" editor-type-id="text-editor">
@@ -1740,123 +1646,211 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880603">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881118" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881085" />
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880668">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="15" selection-start-line="12" selection-end-line="13" />
+        <state relative-caret-position="528">
+          <caret line="312" column="27" selection-start-line="312" selection-end-line="313" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880202">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880992">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="40" selection-start-column="7" selection-end-column="40" />
+        <state relative-caret-position="-2578">
+          <caret line="104" column="16" lean-forward="true" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880203">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880832">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4605">
+          <caret line="307" column="43" lean-forward="true" selection-start-line="307" selection-start-column="43" selection-end-line="307" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880871">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" column="124" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="124" />
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="125" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880172">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880857">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="126" />
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="119" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880152">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_test_unet.sh.o4880833">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="124" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="124" />
+        <state relative-caret-position="1545">
+          <caret line="103" column="52" lean-forward="true" selection-start-line="103" selection-start-column="52" selection-end-line="103" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880521">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_test_unet.sh.o4880827">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="5" lean-forward="true" selection-start-line="6" selection-end-line="7" />
-        </state>
+        <state relative-caret-position="-1107" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880609">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_test_unet.sh.o4880830">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-154" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880608">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-454" />
+        <state relative-caret-position="-1107" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/qsub_output/test_3subj_1e1_10steps_2fch3sh_saug_4__testAUC.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880354">
+    <entry file="file://$PROJECT_DIR$/qsub_output/test_3subj_1e1_10steps_2fch3sh_saug_3__testAUC.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/test_3subj_1e1_10steps_2fch3sh_saug_4_new__testAUC.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/test_3subj_1e1_10steps_2fch3sh_saug_5__testAUC.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/test_3subj_3e1_10steps_4fch3sh_saug_0_new_200_testAUC.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881120">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="111" lean-forward="true" selection-start-line="6" selection-end-line="7" />
+        <state relative-caret-position="408">
+          <caret line="322" column="33" selection-start-line="322" selection-start-column="16" selection-end-line="322" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880205">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881154">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="20" selection-start-line="8" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880204">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-end-line="9" />
-        </state>
+        <state relative-caret-position="-4407" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baselines/unet/train_unet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="89" column="414" selection-start-line="89" selection-start-column="414" selection-end-line="89" selection-end-column="414" />
+        <state relative-caret-position="490">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/unet/sub_test_unet.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/unet/conf.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baselines/unet/sub_train_unet.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4880606">
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_train_unet.sh.o4881576">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="109" column="25" selection-start-line="109" selection-end-line="110" />
+        <state relative-caret-position="15">
+          <caret line="1" column="8" selection-start-line="1" selection-end-line="1" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/conf_nn.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baselines/unet/qsub_output/sub_test_unet.sh.o4881582">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_restore_MAP_NN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="95" column="5" selection-start-line="95" selection-start-column="5" selection-end-line="95" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baselines/unet/sub_test_unet.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="46" selection-start-line="10" selection-start-column="46" selection-end-line="10" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/restore_MAP_NN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="79" column="20" selection-start-line="79" selection-start-column="20" selection-end-line="79" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881157">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_test_restore_NN.sh.o4881302">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="73" lean-forward="true" selection-start-line="1" selection-start-column="73" selection-end-line="1" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881119">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="20" lean-forward="true" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881584">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881585">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881588">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881634">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="30" selection-start-line="6" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sub_train_restore_NN.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="73" selection-start-line="10" selection-start-column="73" selection-end-line="10" selection-end-column="73" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sub_test_restore_NN.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="291" selection-start-line="10" selection-start-column="291" selection-end-line="10" selection-end-column="291" />
+          <caret line="10" column="61" selection-start-line="10" selection-start-column="61" selection-end-line="10" selection-end-column="61" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/restore_MAP_NN.py">
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4881051">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsub_output/sub_train_restore_NN.sh.o4880873">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="81" column="34" lean-forward="true" selection-start-line="81" selection-start-column="34" selection-end-line="81" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="6" column="124" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="124" />
         </state>
       </provider>
     </entry>

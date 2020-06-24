@@ -1,0 +1,8 @@
+[Brats17_TCIA_606_1_t2_unbiased.nii.gz, Brats17_TCIA_420_1_t2_unbiased.nii.gz, Brats17_CBICA_AQN_1_t2_unbiased.nii.gz]
+ Vae model:  camcan_400_Aug_6_100  NN model:  3subj_3e1_10steps_4fch3sh_saug_3_new_200
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj

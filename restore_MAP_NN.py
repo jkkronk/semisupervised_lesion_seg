@@ -73,11 +73,11 @@ if __name__ == "__main__":
                                      train_subjs, batch_size, n_latent_samples,
                                      device, name, riter, step_rate)
 
-        thr_error_h5 = threshold.compute_threshold(0.005, vae_model, img_size, batch_size, n_latent_samples, device,
+        thr_error_h1 = threshold.compute_threshold(0.001, vae_model, img_size, batch_size, n_latent_samples, device,
                                                 n_random_sub=25, net_model=net, riter=riter,
                                                 step_size=step_rate, renormalized=False)
 
-        thr_error_h1 = threshold.compute_threshold(0.005, vae_model, img_size, batch_size, n_latent_samples, device,
+        thr_error_h5 = threshold.compute_threshold(0.005, vae_model, img_size, batch_size, n_latent_samples, device,
                                                    n_random_sub=25, net_model=net, riter=riter,
                                                    step_size=step_rate, renormalized=False)
     else:
@@ -231,9 +231,9 @@ if __name__ == "__main__":
     y_pred_train[y_pred_train < thr_error] = 0
 
     # Calculate and sum total TP, FN, FP
-    TP += np.sum(y_true[y_pred_train == 1])
-    FN += np.sum(y_true[y_pred_train == 0])
-    FP += np.sum(y_pred_train[y_true == 0])
+    TP = np.sum(y_true[y_pred_train == 1])
+    FN = np.sum(y_true[y_pred_train == 0])
+    FP = np.sum(y_pred_train[y_true == 0])
 
     print('Training Dice:', (2*TP)/(2*TP+FN+FP))
 
@@ -242,9 +242,9 @@ if __name__ == "__main__":
     y_pred_5h[y_pred_5h < thr_error_h5] = 0
 
     # Calculate and sum total TP, FN, FP
-    TP += np.sum(y_true[y_pred_5h == 1])
-    FN += np.sum(y_true[y_pred_5h == 0])
-    FP += np.sum(y_pred_5h[y_true == 0])
+    TP = np.sum(y_true[y_pred_5h == 1])
+    FN = np.sum(y_true[y_pred_5h == 0])
+    FP = np.sum(y_pred_5h[y_true == 0])
 
     print('Training Dice FPR5:', (2 * TP) / (2 * TP + FN + FP))
 
@@ -253,9 +253,9 @@ if __name__ == "__main__":
     y_pred_1h[y_pred_1h < thr_error_h1] = 0
 
     # Calculate and sum total TP, FN, FP
-    TP += np.sum(y_true[y_pred_1h == 1])
-    FN += np.sum(y_true[y_pred_1h == 0])
-    FP += np.sum(y_pred_1h[y_true == 0])
+    TP = np.sum(y_true[y_pred_1h == 1])
+    FN = np.sum(y_true[y_pred_1h == 0])
+    FP = np.sum(y_pred_1h[y_true == 0])
 
     print('Training Dice FPR1:', (2 * TP) / (2 * TP + FN + FP))
 
@@ -265,6 +265,16 @@ if __name__ == "__main__":
         aux.append(abs(thr_error - thres))
     ix = aux.index(min(aux))
 
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error_h5 - thres))
+    ix_5h = aux.index(min(aux))
+
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error_h1 - thres))
+    ix_1h = aux.index(min(aux))
+
     lw = 2
     plt.plot(fpr, tpr, color='darkorange',
              lw=lw, label='Test ROC curve (area = %0.2f)' % roc_auc)
@@ -272,6 +282,8 @@ if __name__ == "__main__":
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.plot(fpr[ix], tpr[ix], 'r+')
+    plt.plot(fpr[ix_1h], tpr[ix_1h], 'b+')
+    plt.plot(fpr[ix_5h], tpr[ix_5h], 'g+')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic example')

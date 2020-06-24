@@ -3,6 +3,89 @@ Loading train set for subj
  Number of Slices:  354
 Loading train set for subj
  Number of Slices:  354
+UNET(
+  (encoder1): Sequential(
+    (enc1conv1): Conv2d(1, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc1norm1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc1relu1): ReLU(inplace=True)
+    (enc1conv2): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc1norm2): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc1relu2): ReLU(inplace=True)
+  )
+  (pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (encoder2): Sequential(
+    (enc2conv1): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc2norm1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc2relu1): ReLU(inplace=True)
+    (enc2conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc2norm2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc2relu2): ReLU(inplace=True)
+  )
+  (pool2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (encoder3): Sequential(
+    (enc3conv1): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc3norm1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc3relu1): ReLU(inplace=True)
+    (enc3conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc3norm2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc3relu2): ReLU(inplace=True)
+  )
+  (pool3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (encoder4): Sequential(
+    (enc4conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc4norm1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc4relu1): ReLU(inplace=True)
+    (enc4conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (enc4norm2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (enc4relu2): ReLU(inplace=True)
+  )
+  (pool4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (bottleneck): Sequential(
+    (bottleneckconv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bottlenecknorm1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (bottleneckrelu1): ReLU(inplace=True)
+    (bottleneckconv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bottlenecknorm2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (bottleneckrelu2): ReLU(inplace=True)
+  )
+  (upconv4): ConvTranspose2d(256, 128, kernel_size=(2, 2), stride=(2, 2))
+  (decoder4): Sequential(
+    (dec4conv1): Conv2d(256, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec4norm1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec4relu1): ReLU(inplace=True)
+    (dec4conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec4norm2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec4relu2): ReLU(inplace=True)
+  )
+  (upconv3): ConvTranspose2d(128, 64, kernel_size=(2, 2), stride=(2, 2))
+  (decoder3): Sequential(
+    (dec3conv1): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec3norm1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec3relu1): ReLU(inplace=True)
+    (dec3conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec3norm2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec3relu2): ReLU(inplace=True)
+  )
+  (upconv2): ConvTranspose2d(64, 32, kernel_size=(2, 2), stride=(2, 2))
+  (decoder2): Sequential(
+    (dec2conv1): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec2norm1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec2relu1): ReLU(inplace=True)
+    (dec2conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec2norm2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec2relu2): ReLU(inplace=True)
+  )
+  (upconv1): ConvTranspose2d(32, 16, kernel_size=(2, 2), stride=(2, 2))
+  (decoder1): Sequential(
+    (dec1conv1): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec1norm1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec1relu1): ReLU(inplace=True)
+    (dec1conv2): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (dec1norm2): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (dec1relu2): ReLU(inplace=True)
+  )
+  (conv): Conv2d(16, 1, kernel_size=(1, 1), stride=(1, 1))
+)
 Start training:
 Epoch: 0
 Epoch: 1
@@ -505,503 +588,3 @@ Epoch: 497
 Epoch: 498
 Epoch: 499
 Epoch: 500
-Epoch: 501
-Epoch: 502
-Epoch: 503
-Epoch: 504
-Epoch: 505
-Epoch: 506
-Epoch: 507
-Epoch: 508
-Epoch: 509
-Epoch: 510
-Epoch: 511
-Epoch: 512
-Epoch: 513
-Epoch: 514
-Epoch: 515
-Epoch: 516
-Epoch: 517
-Epoch: 518
-Epoch: 519
-Epoch: 520
-Epoch: 521
-Epoch: 522
-Epoch: 523
-Epoch: 524
-Epoch: 525
-Epoch: 526
-Epoch: 527
-Epoch: 528
-Epoch: 529
-Epoch: 530
-Epoch: 531
-Epoch: 532
-Epoch: 533
-Epoch: 534
-Epoch: 535
-Epoch: 536
-Epoch: 537
-Epoch: 538
-Epoch: 539
-Epoch: 540
-Epoch: 541
-Epoch: 542
-Epoch: 543
-Epoch: 544
-Epoch: 545
-Epoch: 546
-Epoch: 547
-Epoch: 548
-Epoch: 549
-Epoch: 550
-Epoch: 551
-Epoch: 552
-Epoch: 553
-Epoch: 554
-Epoch: 555
-Epoch: 556
-Epoch: 557
-Epoch: 558
-Epoch: 559
-Epoch: 560
-Epoch: 561
-Epoch: 562
-Epoch: 563
-Epoch: 564
-Epoch: 565
-Epoch: 566
-Epoch: 567
-Epoch: 568
-Epoch: 569
-Epoch: 570
-Epoch: 571
-Epoch: 572
-Epoch: 573
-Epoch: 574
-Epoch: 575
-Epoch: 576
-Epoch: 577
-Epoch: 578
-Epoch: 579
-Epoch: 580
-Epoch: 581
-Epoch: 582
-Epoch: 583
-Epoch: 584
-Epoch: 585
-Epoch: 586
-Epoch: 587
-Epoch: 588
-Epoch: 589
-Epoch: 590
-Epoch: 591
-Epoch: 592
-Epoch: 593
-Epoch: 594
-Epoch: 595
-Epoch: 596
-Epoch: 597
-Epoch: 598
-Epoch: 599
-Epoch: 600
-Epoch: 601
-Epoch: 602
-Epoch: 603
-Epoch: 604
-Epoch: 605
-Epoch: 606
-Epoch: 607
-Epoch: 608
-Epoch: 609
-Epoch: 610
-Epoch: 611
-Epoch: 612
-Epoch: 613
-Epoch: 614
-Epoch: 615
-Epoch: 616
-Epoch: 617
-Epoch: 618
-Epoch: 619
-Epoch: 620
-Epoch: 621
-Epoch: 622
-Epoch: 623
-Epoch: 624
-Epoch: 625
-Epoch: 626
-Epoch: 627
-Epoch: 628
-Epoch: 629
-Epoch: 630
-Epoch: 631
-Epoch: 632
-Epoch: 633
-Epoch: 634
-Epoch: 635
-Epoch: 636
-Epoch: 637
-Epoch: 638
-Epoch: 639
-Epoch: 640
-Epoch: 641
-Epoch: 642
-Epoch: 643
-Epoch: 644
-Epoch: 645
-Epoch: 646
-Epoch: 647
-Epoch: 648
-Epoch: 649
-Epoch: 650
-Epoch: 651
-Epoch: 652
-Epoch: 653
-Epoch: 654
-Epoch: 655
-Epoch: 656
-Epoch: 657
-Epoch: 658
-Epoch: 659
-Epoch: 660
-Epoch: 661
-Epoch: 662
-Epoch: 663
-Epoch: 664
-Epoch: 665
-Epoch: 666
-Epoch: 667
-Epoch: 668
-Epoch: 669
-Epoch: 670
-Epoch: 671
-Epoch: 672
-Epoch: 673
-Epoch: 674
-Epoch: 675
-Epoch: 676
-Epoch: 677
-Epoch: 678
-Epoch: 679
-Epoch: 680
-Epoch: 681
-Epoch: 682
-Epoch: 683
-Epoch: 684
-Epoch: 685
-Epoch: 686
-Epoch: 687
-Epoch: 688
-Epoch: 689
-Epoch: 690
-Epoch: 691
-Epoch: 692
-Epoch: 693
-Epoch: 694
-Epoch: 695
-Epoch: 696
-Epoch: 697
-Epoch: 698
-Epoch: 699
-Epoch: 700
-Epoch: 701
-Epoch: 702
-Epoch: 703
-Epoch: 704
-Epoch: 705
-Epoch: 706
-Epoch: 707
-Epoch: 708
-Epoch: 709
-Epoch: 710
-Epoch: 711
-Epoch: 712
-Epoch: 713
-Epoch: 714
-Epoch: 715
-Epoch: 716
-Epoch: 717
-Epoch: 718
-Epoch: 719
-Epoch: 720
-Epoch: 721
-Epoch: 722
-Epoch: 723
-Epoch: 724
-Epoch: 725
-Epoch: 726
-Epoch: 727
-Epoch: 728
-Epoch: 729
-Epoch: 730
-Epoch: 731
-Epoch: 732
-Epoch: 733
-Epoch: 734
-Epoch: 735
-Epoch: 736
-Epoch: 737
-Epoch: 738
-Epoch: 739
-Epoch: 740
-Epoch: 741
-Epoch: 742
-Epoch: 743
-Epoch: 744
-Epoch: 745
-Epoch: 746
-Epoch: 747
-Epoch: 748
-Epoch: 749
-Epoch: 750
-Epoch: 751
-Epoch: 752
-Epoch: 753
-Epoch: 754
-Epoch: 755
-Epoch: 756
-Epoch: 757
-Epoch: 758
-Epoch: 759
-Epoch: 760
-Epoch: 761
-Epoch: 762
-Epoch: 763
-Epoch: 764
-Epoch: 765
-Epoch: 766
-Epoch: 767
-Epoch: 768
-Epoch: 769
-Epoch: 770
-Epoch: 771
-Epoch: 772
-Epoch: 773
-Epoch: 774
-Epoch: 775
-Epoch: 776
-Epoch: 777
-Epoch: 778
-Epoch: 779
-Epoch: 780
-Epoch: 781
-Epoch: 782
-Epoch: 783
-Epoch: 784
-Epoch: 785
-Epoch: 786
-Epoch: 787
-Epoch: 788
-Epoch: 789
-Epoch: 790
-Epoch: 791
-Epoch: 792
-Epoch: 793
-Epoch: 794
-Epoch: 795
-Epoch: 796
-Epoch: 797
-Epoch: 798
-Epoch: 799
-Epoch: 800
-Epoch: 801
-Epoch: 802
-Epoch: 803
-Epoch: 804
-Epoch: 805
-Epoch: 806
-Epoch: 807
-Epoch: 808
-Epoch: 809
-Epoch: 810
-Epoch: 811
-Epoch: 812
-Epoch: 813
-Epoch: 814
-Epoch: 815
-Epoch: 816
-Epoch: 817
-Epoch: 818
-Epoch: 819
-Epoch: 820
-Epoch: 821
-Epoch: 822
-Epoch: 823
-Epoch: 824
-Epoch: 825
-Epoch: 826
-Epoch: 827
-Epoch: 828
-Epoch: 829
-Epoch: 830
-Epoch: 831
-Epoch: 832
-Epoch: 833
-Epoch: 834
-Epoch: 835
-Epoch: 836
-Epoch: 837
-Epoch: 838
-Epoch: 839
-Epoch: 840
-Epoch: 841
-Epoch: 842
-Epoch: 843
-Epoch: 844
-Epoch: 845
-Epoch: 846
-Epoch: 847
-Epoch: 848
-Epoch: 849
-Epoch: 850
-Epoch: 851
-Epoch: 852
-Epoch: 853
-Epoch: 854
-Epoch: 855
-Epoch: 856
-Epoch: 857
-Epoch: 858
-Epoch: 859
-Epoch: 860
-Epoch: 861
-Epoch: 862
-Epoch: 863
-Epoch: 864
-Epoch: 865
-Epoch: 866
-Epoch: 867
-Epoch: 868
-Epoch: 869
-Epoch: 870
-Epoch: 871
-Epoch: 872
-Epoch: 873
-Epoch: 874
-Epoch: 875
-Epoch: 876
-Epoch: 877
-Epoch: 878
-Epoch: 879
-Epoch: 880
-Epoch: 881
-Epoch: 882
-Epoch: 883
-Epoch: 884
-Epoch: 885
-Epoch: 886
-Epoch: 887
-Epoch: 888
-Epoch: 889
-Epoch: 890
-Epoch: 891
-Epoch: 892
-Epoch: 893
-Epoch: 894
-Epoch: 895
-Epoch: 896
-Epoch: 897
-Epoch: 898
-Epoch: 899
-Epoch: 900
-Epoch: 901
-Epoch: 902
-Epoch: 903
-Epoch: 904
-Epoch: 905
-Epoch: 906
-Epoch: 907
-Epoch: 908
-Epoch: 909
-Epoch: 910
-Epoch: 911
-Epoch: 912
-Epoch: 913
-Epoch: 914
-Epoch: 915
-Epoch: 916
-Epoch: 917
-Epoch: 918
-Epoch: 919
-Epoch: 920
-Epoch: 921
-Epoch: 922
-Epoch: 923
-Epoch: 924
-Epoch: 925
-Epoch: 926
-Epoch: 927
-Epoch: 928
-Epoch: 929
-Epoch: 930
-Epoch: 931
-Epoch: 932
-Epoch: 933
-Epoch: 934
-Epoch: 935
-Epoch: 936
-Epoch: 937
-Epoch: 938
-Epoch: 939
-Epoch: 940
-Epoch: 941
-Epoch: 942
-Epoch: 943
-Epoch: 944
-Epoch: 945
-Epoch: 946
-Epoch: 947
-Epoch: 948
-Epoch: 949
-Epoch: 950
-Epoch: 951
-Epoch: 952
-Epoch: 953
-Epoch: 954
-Epoch: 955
-Epoch: 956
-Epoch: 957
-Epoch: 958
-Epoch: 959
-Epoch: 960
-Epoch: 961
-Epoch: 962
-Epoch: 963
-Epoch: 964
-Epoch: 965
-Epoch: 966
-Epoch: 967
-Epoch: 968
-Epoch: 969
-Epoch: 970
-Epoch: 971
-Epoch: 972
-Epoch: 973
-Epoch: 974
-Epoch: 975
-Epoch: 976
-Epoch: 977
-Epoch: 978
-Epoch: 979
-Epoch: 980
-Epoch: 981
-Epoch: 982
-Epoch: 983
-Epoch: 984
-Epoch: 985
-Epoch: 986
-Epoch: 987
-Epoch: 988
-Epoch: 989
-Epoch: 990
-Epoch: 991
-Epoch: 992
-Epoch: 993
-Epoch: 994
-Epoch: 995
-Epoch: 996
-Epoch: 997
-Epoch: 998
-Epoch: 999
-Epoch: 1000

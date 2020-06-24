@@ -1,5 +1,6 @@
 import torch
 from models.resnet_simclr import ResNetSimCLR
+from models.unet_encoder import UNET
 from torch.utils.tensorboard import SummaryWriter
 import torch.nn.functional as F
 from loss.nt_xent import NTXentLoss
@@ -45,10 +46,10 @@ class SimCLR(object):
     def _step(self, model, xis, xjs, n_iter):
 
         # get the representations and the projections
-        ris, zis = model(xis)  # [N,C]
+        zis = model(xis)  # [N,C]
 
         # get the representations and the projections
-        rjs, zjs = model(xjs)  # [N,C]
+        zjs = model(xjs)  # [N,C]
 
         # normalize projection feature vectors
         zis = F.normalize(zis, dim=1)
@@ -60,9 +61,8 @@ class SimCLR(object):
     def train(self):
 
         train_loader, valid_loader = self.dataset.get_data_loaders()
-
-        model = ResNetSimCLR(**self.config["model"]).to(self.device)
-        model = self._load_pre_trained_weights(model)
+        model = UNET('simCLR_UNET', 1,1,16).to(self.device)
+        #model = self._load_pre_trained_weights(model)
 
         optimizer = torch.optim.Adam(model.parameters(), 3e-4, weight_decay=eval(self.config['weight_decay']))
 
@@ -95,11 +95,7 @@ class SimCLR(object):
                 if n_iter % self.config['log_every_n_steps'] == 0:
                     self.writer.add_scalar('train_loss', loss, global_step=n_iter)
 
-                if apex_support and self.config['fp16_precision']:
-                    with amp.scale_loss(loss, optimizer) as scaled_loss:
-                        scaled_loss.backward()
-                else:
-                    loss.backward()
+                loss.backward()
 
                 optimizer.step()
                 n_iter += 1

@@ -425,17 +425,17 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
     #dice = (2 * TP) / (2 * TP + FN + FP)
     #print('Dice training: ', dice)
 
-    aux = []
-    for thres in thresholds:
-        aux.append(abs(best_thresh - thres))
-    ix = aux.index(min(aux))
+    #aux = []
+    #for thres in thresholds:
+    #    aux.append(abs(best_thresh - thres))
+    #ix = aux.index(min(aux))
 
-    lw = 2
-    plt.plot(fpr, tpr, color='lightblue', lw=lw, label='Train ROC curve (area = %0.2f)' % roc_auc)
-    plt.plot([0, 1], [0, 1], color='gray', lw=lw, linestyle='--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.plot(fpr[ix], tpr[ix], 'r+')
+    #lw = 2
+    #plt.plot(fpr, tpr, color='lightblue', lw=lw, label='Train ROC curve (area = %0.2f)' % roc_auc)
+    #plt.plot([0, 1], [0, 1], color='gray', lw=lw, linestyle='--')
+    #plt.xlim([0.0, 1.0])
+    #plt.ylim([0.0, 1.05])
+    #plt.plot(fpr[ix], tpr[ix], 'r+')
     #plt.xlabel('False Positive Rate')
     #plt.ylabel('True Positive Rate')
     #plt.title('Receiver operating characteristic example')

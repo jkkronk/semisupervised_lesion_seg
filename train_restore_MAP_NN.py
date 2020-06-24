@@ -58,7 +58,7 @@ if __name__ == "__main__":
     vae_model.eval()
 
     # Create guiding net
-    net = shallow_UNet(name, 2, 1, 2).to(device)
+    net = shallow_UNet(name, 2, 1, 4).to(device)
     #net = ConvNet(name, 2, 1, 32).to(device)
     #net = UNet(name, 2, 1, 4).to(device)
 
@@ -91,6 +91,9 @@ if __name__ == "__main__":
         print("Train slices: ", train_slices)
         print("Validation slices: ", valid_slices)
         valid_writer = SummaryWriter(log_dir + "valid_" + name)
+
+    #train_slices = [25346, 25359, 25365, 25335, 25243, 25342, 25250, 25296, 25309, 25350, 25288, 25319, 25378, 25276, 25265, 25264, 25324, 25337, 25271, 25366, 25300, 25244, 25260, 25245, 25339, 25375, 25311, 25313, 25290, 25357, 25343, 25347, 25322, 25256, 25328, 25340, 25331, 25374, 25345, 25285, 25323, 25316, 25349, 25252, 25351, 25364, 25317, 25330, 25239, 25240, 25314, 25332, 25280, 25344, 25301, 25286, 25363, 25302, 25274, 25315, 25255, 25368, 25321, 25292, 25373, 25241, 25293, 25238, 25270, 25253, 25305, 25320, 25371, 25272, 25353, 25247, 25333, 25304, 25254, 25278, 25279, 25299, 25277, 25294, 25369, 25297, 25251, 25361, 25283, 25303, 25336, 25248, 25356, 25258, 25263, 25257, 25275, 25259, 25307, 25282, 25318, 25327, 25370, 25354, 25325, 25358, 25376, 25262, 25269, 25291, 25266, 25237, 25329, 25362, 25312, 25242, 25341, 25355, 25360, 25268]
+    #valid_slices = [25348, 25367, 25310, 25352, 25246, 25284, 25261, 25298, 25267, 25289, 25338, 25273, 25287, 25334, 25295, 25372, 25281, 25249, 25377, 25326, 25308, 25306]
 
     # Load data
     subj_dataset = brats_dataset_subj(data_path, 'train', img_size, train_slices, use_aug=False)
@@ -219,9 +222,9 @@ if __name__ == "__main__":
                 if not all(element == 0 for element in valid_y_true):
                     AUC = roc_auc_score(valid_y_true, valid_y_pred)
 
-                print('AUC : ', AUC)
-                writer.add_scalar('AUC:', AUC, ep)
-                writer.flush()
+                print('Valid AUC : ', AUC)
+                valid_writer.add_scalar('AUC:', AUC, ep)
+                valid_writer.flush()
 
         if ep % log_freq == 0:
             # Save model
