@@ -1,0 +1,16 @@
+Name:  10subj_3e1_10steps_4fch3sh_saug_3_ Lr_rate:  0.01  Riter:  10  Step size:  0.3
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_CBICA_ABE_1_t2_unbiased.nii.gz']
+Train slices:  [24947, 24924, 24878, 24853, 24888, 24843, 24923, 24961, 24940, 24829, 24863, 24896, 24898, 24884, 24936, 24868, 24886, 24934, 24914, 24954, 24903, 24867, 24872, 24889, 24941, 24916, 24910, 24882, 24915, 24900, 24958, 24838, 24869, 24907, 24928, 24849, 24870, 24921, 24865, 24881, 24933, 24856, 24932, 24956, 24964, 24839, 24854, 24911, 24951, 24834, 24837, 24948, 24918, 24866, 24962, 24950, 24904, 24957, 24857, 24955, 24929, 24860, 24905, 24855, 24842, 24871, 24885, 24902, 24913, 24887, 24861, 24832, 24892, 24847, 24917, 24960, 24931, 24830, 24864, 24846, 24935, 24844, 24925, 24859, 24893, 24909, 24943, 24945, 24963, 24873, 24848, 24919, 24851, 24835, 24841, 24912, 24862, 24930, 24879, 24939, 24899, 24894, 24890, 24906, 24937, 24876, 24927, 24953, 24944, 24938, 24827, 24826, 24895, 24836, 24908, 24952, 24833, 24877, 24959]
+Validation slices:  [24883, 24850, 24858, 24942, 24874, 24946, 24880, 24840, 24949, 24897, 24828, 24852, 24845, 24920, 24891, 24831, 24922, 24875, 24901, 24926, 24825]
+Loading train set for subj
+Subject  Brats17_CBICA_ABE_1_t2_unbiased.nii.gz  Number of Slices:  119
+Loading train set for subj
+Subject  Brats17_CBICA_ABE_1_t2_unbiased.nii.gz  Number of Slices:  21
+AUC :  0.6981321365438375
+AUC :  0.7299543964570637
+AUC :  0.7198574483338931

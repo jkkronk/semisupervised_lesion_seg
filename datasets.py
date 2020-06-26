@@ -6,8 +6,6 @@ import h5py
 import torch
 import numpy as np
 from skimage.transform import resize
-import pickle
-import random
 from PIL import Image
 from imgaug import augmenters as iaa
 from imgaug.augmentables.segmaps import SegmentationMapsOnImage

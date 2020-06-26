@@ -1,4 +1,4 @@
-# CODE FROM XIAORAN CHEN https://github.com/aubreychen9012/AutoEncoder_AnomalyDetection
+# CODE PARTLY FROM XIAORAN CHEN https://github.com/aubreychen9012/AutoEncoder_AnomalyDetection
 
 import h5py
 import random

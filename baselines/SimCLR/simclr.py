@@ -34,12 +34,13 @@ class SimCLR(object):
     def __init__(self, dataset, config):
         self.config = config
         self.device = self._get_device()
-        self.writer = SummaryWriter()
+        self.writer = SummaryWriter('/scratch_net/biwidl214/jonatank/logs/simclr/1')
         self.dataset = dataset
         self.nt_xent_criterion = NTXentLoss(self.device, config['batch_size'], **config['loss'])
 
     def _get_device(self):
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        device = "cuda:0" if torch.cuda.is_available() else "cpu"
+        #device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print("Running on:", device)
         return device
 
@@ -84,7 +85,7 @@ class SimCLR(object):
         best_valid_loss = np.inf
 
         for epoch_counter in range(self.config['epochs']):
-            for (xis, xjs), _ in train_loader:
+            for (xis, xjs) in train_loader:
                 optimizer.zero_grad()
 
                 xis = xis.to(self.device)
@@ -135,7 +136,7 @@ class SimCLR(object):
 
             valid_loss = 0.0
             counter = 0
-            for (xis, xjs), _ in valid_loader:
+            for (xis, xjs) in valid_loader:
                 xis = xis.to(self.device)
                 xjs = xjs.to(self.device)
 

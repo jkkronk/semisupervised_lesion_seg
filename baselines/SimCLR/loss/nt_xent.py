@@ -45,6 +45,12 @@ class NTXentLoss(torch.nn.Module):
         return v
 
     def forward(self, zis, zjs):
+        zis = zis.contiguous().view(32, 256, -1)
+        zjs = zjs.contiguous().view(32, 256, -1)
+
+        zis = zis.contiguous().view(32, -1)
+        zjs = zjs.contiguous().view(32, -1)
+
         representations = torch.cat([zjs, zis], dim=0)
 
         similarity_matrix = self.similarity_function(representations, representations)

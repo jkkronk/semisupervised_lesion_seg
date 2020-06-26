@@ -13,11 +13,13 @@ from imgaug import augmenters as iaa
 from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 import time
 import imgaug as ia
+from matplotlib import cm
 
 class camcan_dataset(Dataset):
-    def __init__(self, data_path, train, img_size, transform):
+    def __init__(self, data_path, train, img_size, data_aug):
+
         self.img_size = img_size
-        self.transform = transform
+        self.transform = data_aug
 
         path = (data_path + 'camcan_t2_train_set_4.hdf5') if train else (data_path + 'camcan_t2_val_set_4.hdf5')
 
@@ -37,9 +39,15 @@ class camcan_dataset(Dataset):
         mask = torch.zeros(data_img.shape)
         mask[data_img > 0] = 1
 
-        img_trans, img_trans_aug = self.transform(data_img)
+        data_img = np.squeeze(data_img, axis=-1)
 
-        return img_trans, img_trans_aug
+        PIL_image = Image.fromarray(np.uint8(data_img*255)).convert('RGB')
+
+        img_trans = self.transform(PIL_image)
+
+        img_ret = (torch.sum(img_trans[0], dim=0).unsqueeze(0), torch.sum(img_trans[1], dim=0).unsqueeze(0))
+
+        return img_ret
 
     def __len__(self):
         return self.size
