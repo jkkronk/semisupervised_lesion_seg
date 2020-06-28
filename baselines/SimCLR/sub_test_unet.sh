@@ -8,6 +8,5 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u train_restore_MAP_NN.py --name 30subj_3e1_10steps_4fch3sh_saug_4 --config conf/conf_nn.yaml --subjs 30 --K_actf 10
-
+python -u evaluate.py --model_name 3subj_3_simclr_500 --config conf.yaml
 

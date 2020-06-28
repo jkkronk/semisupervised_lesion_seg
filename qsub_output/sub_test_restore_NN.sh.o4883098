@@ -1,0 +1,319 @@
+[Brats17_CBICA_ASV_1_t2_unbiased.nii.gz]
+ Vae model:  camcan_400_Aug_6_100  NN model:  1subj_3e1_10steps_4fch3sh_saug_4_new100
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj
+0.0 : 0.11341672433493732
+0.01 : 0.3573717259301394
+0.02 : 0.5615332186392279
+0.03 : 0.6725354064892901
+0.04 : 0.7364330983017366
+0.05 : 0.7776405120054284
+0.06 : 0.8056484491319973
+0.07 : 0.8239782194036421
+0.08 : 0.8339159803282574
+0.09 : 0.8362725249353932
+0.1 : 0.8324106648168252
+0.11 : 0.8248809060408905
+0.12 : 0.8133319987989192
+0.13 : 0.7987791136325778
+0.14 : 0.7815410029260824
+0.15 : 0.7631968375192739
+0.16 : 0.7411485595131708
+0.17 : 0.7162423831351399
+0.18 : 0.6891451068616423
+0.19 : 0.659032784419011
+0.2 : 0.6259812972779797
+0.21 : 0.5875950114382703
+0.22 : 0.5442346461800674
+0.23 : 0.49590458304503965
+0.24 : 0.44370924303115644
+0.25 : 0.3914573113324414
+0.26 : 0.33986861164352494
+0.27 : 0.2931005918942121
+0.28 : 0.24906634913516482
+0.29 : 0.20431156919219567
+0.3 : 0.161152927023556
+0.31 : 0.1257977356739105
+0.32 : 0.09451805401031659
+0.33 : 0.0690356370844405
+0.34 : 0.048150931660922075
+0.35 : 0.031066945606694558
+0.36 : 0.018253139452230307
+0.37 : 0.009942443126228483
+0.38 : 0.004543445593564925
+0.39 : 0.0020358486390794424
+0.4 : 0.0011690934211924754
+0.41 : 0.0007264737672094549
+0.42 : 0.0003544842254519674
+0.43 : 0.00010636789107927952
+0.44 : 3.5460364177940106e-05
+0.45 : 3.546382246810472e-05
+0.46 : 3.5466338011934417e-05
+0.47 : 3.546948294361238e-05
+0.48 : 0.0
+0.49 : 0.0
+0.5 : 0.0
+0.51 : 0.0
+0.52 : 0.0
+AUC training :  0.989828370511157  - Dice training :  0.8362725249353932
+0 12736
+1 7648
+2 6112
+3 7520
+4 10976
+5 13312
+6 12896
+7 7360
+8 9888
+9 17152
+10 7936
+11 8736
+12 8480
+13 21280
+14 3392
+15 7584
+16 2560
+17 18560
+18 14112
+19 17792
+20 20832
+21 9792
+22 14240
+23 1696
+24 15840
+0 3104
+1 8064
+2 2336
+3 8032
+4 16256
+5 21376
+6 1664
+7 22784
+8 7392
+9 20384
+10 21696
+11 13536
+12 3264
+13 704
+14 4736
+15 5280
+16 10112
+17 7552
+18 6944
+19 8448
+20 7488
+21 7200
+22 5344
+23 3360
+24 3168
+0.09 0.030354648075549613 0.0584569842236478
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+DCS:  0.5042705603394484
+0.02
+Loading test set for subj
+Subject  Brats17_TCIA_645_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.2500217954712973
+0.04
+Loading test set for subj
+Subject  Brats17_2013_3_1_t2_unbiased.nii.gz  Number of Slices:  128
+DCS:  0.254088351849216
+0.06
+Loading test set for subj
+Subject  Brats17_TCIA_331_1_t2_unbiased.nii.gz  Number of Slices:  123
+DCS:  0.09216086605574285
+0.08
+Loading test set for subj
+Subject  Brats17_TCIA_147_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.7095625447909509
+0.1
+Loading test set for subj
+Subject  Brats17_TCIA_261_1_t2_unbiased.nii.gz  Number of Slices:  125
+DCS:  0.00021459627908712608
+0.12
+Loading test set for subj
+Subject  Brats17_TCIA_410_1_t2_unbiased.nii.gz  Number of Slices:  129
+DCS:  0.06792179370117542
+0.14
+Loading test set for subj
+Subject  Brats17_CBICA_ALX_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.4039469542487238
+0.16
+Loading test set for subj
+Subject  Brats17_TCIA_390_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.3239856273858481
+0.18
+Loading test set for subj
+Subject  Brats17_TCIA_653_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.28923838782154154
+0.2
+Loading test set for subj
+Subject  Brats17_CBICA_AOP_1_t2_unbiased.nii.gz  Number of Slices:  146
+DCS:  0.060194318771786694
+0.22
+Loading test set for subj
+Subject  Brats17_CBICA_AWH_1_t2_unbiased.nii.gz  Number of Slices:  130
+DCS:  0.3094107847171345
+0.24
+Loading test set for subj
+Subject  Brats17_TCIA_449_1_t2_unbiased.nii.gz  Number of Slices:  131
+DCS:  0.03279820472984637
+0.26
+Loading test set for subj
+Subject  Brats17_TCIA_460_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.5622057001239157
+0.28
+Loading test set for subj
+Subject  Brats17_TCIA_401_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.5910878754413357
+0.3
+Loading test set for subj
+Subject  Brats17_TCIA_634_1_t2_unbiased.nii.gz  Number of Slices:  139
+DCS:  0.5078183949011864
+0.32
+Loading test set for subj
+Subject  Brats17_TCIA_615_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.3706495153546517
+0.34
+Loading test set for subj
+Subject  Brats17_TCIA_242_1_t2_unbiased.nii.gz  Number of Slices:  127
+DCS:  0.6560783969532649
+0.36
+Loading test set for subj
+Subject  Brats17_TCIA_179_1_t2_unbiased.nii.gz  Number of Slices:  131
+DCS:  0.3884140102321921
+0.38
+Loading test set for subj
+Subject  Brats17_TCIA_298_1_t2_unbiased.nii.gz  Number of Slices:  132
+DCS:  0.8560888660210588
+0.4
+Loading test set for subj
+Subject  Brats17_TCIA_199_1_t2_unbiased.nii.gz  Number of Slices:  139
+DCS:  0.7605440937897353
+0.42
+Loading test set for subj
+Subject  Brats17_2013_18_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.6832199691991786
+0.44
+Loading test set for subj
+Subject  Brats17_TCIA_168_1_t2_unbiased.nii.gz  Number of Slices:  144
+DCS:  0.61324109645935
+0.46
+Loading test set for subj
+Subject  Brats17_TCIA_103_1_t2_unbiased.nii.gz  Number of Slices:  128
+DCS:  0.19569318896474386
+0.48
+Loading test set for subj
+Subject  Brats17_TCIA_346_1_t2_unbiased.nii.gz  Number of Slices:  140
+DCS:  0.7514983949082407
+0.5
+Loading test set for subj
+Subject  Brats17_TCIA_470_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.23676070859499485
+0.52
+Loading test set for subj
+Subject  Brats17_CBICA_AXJ_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.7928181841906105
+0.54
+Loading test set for subj
+Subject  Brats17_2013_15_1_t2_unbiased.nii.gz  Number of Slices:  129
+DCS:  0.28613944836806465
+0.56
+Loading test set for subj
+Subject  Brats17_TCIA_491_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.43588960401439947
+0.58
+Loading test set for subj
+Subject  Brats17_2013_29_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.6012552224246774
+0.6
+Loading test set for subj
+Subject  Brats17_CBICA_AQG_1_t2_unbiased.nii.gz  Number of Slices:  140
+DCS:  0.044323455256330614
+0.62
+Loading test set for subj
+Subject  Brats17_2013_0_1_t2_unbiased.nii.gz  Number of Slices:  127
+DCS:  0.4870639322726609
+0.64
+Loading test set for subj
+Subject  Brats17_TCIA_205_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.577739802108789
+0.66
+Loading test set for subj
+Subject  Brats17_TCIA_177_1_t2_unbiased.nii.gz  Number of Slices:  124
+DCS:  0.0002936857562408223
+0.68
+Loading test set for subj
+Subject  Brats17_TCIA_413_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.12385435316157029
+0.7
+Loading test set for subj
+Subject  Brats17_CBICA_ASU_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.176056242080739
+0.72
+Loading test set for subj
+Subject  Brats17_TCIA_630_1_t2_unbiased.nii.gz  Number of Slices:  133
+DCS:  0.6742364710349029
+0.74
+Loading test set for subj
+Subject  Brats17_CBICA_ABO_1_t2_unbiased.nii.gz  Number of Slices:  144
+DCS:  0.37508527660630114
+0.76
+Loading test set for subj
+Subject  Brats17_2013_13_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.009226092128742317
+0.78
+Loading test set for subj
+Subject  Brats17_TCIA_607_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.4979336255479023
+0.8
+Loading test set for subj
+Subject  Brats17_TCIA_402_1_t2_unbiased.nii.gz  Number of Slices:  142
+DCS:  0.8728663691189521
+0.82
+Loading test set for subj
+Subject  Brats17_TCIA_131_1_t2_unbiased.nii.gz  Number of Slices:  130
+DCS:  0.2303907054129126
+0.84
+Loading test set for subj
+Subject  Brats17_TCIA_374_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.4500356863831119
+0.86
+Loading test set for subj
+Subject  Brats17_TCIA_603_1_t2_unbiased.nii.gz  Number of Slices:  147
+DCS:  0.6236920867720258
+0.88
+Loading test set for subj
+Subject  Brats17_TCIA_101_1_t2_unbiased.nii.gz  Number of Slices:  135
+DCS:  7.171671896010757e-05
+0.9
+Loading test set for subj
+Subject  Brats17_TCIA_448_1_t2_unbiased.nii.gz  Number of Slices:  127
+DCS:  0.09293372428766479
+0.92
+Loading test set for subj
+Subject  Brats17_TCIA_621_1_t2_unbiased.nii.gz  Number of Slices:  145
+DCS:  0.7406540604353499
+0.94
+Loading test set for subj
+Subject  Brats17_TCIA_234_1_t2_unbiased.nii.gz  Number of Slices:  133
+DCS:  0.628329702348334
+0.96
+Loading test set for subj
+Subject  Brats17_TCIA_130_1_t2_unbiased.nii.gz  Number of Slices:  130
+DCS:  0.017922336541652838
+0.98
+Loading test set for subj
+Subject  Brats17_CBICA_AME_1_t2_unbiased.nii.gz  Number of Slices:  144
+DCS:  0.3314720812182741
+All AUC:  0.8171650406205746
+Mean All DCS:  0.3908279772258963
+Std ALL DCS:  0.2592841503017862
+Training Dice: 0.46433245445045485
+Training Dice FPR5: 0.41681665048985195
+Training Dice FPR1: 0.4652353526810364

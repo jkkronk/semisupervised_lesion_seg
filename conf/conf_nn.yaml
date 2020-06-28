@@ -2,7 +2,7 @@ riter: 10
 batch_size: 32
 spatial_size: 128
 orig_size: 200
-log_freq: 15
+log_freq: 10
 step_rate: 3e-1
 vae_name: camcan_400_Aug_6_100
 lr_rate: 1e-2

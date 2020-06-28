@@ -1,0 +1,453 @@
+[Brats17_CBICA_ASV_1_t2_unbiased.nii.gz]
+ Vae model:  camcan_400_Aug_6_100  NN model:  1subj_3e1_10steps_4fch3sh_saug_4_new200
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj
+0.0 : 0.11341672433493732
+0.01 : 0.5015545246733262
+0.02 : 0.6791233871808872
+0.03 : 0.7630175900141336
+0.04 : 0.8058973414610313
+0.05 : 0.8282791736635743
+0.06 : 0.8403364081187361
+0.07 : 0.8468741347339805
+0.08 : 0.8485138608566648
+0.09 : 0.846154527733475
+0.1 : 0.8397908713239811
+0.11 : 0.8308421214938861
+0.12 : 0.8181521321552055
+0.13 : 0.8029503182199419
+0.14 : 0.7853667930188718
+0.15 : 0.766152324946007
+0.16 : 0.7435122749415798
+0.17 : 0.7182616248069175
+0.18 : 0.690471616016636
+0.19 : 0.6601343654834135
+0.2 : 0.6265567612188497
+0.21 : 0.5875029334387313
+0.22 : 0.5438129353996258
+0.23 : 0.49427272546800866
+0.24 : 0.4415771593287807
+0.25 : 0.3894819834217648
+0.26 : 0.3371434864001762
+0.27 : 0.29041298715033576
+0.28 : 0.24640647532213797
+0.29 : 0.20124585312298623
+0.3 : 0.15907869231646332
+0.31 : 0.12350005397729634
+0.32 : 0.09277784812798108
+0.33 : 0.06742072930748302
+0.34 : 0.046773914547656115
+0.35 : 0.03001430914738422
+0.36 : 0.01740718946785993
+0.37 : 0.009348514379955375
+0.38 : 0.004279966396958041
+0.39 : 0.0019655236526866585
+0.4 : 0.0011338270205151827
+0.41 : 0.0007265574467708066
+0.42 : 0.0003367779215484694
+0.43 : 0.00010636977680075168
+0.44 : 3.5460364177940106e-05
+0.45 : 3.5462879231164776e-05
+0.46 : 3.54644513206075e-05
+0.47 : 3.546602354943963e-05
+0.48 : 0.0
+0.49 : 0.0
+0.5 : 0.0
+0.51 : 0.0
+0.52 : 0.0
+0.53 : 0.0
+0.54 : 0.0
+0.55 : 0.0
+0.56 : 0.0
+0.57 : 0.0
+0.58 : 0.0
+0.59 : 0.0
+0.6 : 0.0
+0.61 : 0.0
+AUC training :  0.9929775967548372  - Dice training :  0.8485138608566648
+0 17952
+1 512
+2 3392
+3 8128
+4 20736
+5 4800
+6 18944
+7 3360
+8 20320
+9 2688
+10 22464
+11 2208
+12 15712
+13 3616
+14 1888
+15 8832
+16 15488
+17 1952
+18 12032
+19 17696
+20 12608
+21 3936
+22 20864
+23 23264
+24 5888
+0 21312
+1 6304
+2 21792
+3 22176
+4 20288
+5 9952
+6 256
+7 2144
+8 6144
+9 17984
+10 14784
+11 22144
+12 1184
+13 22912
+14 6368
+15 6272
+16 15904
+17 768
+18 11008
+19 8000
+20 22752
+21 23072
+22 5760
+23 9824
+24 12672
+0.08 0.04160737718664025 0.052943290288516534
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+DCS:  0.5707438516484795
+0.02
+Loading test set for subj
+Subject  Brats17_TCIA_645_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.24478466912572977
+0.04
+Loading test set for subj
+Subject  Brats17_2013_3_1_t2_unbiased.nii.gz  Number of Slices:  128
+DCS:  0.2683748559269439
+0.06
+Loading test set for subj
+Subject  Brats17_TCIA_331_1_t2_unbiased.nii.gz  Number of Slices:  123
+DCS:  0.09859966634649411
+0.08
+Loading test set for subj
+Subject  Brats17_TCIA_147_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.6801333029356149
+0.1
+Loading test set for subj
+Subject  Brats17_TCIA_261_1_t2_unbiased.nii.gz  Number of Slices:  125
+DCS:  0.004737245431112556
+0.12
+Loading test set for subj
+Subject  Brats17_TCIA_410_1_t2_unbiased.nii.gz  Number of Slices:  129
+DCS:  0.10022907934275653
+0.14
+Loading test set for subj
+Subject  Brats17_CBICA_ALX_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.3682838838890244
+0.16
+Loading test set for subj
+Subject  Brats17_TCIA_390_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.2609393817743878
+0.18
+Loading test set for subj
+Subject  Brats17_TCIA_653_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.47477504802345566
+0.2
+Loading test set for subj
+Subject  Brats17_CBICA_AOP_1_t2_unbiased.nii.gz  Number of Slices:  146
+DCS:  0.05609838794192892
+0.22
+Loading test set for subj
+Subject  Brats17_CBICA_AWH_1_t2_unbiased.nii.gz  Number of Slices:  130
+DCS:  0.36350969889982626
+0.24
+Loading test set for subj
+Subject  Brats17_TCIA_449_1_t2_unbiased.nii.gz  Number of Slices:  131
+DCS:  0.2586151492949781
+0.26
+Loading test set for subj
+Subject  Brats17_TCIA_460_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.5749300021537799
+0.28
+Loading test set for subj
+Subject  Brats17_TCIA_401_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.6071530280562893
+0.3
+Loading test set for subj
+Subject  Brats17_TCIA_634_1_t2_unbiased.nii.gz  Number of Slices:  139
+DCS:  0.52193464987073
+0.32
+Loading test set for subj
+Subject  Brats17_TCIA_615_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.31622670845334533
+0.34
+Loading test set for subj
+Subject  Brats17_TCIA_242_1_t2_unbiased.nii.gz  Number of Slices:  127
+DCS:  0.6991630724481048
+0.36
+Loading test set for subj
+Subject  Brats17_TCIA_179_1_t2_unbiased.nii.gz  Number of Slices:  131
+DCS:  0.3562828990720427
+0.38
+Loading test set for subj
+Subject  Brats17_TCIA_298_1_t2_unbiased.nii.gz  Number of Slices:  132
+DCS:  0.8531340687427339
+0.4
+Loading test set for subj
+Subject  Brats17_TCIA_199_1_t2_unbiased.nii.gz  Number of Slices:  139
+DCS:  0.783572949445083
+0.42
+Loading test set for subj
+Subject  Brats17_2013_18_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.6978246230420143
+0.44
+Loading test set for subj
+Subject  Brats17_TCIA_168_1_t2_unbiased.nii.gz  Number of Slices:  144
+DCS:  0.6320341077008793
+0.46
+Loading test set for subj
+Subject  Brats17_TCIA_103_1_t2_unbiased.nii.gz  Number of Slices:  128
+DCS:  0.20109731842809137
+0.48
+Loading test set for subj
+Subject  Brats17_TCIA_346_1_t2_unbiased.nii.gz  Number of Slices:  140
+DCS:  0.6739956057752667
+0.5
+Loading test set for subj
+Subject  Brats17_TCIA_470_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.13685409423330536
+0.52
+Loading test set for subj
+Subject  Brats17_CBICA_AXJ_1_t2_unbiased.nii.gz  Number of Slices:  138
+DCS:  0.7878886951467596
+0.54
+Loading test set for subj
+Subject  Brats17_2013_15_1_t2_unbiased.nii.gz  Number of Slices:  129
+DCS:  0.22624213715777164
+0.56
+Loading test set for subj
+Subject  Brats17_TCIA_491_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.4067947176270489
+0.58
+Loading test set for subj
+Subject  Brats17_2013_29_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.5570908509021083
+0.6
+Loading test set for subj
+Subject  Brats17_CBICA_AQG_1_t2_unbiased.nii.gz  Number of Slices:  140
+DCS:  0.014422570796925991
+0.62
+Loading test set for subj
+Subject  Brats17_2013_0_1_t2_unbiased.nii.gz  Number of Slices:  127
+DCS:  0.46953504614991776
+0.64
+Loading test set for subj
+Subject  Brats17_TCIA_205_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.5771239711401255
+0.66
+Loading test set for subj
+Subject  Brats17_TCIA_177_1_t2_unbiased.nii.gz  Number of Slices:  124
+DCS:  0.004676405603106163
+0.68
+Loading test set for subj
+Subject  Brats17_TCIA_413_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.09699579856519246
+0.7
+Loading test set for subj
+Subject  Brats17_CBICA_ASU_1_t2_unbiased.nii.gz  Number of Slices:  134
+DCS:  0.08977064011293431
+0.72
+Loading test set for subj
+Subject  Brats17_TCIA_630_1_t2_unbiased.nii.gz  Number of Slices:  133
+DCS:  0.5779785741178082
+0.74
+Loading test set for subj
+Subject  Brats17_CBICA_ABO_1_t2_unbiased.nii.gz  Number of Slices:  144
+DCS:  0.38936511100774507
+0.76
+Loading test set for subj
+Subject  Brats17_2013_13_1_t2_unbiased.nii.gz  Number of Slices:  136
+DCS:  0.00333129682626451
+0.78
+Loading test set for subj
+Subject  Brats17_TCIA_607_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.5051157473563875
+0.8
+Loading test set for subj
+Subject  Brats17_TCIA_402_1_t2_unbiased.nii.gz  Number of Slices:  142
+DCS:  0.8754807569853035
+0.82
+Loading test set for subj
+Subject  Brats17_TCIA_131_1_t2_unbiased.nii.gz  Number of Slices:  130
+DCS:  0.206298629121897
+0.84
+Loading test set for subj
+Subject  Brats17_TCIA_374_1_t2_unbiased.nii.gz  Number of Slices:  137
+DCS:  0.3960307257840972
+0.86
+Loading test set for subj
+Subject  Brats17_TCIA_603_1_t2_unbiased.nii.gz  Number of Slices:  147
+DCS:  0.6369243988285976
+0.88
+Loading test set for subj
+Subject  Brats17_TCIA_101_1_t2_unbiased.nii.gz  Number of Slices:  135
+DCS:  0.0
+0.9
+Loading test set for subj
+Subject  Brats17_TCIA_448_1_t2_unbiased.nii.gz  Number of Slices:  127
+DCS:  0.03626655571735663
+0.92
+Loading test set for subj
+Subject  Brats17_TCIA_621_1_t2_unbiased.nii.gz  Number of Slices:  145
+DCS:  0.692925109039025
+0.94
+Loading test set for subj
+Subject  Brats17_TCIA_234_1_t2_unbiased.nii.gz  Number of Slices:  133
+DCS:  0.5845908626275577
+0.96
+Loading test set for subj
+Subject  Brats17_TCIA_130_1_t2_unbiased.nii.gz  Number of Slices:  130
+DCS:  0.29805468127867735
+0.98
+Loading test set for subj
+Subject  Brats17_CBICA_AME_1_t2_unbiased.nii.gz  Number of Slices:  144
+DCS:  0.341329752239879
+All AUC:  0.8213003852810352
+Mean All DCS:  0.3915652076426977
+Std ALL DCS:  0.25275188328988246
+Training Dice: 0.4515388609700501
+Training Dice FPR5: 0.4378439040693236
+Training Dice FPR1: 0.4469550663009463
+[Brats17_CBICA_AAP_1_t2_unbiased.nii.gz, Brats17_TCIA_135_1_t2_unbiased.nii.gz, Brats17_TCIA_409_1_t2_unbiased.nii.gz, Brats17_TCIA_171_1_t2_unbiased.nii.gz, Brats17_TCIA_321_1_t2_unbiased.nii.gz, Brats17_TCIA_283_1_t2_unbiased.nii.gz, Brats17_TCIA_319_1_t2_unbiased.nii.gz, Brats17_TCIA_192_1_t2_unbiased.nii.gz, Brats17_TCIA_608_1_t2_unbiased.nii.gz]
+ Vae model:  camcan_400_Aug_6_100  NN model:  30subj_3e1_10steps_4fch3sh_saug_025
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+Loading train set for subj
+0.0 : 0.07493936948188988
+0.01 : 0.3236223770660926
+0.02 : 0.41906938448234154
+0.03 : 0.483140273514804
+0.04 : 0.5311427151026449
+0.05 : 0.5678568301954726
+0.06 : 0.5957514908752942
+0.07 : 0.6162495007513871
+0.08 : 0.630465101342362
+0.09 : 0.6392380342409091
+0.1 : 0.6428568389794815
+0.11 : 0.6414888067520631
+0.12 : 0.6365872215439602
+0.13 : 0.6281782661498407
+0.14 : 0.6168095619200445
+0.15 : 0.6025657517012458
+0.16 : 0.5856473071212513
+0.17 : 0.5662524740352667
+0.18 : 0.5456540182462665
+0.19 : 0.5231147292892265
+0.2 : 0.4996374067329541
+0.21 : 0.4753143850322053
+0.22 : 0.44983910806355626
+0.23 : 0.42330505374566796
+0.24 : 0.3959058723906831
+0.25 : 0.36783812353293727
+0.26 : 0.33996581798443476
+0.27 : 0.3118505493184244
+0.28 : 0.28482486924348677
+0.29 : 0.25864162475409375
+0.3 : 0.23280445289913623
+0.31 : 0.20863146476253455
+0.32 : 0.1849318359158208
+0.33 : 0.16174019616095567
+0.34 : 0.14025647464378996
+0.35 : 0.11932734392997006
+0.36 : 0.09923704306811164
+0.37 : 0.08045289156990217
+0.38 : 0.06366912155275134
+0.39 : 0.050214823743181564
+0.4 : 0.03928894267218756
+0.41 : 0.029804991456000234
+0.42 : 0.022046454898362634
+0.43 : 0.01644627961633977
+0.44 : 0.012028597127305436
+0.45 : 0.008869311476019218
+0.46 : 0.006367742728298472
+0.47 : 0.0050213509931799835
+0.48 : 0.0041038727500984
+0.49 : 0.0034676341701940228
+0.5 : 0.003024780796749668
+0.51 : 0.002719324949993183
+0.52 : 0.0024622351415878613
+0.53 : 0.0022236132781478612
+0.54 : 0.001984872357007889
+0.55 : 0.001813219679976073
+0.56 : 0.001634005257234306
+0.57 : 0.0014509853050341335
+0.58 : 0.0012118423931643113
+0.59 : 0.0010174785609411677
+0.6 : 0.0008679435163309931
+0.61 : 0.0007146411640793663
+0.62 : 0.0005874748124851495
+0.63 : 0.0004565517989824882
+0.64 : 0.0003106409495882136
+0.65 : 0.00019089076743702946
+0.66 : 9.358108613951818e-05
+0.67 : 4.8664532914069665e-05
+0.68 : 1.1230676217732863e-05
+0.69 : 0.0
+0.7 : 0.0
+0.71 : 0.0
+0.72 : 0.0
+0.73 : 0.0
+0.74 : 0.0
+AUC training :  0.9732479072072465  - Dice training :  0.6428568389794815
+Traceback (most recent call last):
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/h5py/_hl/files.py", line 162, in make_fid
+    fid = h5f.open(name, h5f.ACC_RDWR, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 78, in h5py.h5f.open
+OSError: Unable to open file (unable to lock file, errno = 11, error message = 'Resource temporarily unavailable')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/h5py/_hl/files.py", line 165, in make_fid
+    fid = h5f.open(name, h5f.ACC_RDONLY, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 78, in h5py.h5f.open
+OSError: Unable to open file (unable to lock file, errno = 11, error message = 'Resource temporarily unavailable')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "restore_MAP_NN.py", line 78, in <module>
+    step_size=step_rate, renormalized=False)
+  File "/scratch_net/biwidl214/jonatank/code_home/restor_MAP/utils/threshold.py", line 236, in compute_threshold
+    data = h5py.File('/scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/camcan_t2_train_set.hdf5')
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/h5py/_hl/files.py", line 312, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, swmr=swmr)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/h5py/_hl/files.py", line 167, in make_fid
+    fid = h5f.create(name, h5f.ACC_EXCL, fapl=fapl, fcpl=fcpl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 98, in h5py.h5f.create
+OSError: Unable to create file (unable to open file: name = '/scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/camcan_t2_train_set.hdf5', errno = 17, error message = 'File exists', flags = 15, o_flags = c2)
