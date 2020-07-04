@@ -1,0 +1,3 @@
+usage: train_unet.py [-h] [--model_name MODEL_NAME] --config CONFIG
+                     [--subjs SUBJS] [--aug AUG]
+train_unet.py: error: unrecognized arguments: --subj_nbr 200

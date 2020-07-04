@@ -1,0 +1,14 @@
+Name:  1subj_3e1_10steps_4fch3sh_saug_EX10000_0 Lr_rate:  0.01  Riter:  10  Step size:  0.3
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_TCIA_642_1_t2_unbiased.nii.gz']
+Train slices:  [3499, 3561, 3511, 3487, 3603, 3504, 3553, 3601, 3479, 3534, 3588, 3477, 3590, 3492, 3583, 3523, 3592, 3613, 3503, 3496, 3595, 3524, 3563, 3604, 3591, 3609, 3611, 3502, 3579, 3562, 3564, 3520, 3476, 3529, 3541, 3528, 3513, 3573, 3587, 3493, 3526, 3597, 3559, 3530, 3570, 3578, 3542, 3538, 3544, 3575, 3585, 3576, 3608, 3498, 3568, 3527, 3554, 3481, 3485, 3545, 3596, 3607, 3600, 3593, 3569, 3614, 3497, 3500, 3598, 3584, 3558, 3548, 3522, 3612, 3540, 3501, 3582, 3509, 3567, 3594, 3537, 3490, 3589, 3508, 3488, 3571, 3519, 3539, 3525, 3507, 3483, 3486, 3521, 3518, 3581, 3514, 3605, 3556, 3599, 3510, 3517, 3505, 3549, 3606, 3495, 3536, 3560, 3602, 3550, 3480, 3572, 3557, 3586, 3610, 3566, 3547, 3506, 3478, 3546]
+Validation slices:  [3512, 3565, 3535, 3515, 3482, 3516, 3475, 3574, 3580, 3543, 3533, 3474, 3577, 3532, 3551, 3552, 3491, 3494, 3531, 3484, 3489, 3555]
+Loading train set for subj
+Subject  Brats17_TCIA_642_1_t2_unbiased.nii.gz  Number of Slices:  120
+Loading train set for subj
+Subject  Brats17_TCIA_642_1_t2_unbiased.nii.gz  Number of Slices:  113
+AUC :  0.545968256898091

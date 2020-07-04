@@ -1,0 +1,23 @@
+Name:  1subj_3e1_10steps_4fch3sh_aug_EX1000_0_ Lr_rate:  0.01  Riter:  10  Step size:  0.3
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_TCIA_368_1_t2_unbiased.nii.gz']
+Train slices:  [3913, 3908, 4018, 4007, 3980, 3977, 4011, 3927, 3914, 3910, 3906, 4001, 3968, 3999, 3981, 3962, 3972, 3912, 3998, 3957, 3921, 3987, 3887, 3991, 3897, 3905, 4006, 3963, 3933, 3898, 3958, 3973, 3892, 3939, 4017, 3964, 4019, 3961, 3941, 3893, 4002, 3942, 3917, 3919, 3986, 3955, 3915, 3888, 3903, 3967, 4009, 4008, 3930, 4000, 3996, 3988, 3938, 3895, 3889, 3928, 3949, 3992, 3923, 3934, 3894, 3945, 3983, 3989, 3947, 3909, 3948, 3974, 4010, 4015, 3925, 4004, 3965, 3916, 3886, 3884, 3951, 3960, 3907, 3899, 3911, 3956, 4020, 3926, 3932, 3979, 3971, 3891, 3900, 3997, 3924, 3993, 3953, 3922, 3952, 3966, 3959, 3890, 3954, 3935, 3902, 3920, 3901, 3995, 4014, 3943, 3918, 3990, 3929, 3937, 3970, 3896]
+Validation slices:  [3940, 3978, 3969, 4003, 3885, 3904, 4012, 3936, 4016, 3975, 3982, 3944, 3994, 3984, 3985, 4005, 3946, 3976, 3950, 3931, 4013]
+Loading train set for subj
+Subject  Brats17_TCIA_368_1_t2_unbiased.nii.gz  Number of Slices:  120
+Loading train set for subj
+Subject  Brats17_TCIA_368_1_t2_unbiased.nii.gz  Number of Slices:  22
+AUC :  0.6316854100791875
+AUC :  0.631779605712044
+AUC :  0.6604912597619922
+AUC :  0.6635874169864576
+Valid AUC :  0.6470057759140839
+AUC :  0.6301324247360103
+AUC :  0.6454679363461864
+AUC :  0.6569548114800975
+AUC :  0.6641180980885539
+AUC :  0.6383269624331962

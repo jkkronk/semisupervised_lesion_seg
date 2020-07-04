@@ -34,7 +34,7 @@ class SimCLR(object):
     def __init__(self, dataset, config):
         self.config = config
         self.device = self._get_device()
-        self.writer = SummaryWriter('/scratch_net/biwidl214/jonatank/logs/simclr/1')
+        self.writer = SummaryWriter('/scratch_net/biwidl214/jonatank/logs/simclr/cosine')
         self.dataset = dataset
         self.nt_xent_criterion = NTXentLoss(self.device, config['batch_size'], **config['loss'])
 

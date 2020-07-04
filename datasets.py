@@ -37,9 +37,14 @@ class camcan_dataset(Dataset):
             img = np.expand_dims(img, axis=0)
 
             seq_all = iaa.Sequential([
-                iaa.Fliplr(0.5), # Horizontal flips
-                iaa.ElasticTransformation(alpha=(0.0, 20.0), sigma=5.0),  # Elastic
-                iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
+                iaa.Fliplr(0.5),  # Horizontal flips
+                iaa.Affine(
+                    scale={"x": (0.8, 1.2), "y": (0.8, 1.2)},
+                    translate_percent={"x": (0, 0), "y": (0, 0)},
+                    rotate=(-10, 10),
+                    shear=(0, 0)),  # Scaling, rotating
+                iaa.ElasticTransformation(alpha=(0.0, 100.0), sigma=10.0),  # Elastic
+                iaa.blur.AverageBlur(k=(0, 4)),  # Gausian blur
                 iaa.LinearContrast((0.8, 1.2)),  # Contrast
                 iaa.Multiply((0.8, 1.2), per_channel=1)  # Intensity
             ], random_order=True)
@@ -119,6 +124,9 @@ class brats_dataset_subj(Dataset):
                 self.seg_img[idx] = torch.from_numpy(d.get('Seg')[id_slice].reshape(200, 200).astype(np.bool)).share_memory_()
                 #self.data['Seg'][id_slice].reshape(200, 200)
 
+                if idx == 100:
+                    a = torch.ones((10,10)).to('cuda:0') * 10
+
             f.close()
 
     def transform(self, img, seg):
@@ -140,15 +148,15 @@ class brats_dataset_subj(Dataset):
             seq_all = iaa.Sequential([
                 iaa.Fliplr(0.5),  # Horizontal flips
                 iaa.Affine(
-                    scale={"x": (0.85, 1.15), "y": (0.85, 1.15)},
+                    scale={"x": (0.8, 1.2), "y": (0.8, 1.2)},
                     translate_percent={"x": (0, 0), "y": (0, 0)},
-                    rotate=(-15, 15),
+                    rotate=(-10, 10),
                     shear=(0, 0)),  # Scaling, rotating
-                iaa.ElasticTransformation(alpha=(0.0, 20.0), sigma=5.0)  # Elastic
+                iaa.ElasticTransformation(alpha=(0.0, 100.0), sigma=10.0)  # Elastic
             ], random_order=True)
 
             seq_img = iaa.Sequential([
-                iaa.blur.AverageBlur(k=(0, 3)),  # Gausian blur
+                iaa.blur.AverageBlur(k=(0, 4)),  # Gausian blur
                 iaa.LinearContrast((0.8, 1.2)),  # Contrast
                 iaa.Multiply((0.8, 1.2), per_channel=1),  # Intensity
             ], random_order=True)

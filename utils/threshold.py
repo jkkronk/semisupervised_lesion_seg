@@ -5,7 +5,7 @@ import random
 import numpy as np
 from skimage.transform import resize
 import torch
-from restoration import run_map_NN, run_map_GGNN
+from restoration import run_map
 from utils import losses
 import pickle
 from datasets import brats_dataset_subj
@@ -217,7 +217,8 @@ def compute_threshold_TV(fprate, model, img_size, batch_size, n_latent_samples, 
         # dif.extend(predicted_residuals[mask == 1])
         # dif_vae.extend(predicted_residuals_vae[mask == 1])
         # dif_vae_rel.extend(predicted_residuals_vae_relative[mask == 1])
-        dif_prob.extend(prob_map[mask == 1])
+        if prob_map.shape == mask.shape:
+            dif_prob.extend(prob_map[mask == 1])
         # dif_naive.extend(res[mask == 1])
         num += 1
 
@@ -299,7 +300,7 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
             scan = scan.squeeze(1)
             mask_temp = torch.ones(scan.shape)
 
-            restored_batch = run_map_GGNN(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
+            restored_batch = run_map(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
 
             # Predicted abnormalty is difference between restored and original batch
             error_batch = np.zeros([scan.size()[0], 128, 128])
@@ -326,7 +327,8 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
         #dif.extend(predicted_residuals[mask == 1])
         #dif_vae.extend(predicted_residuals_vae[mask == 1])
         #dif_vae_rel.extend(predicted_residuals_vae_relative[mask == 1])
-        dif_prob.extend(prob_map[mask == 1])
+        if prob_map.shape == mask.shape:
+            dif_prob.extend(prob_map[mask == 1])
         #dif_naive.extend(res[mask == 1])
         num += 1
 
@@ -369,7 +371,7 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_GGNN(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
+            restored_batch = run_map(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
                                         step_size=step_size, log=False)
 
             seg = seg.cpu().detach().numpy()

@@ -5,7 +5,7 @@ import torch
 import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
 
-from restoration import run_map_NN, run_map_GGNN
+from restoration import run_map
 from datasets import brats_dataset_subj
 from utils import threshold
 import pickle
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     log_freq = config['log_freq']
     original_size = config['orig_size']
     log_dir = config['log_dir']
-    n_latent_samples = 25
+    n_latent_samples = config['latent_samples']
     preset_threshold = []
     epochs = config['epochs']
 
@@ -74,11 +74,11 @@ if __name__ == "__main__":
                                      device, name, riter, step_rate)
 
         thr_error_h1 = threshold.compute_threshold(0.001, vae_model, img_size, batch_size, n_latent_samples, device,
-                                                n_random_sub=25, net_model=net, riter=riter,
+                                                n_random_sub=50, net_model=net, riter=riter,
                                                 step_size=step_rate, renormalized=False)
 
         thr_error_h5 = threshold.compute_threshold(0.005, vae_model, img_size, batch_size, n_latent_samples, device,
-                                                   n_random_sub=25, net_model=net, riter=riter,
+                                                   n_random_sub=50, net_model=net, riter=riter,
                                                    step_size=step_rate, renormalized=False)
     else:
         thr_error, thr_error_h5, thr_error_h1 = preset_threshold
@@ -138,7 +138,7 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_GGNN(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
+            restored_batch = run_map(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
                                         step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()

@@ -8,7 +8,7 @@
 #$ -q gpu.24h.q
 source /scratch_net/biwidl214/jonatank/anaconda3/etc/profile.d/conda.sh
 conda activate JKMT
-python -u train_unet.py --model_name 3subj_3_simclr_ --config conf.yaml --aug 1 --simCLR /scratch_net/biwidl214/jonatank/logs/simclr/1/checkpoints/model.pth
+python -u train_unet.py --model_name 1subj_0_simclr_ --config conf.yaml --aug 1 --simCLR /scratch_net/biwidl214/jonatank/logs/simclr/1/checkpoints/model.pth
 
 
 
