@@ -22,7 +22,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', type=str, default=0)
     parser.add_argument("--config", required=True, help="path to config")
-    parser.add_argument("--subjs", type=float, help="Number of subjects for training")
+    parser.add_argument("--subjs", type=int, help="Number of subjects for training")
     parser.add_argument("--aug", type=int)
 
     opt = parser.parse_args()
