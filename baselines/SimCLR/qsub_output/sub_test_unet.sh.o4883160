@@ -1,0 +1,105 @@
+3subj_2_simclr_500
+Using device: cuda:0
+Loading test set for subj
+Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  DICE:  0.6919771538379417
+Loading test set for subj
+Brats17_TCIA_645_1_t2_unbiased.nii.gz  DICE:  0.6790269427184222
+Loading test set for subj
+Brats17_2013_3_1_t2_unbiased.nii.gz  DICE:  0.5001138001669069
+Loading test set for subj
+Brats17_TCIA_331_1_t2_unbiased.nii.gz  DICE:  0.4101257137255863
+Loading test set for subj
+Brats17_TCIA_147_1_t2_unbiased.nii.gz  DICE:  0.40512703714950904
+Loading test set for subj
+Brats17_TCIA_261_1_t2_unbiased.nii.gz  DICE:  0.411762898319147
+Loading test set for subj
+Brats17_TCIA_410_1_t2_unbiased.nii.gz  DICE:  0.3540170204697766
+Loading test set for subj
+Brats17_CBICA_ALX_1_t2_unbiased.nii.gz  DICE:  0.5923140855661535
+Loading test set for subj
+Brats17_TCIA_390_1_t2_unbiased.nii.gz  DICE:  0.736757260522405
+Loading test set for subj
+Brats17_TCIA_653_1_t2_unbiased.nii.gz  DICE:  0.5620081940560577
+Loading test set for subj
+Brats17_CBICA_AOP_1_t2_unbiased.nii.gz  DICE:  0.2922316708802574
+Loading test set for subj
+Brats17_CBICA_AWH_1_t2_unbiased.nii.gz  DICE:  0.4580822558942257
+Loading test set for subj
+Brats17_TCIA_449_1_t2_unbiased.nii.gz  DICE:  0.05906765756201139
+Loading test set for subj
+Brats17_TCIA_460_1_t2_unbiased.nii.gz  DICE:  0.6876015159718463
+Loading test set for subj
+Brats17_TCIA_401_1_t2_unbiased.nii.gz  DICE:  0.7554484522320739
+Loading test set for subj
+Brats17_TCIA_634_1_t2_unbiased.nii.gz  DICE:  0.6103894425271756
+Loading test set for subj
+Brats17_TCIA_615_1_t2_unbiased.nii.gz  DICE:  0.7506591644241485
+Loading test set for subj
+Brats17_TCIA_242_1_t2_unbiased.nii.gz  DICE:  0.7720526797437631
+Loading test set for subj
+Brats17_TCIA_179_1_t2_unbiased.nii.gz  DICE:  0.4123255915671609
+Loading test set for subj
+Brats17_TCIA_298_1_t2_unbiased.nii.gz  DICE:  0.8618408662900189
+Loading test set for subj
+Brats17_TCIA_199_1_t2_unbiased.nii.gz  DICE:  0.6042540477804719
+Loading test set for subj
+Brats17_2013_18_1_t2_unbiased.nii.gz  DICE:  0.6790337714964252
+Loading test set for subj
+Brats17_TCIA_168_1_t2_unbiased.nii.gz  DICE:  0.8000279469473782
+Loading test set for subj
+Brats17_TCIA_103_1_t2_unbiased.nii.gz  DICE:  0.22446403331786843
+Loading test set for subj
+Brats17_TCIA_346_1_t2_unbiased.nii.gz  DICE:  0.879101134968937
+Loading test set for subj
+Brats17_TCIA_470_1_t2_unbiased.nii.gz  DICE:  0.0
+Loading test set for subj
+Brats17_CBICA_AXJ_1_t2_unbiased.nii.gz  DICE:  0.7808728652751423
+Loading test set for subj
+Brats17_2013_15_1_t2_unbiased.nii.gz  DICE:  0.31653554468778794
+Loading test set for subj
+Brats17_TCIA_491_1_t2_unbiased.nii.gz  DICE:  0.5195955146473402
+Loading test set for subj
+Brats17_2013_29_1_t2_unbiased.nii.gz  DICE:  0.7755344065937324
+Loading test set for subj
+Brats17_CBICA_AQG_1_t2_unbiased.nii.gz  DICE:  0.3126084366988632
+Loading test set for subj
+Brats17_2013_0_1_t2_unbiased.nii.gz  DICE:  0.3850680492546986
+Loading test set for subj
+Brats17_TCIA_205_1_t2_unbiased.nii.gz  DICE:  0.6552213548774496
+Loading test set for subj
+Brats17_TCIA_177_1_t2_unbiased.nii.gz  DICE:  0.05573111174949727
+Loading test set for subj
+Brats17_TCIA_413_1_t2_unbiased.nii.gz  DICE:  0.5525966927925204
+Loading test set for subj
+Brats17_CBICA_ASU_1_t2_unbiased.nii.gz  DICE:  0.644148846607173
+Loading test set for subj
+Brats17_TCIA_630_1_t2_unbiased.nii.gz  DICE:  0.7296768455380966
+Loading test set for subj
+Brats17_CBICA_ABO_1_t2_unbiased.nii.gz  DICE:  0.2932471424502483
+Loading test set for subj
+Brats17_2013_13_1_t2_unbiased.nii.gz  DICE:  0.0
+Loading test set for subj
+Brats17_TCIA_607_1_t2_unbiased.nii.gz  DICE:  0.6297354072745297
+Loading test set for subj
+Brats17_TCIA_402_1_t2_unbiased.nii.gz  DICE:  0.8483371836489106
+Loading test set for subj
+Brats17_TCIA_131_1_t2_unbiased.nii.gz  DICE:  0.6418656302054414
+Loading test set for subj
+Brats17_TCIA_374_1_t2_unbiased.nii.gz  DICE:  0.5529907104190336
+Loading test set for subj
+Brats17_TCIA_603_1_t2_unbiased.nii.gz  DICE:  0.47860959282687465
+Loading test set for subj
+Brats17_TCIA_101_1_t2_unbiased.nii.gz  DICE:  0.006681345380001518
+Loading test set for subj
+Brats17_TCIA_448_1_t2_unbiased.nii.gz  DICE:  0.06937712269594751
+Loading test set for subj
+Brats17_TCIA_621_1_t2_unbiased.nii.gz  DICE:  0.12183475618579077
+Loading test set for subj
+Brats17_TCIA_234_1_t2_unbiased.nii.gz  DICE:  0.766973474170431
+Loading test set for subj
+Brats17_TCIA_130_1_t2_unbiased.nii.gz  DICE:  0.5653281390470483
+Loading test set for subj
+Brats17_CBICA_AME_1_t2_unbiased.nii.gz  DICE:  0.3997061370136174
+AUC 0.8736102658890048
+mean:  0.5058417329635169  std:  0.24732451356391705
+Training Dice: 0.585112102783957

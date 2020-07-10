@@ -1,0 +1,13 @@
+Using device: cuda:0
+30subj_1_
+Loading train set for subj
+ Number of Slices:  3403
+Loading train set for subj
+ Number of Slices:  601
+Start training:
+Epoch: 0
+Epoch: 1
+Epoch: 2
+Epoch: 3
+Epoch: 4
+Epoch: 5

@@ -22,8 +22,6 @@ class ResBlock_Down(nn.Module):
         self.conv2 = nn.Conv2d(self.in_layers, self.out_layers, kernel_size=3, stride=1,padding=1)
         self.bn2 = nn.BatchNorm2d(self.out_layers)
 
-        #if self.stride != 1 or self.input_size != self.out_layers:
-
         if self.act:
             self.shortcut = nn.Sequential(
             nn.Conv2d(self.input_size, self.out_layers, kernel_size=3, stride=2, padding=1),
@@ -44,7 +42,6 @@ class ResBlock_Down(nn.Module):
             out = self.bn2(self.conv2(out))
 
         out += self.shortcut(x)
-        #print(out.size())
         return out
 
 class ResBlock_Up(nn.Module):

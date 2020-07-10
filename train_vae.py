@@ -1,13 +1,10 @@
 __author__ = 'jonatank'
 import torch
-from torchvision import transforms
 import torch.utils.data as data
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
-
 import argparse
 import yaml
-import os
 
 from models.vae  import ConvVAE, train_vae, valid_vae
 from datasets import camcan_dataset

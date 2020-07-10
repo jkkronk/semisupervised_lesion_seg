@@ -1,0 +1,9 @@
+epochs: 501
+batch_size: 32
+spatial_size: 128
+log_freq: 100
+lr_rate: 1e-3
+cuda: True
+path: /scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/brats17/
+log_dir: /scratch_net/biwidl214/jonatank/logs/unet/
+model_dir: /scratch_net/biwidl214/jonatank/logs/unet/

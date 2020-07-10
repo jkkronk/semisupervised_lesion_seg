@@ -1,18 +1,18 @@
-# CODE FROM XIAORAN CHEN https://github.com/aubreychen9012/AutoEncoder_AnomalyDetection
+# CODE PARTLY FROM XIAORAN CHEN https://github.com/aubreychen9012/AutoEncoder_AnomalyDetection
 
 import h5py
 import random
 import numpy as np
 from skimage.transform import resize
 import torch
-from restoration import run_map_NN
+from restoration import run_map
 from utils import losses
 import pickle
-from datasets import brats_dataset_subj, brats_dataset
+from datasets import brats_dataset_subj
 from sklearn import metrics
-
 import torch.utils.data as data
 import matplotlib.pyplot as plt
+from baselines.restore_TVnorm.resotration import run_map_TV
 #sys.path.append("/scratch_net/bmicdl01/chenx/PycharmProjects/refine_vae")
 #from preprocess.preprocess import *
 
@@ -117,11 +117,11 @@ def minibatches(inputs=None, targets=None, batch_size=None, allow_dynamic_batch_
         else:
             yield inputs[excerpt], targets[excerpt]
 
-def compute_threshold_TV(fprate, model, img_size, batch_size, n_latent_samples, device, n_random_sub = 100,
+def compute_threshold_TV(fprate, model, img_size, batch_size, n_latent_samples, device, riter, step_size, weight = 1, n_random_sub = 100,
                       renormalized = False):
     fprate = fprate
     if renormalized:
-        #n = "_renormalized"
+        # n = "_renormalized"
         data = h5py.File('/scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/camcan_t2_train_set.hdf5')
     else:
         data = h5py.File('/scratch_net/biwidl214/jonatank/data/dataset_abnormal/new/camcan/camcan_t2_train_set.hdf5')
@@ -167,67 +167,65 @@ def compute_threshold_TV(fprate, model, img_size, batch_size, n_latent_samples, 
         prob_map = []
 
         for batch in minibatches(inputs=res_exp, targets=mask_exp,
-                                            batch_size=batch_size, shuffle=False):
+                                 batch_size=batch_size, shuffle=False):
+
             b_images, _ = batch
             b_images = b_images[:, :, :, np.newaxis]
             b_images = torch.from_numpy(b_images).double().to(device)
             b_images = torch.squeeze(b_images, axis=3)
             b_images = torch.unsqueeze(b_images, axis=1)
-            decoded = np.zeros((batch_size, n_latent_samples+1, image_size, image_size))
-            for i in range(n_latent_samples):
-                decoded_vae, _, _, res = model(b_images)
-                #model.validate(b_images)
-                #decoded_vae = model.out_mu_test
-                decoded_vae_res = np.abs((b_images-decoded_vae).cpu().detach().numpy()) #np.abs(b_images - decoded_vae)
-                decoded[:,i,:,:] = decoded_vae_res[:,0,:,:]
 
-            # predicted model error
-            decoded_res = res
-            decoded[:,-1,:,:] = decoded_res.cpu().detach().numpy()[:,0,:,:]
+            scan = b_images.double().to(device)
+            decoded_mu = torch.zeros(scan.size())
 
-            batch_median = np.median(decoded, axis=-1, keepdims=True)
+            # Get average prior
+            for s in range(n_latent_samples):
+                recon_batch, z_mean, z_cov, res = model(scan)
+                decoded_mu += np.array([1 * recon_batch[i].detach().cpu().numpy() for i in range(scan.size()[0])])
 
+            batch_med = decoded_mu / n_latent_samples
 
-            residuals_raw = np.abs((b_images - decoded_vae).cpu().detach().numpy())
+            # Remove channel
+            # decoded_mu = decoded_mu.squeeze(1)
+            scan = scan.squeeze(1)
+            mask_temp = torch.ones(scan.shape)
 
-            residuals = np.abs(residuals_raw - decoded_res.cpu().detach().numpy())
+            restored_batch = run_map_TV(scan, batch_med, model, riter, device, weight, step_size)
 
-            predicted_residuals.extend(residuals)
-            # raw
-            predicted_residuals_vae.extend(residuals_raw)
-            # signed
+            # Predicted abnormalty is difference between restored and original batch
+            error_batch = np.zeros([scan.size()[0], 128, 128])
 
-            # evaluate if predicted loss fits error distribution during test time
-            residuals_mad_map = np.median(np.abs(decoded-batch_median), axis=1, keepdims=True)
+            for idx in range(scan.size()[0]):  # Iterate trough for resize
+                error_batch[idx] = abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy()
 
-            prob_map.extend(residuals_mad_map)
+            prob_map.extend(error_batch)
             cnt += 1
 
-        predicted_residuals_vae = np.asarray(predicted_residuals_vae).reshape(res_exp.shape[0], 128, 128)
-        predicted_residuals = np.asarray(predicted_residuals).reshape(res_exp.shape[0], 128, 128)
+        # predicted_residuals_vae = np.asarray(predicted_residuals_vae).reshape(res_exp.shape[0], 128, 128)
+        # predicted_residuals = np.asarray(predicted_residuals).reshape(res_exp.shape[0], 128, 128)
 
-        predicted_residuals_vae = resize(predicted_residuals_vae[:dim_res[0]], [batch_size, 1, image_original_size, image_original_size])
-        predicted_residuals = resize(predicted_residuals[:dim_res[0]], [batch_size, 1, image_original_size, image_original_size])
+        # predicted_residuals_vae = resize(predicted_residuals_vae[:dim_res[0]], [batch_size, 1, image_original_size, image_original_size])
+        # predicted_residuals = resize(predicted_residuals[:dim_res[0]], [batch_size, 1, image_original_size, image_original_size])
 
         prob_map = np.asarray(prob_map).reshape(res_exp.shape[0], 128, 128)
         prob_map = resize(prob_map[:dim_res[0]], [batch_size, 1, image_original_size, image_original_size])
 
-        predicted_residuals_vae = np.squeeze(predicted_residuals_vae, axis=1)
-        predicted_residuals = np.squeeze(predicted_residuals, axis=1)
+        # predicted_residuals_vae = np.squeeze(predicted_residuals_vae, axis=1)
+        # predicted_residuals = np.squeeze(predicted_residuals, axis=1)
         prob_map = np.squeeze(prob_map, axis=1)
 
-        dif.extend(predicted_residuals[mask == 1])
-        dif_vae.extend(predicted_residuals_vae[mask == 1])
-        #dif_vae_rel.extend(predicted_residuals_vae_relative[mask == 1])
-        dif_prob.extend(prob_map[mask == 1])
-        #dif_naive.extend(res[mask == 1])
+        # dif.extend(predicted_residuals[mask == 1])
+        # dif_vae.extend(predicted_residuals_vae[mask == 1])
+        # dif_vae_rel.extend(predicted_residuals_vae_relative[mask == 1])
+        if prob_map.shape == mask.shape:
+            dif_prob.extend(prob_map[mask == 1])
+        # dif_naive.extend(res[mask == 1])
         num += 1
 
-    thr_error = determine_threshold(dif_vae, fprate)
-    thr_error_corr = determine_threshold(dif, fprate)
+    # thr_error = determine_threshold(dif_vae, fprate)
+    # thr_error_corr = determine_threshold(dif, fprate)
     thr_MAD = determine_threshold(dif_prob, fprate)
-
-    return thr_error, thr_error_corr, thr_MAD
+    return thr_MAD
 
 def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples, device, n_random_sub = 100, net_model = None, riter=500, step_size=0.003,
                       renormalized = False):
@@ -302,7 +300,7 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
             scan = scan.squeeze(1)
             mask_temp = torch.ones(scan.shape)
 
-            restored_batch = run_map_NN(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
+            restored_batch = run_map(scan, mask_temp, batch_med, net_model, vae_model, riter, device, step_size=step_size)
 
             # Predicted abnormalty is difference between restored and original batch
             error_batch = np.zeros([scan.size()[0], 128, 128])
@@ -329,14 +327,14 @@ def compute_threshold(fprate, vae_model, img_size, batch_size, n_latent_samples,
         #dif.extend(predicted_residuals[mask == 1])
         #dif_vae.extend(predicted_residuals_vae[mask == 1])
         #dif_vae_rel.extend(predicted_residuals_vae_relative[mask == 1])
-        dif_prob.extend(prob_map[mask == 1])
+        if prob_map.shape == mask.shape:
+            dif_prob.extend(prob_map[mask == 1])
         #dif_naive.extend(res[mask == 1])
         num += 1
 
     #thr_error = determine_threshold(dif_vae, fprate)
     #thr_error_corr = determine_threshold(dif, fprate)
     thr_MAD = determine_threshold(dif_prob, fprate)
-    print(type(thr_MAD))
     return thr_MAD
 
 
@@ -373,7 +371,7 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
+            restored_batch = run_map(scan, mask, decoded_mu, net, vae_model, riter, device, writer=None,
                                         step_size=step_size, log=False)
 
             seg = seg.cpu().detach().numpy()
@@ -429,17 +427,17 @@ def compute_threshold_subj(data_path, vae_model, net, img_size, subjs, batch_siz
     #dice = (2 * TP) / (2 * TP + FN + FP)
     #print('Dice training: ', dice)
 
-    aux = []
-    for thres in thresholds:
-        aux.append(abs(best_thresh - thres))
-    ix = aux.index(min(aux))
+    #aux = []
+    #for thres in thresholds:
+    #    aux.append(abs(best_thresh - thres))
+    #ix = aux.index(min(aux))
 
-    lw = 2
-    plt.plot(fpr, tpr, color='lightblue', lw=lw, label='Train ROC curve (area = %0.2f)' % roc_auc)
-    plt.plot([0, 1], [0, 1], color='gray', lw=lw, linestyle='--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.plot(fpr[ix], tpr[ix], 'r+')
+    #lw = 2
+    #plt.plot(fpr, tpr, color='lightblue', lw=lw, label='Train ROC curve (area = %0.2f)' % roc_auc)
+    #plt.plot([0, 1], [0, 1], color='gray', lw=lw, linestyle='--')
+    #plt.xlim([0.0, 1.0])
+    #plt.ylim([0.0, 1.05])
+    #plt.plot(fpr[ix], tpr[ix], 'r+')
     #plt.xlabel('False Positive Rate')
     #plt.ylabel('True Positive Rate')
     #plt.title('Receiver operating characteristic example')
