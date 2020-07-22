@@ -1,0 +1,42 @@
+Name:  1subj_3lr_epochssteps_32fch_2MSEloss_ Lr_rate:  0.001 Use Teacher:  False  Riter:  100  Subjs:  1
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_CBICA_AXM_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_AXM_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.6040137434633088
+AUC :  0.662968629789453
+AUC :  0.4631886679707762
+AUC :  0.7258004057395937
+AUC :  0.660804621467318
+AUC :  0.5152454937116612
+AUC :  0.6402755544955774
+AUC :  0.6491615121977934
+AUC :  0.306194998090574
+AUC :  0.6576106158529952
+AUC :  0.5211408921387182
+AUC :  0.6048943954033179
+AUC :  0.5323194841567926
+AUC :  0.6346471019217957
+AUC :  0.6380115346230835
+AUC :  0.7390766592626082
+AUC :  0.624637394880094
+AUC :  0.5218224377701489
+AUC :  0.7218868464541988
+AUC :  0.6985580649845886
+AUC :  0.7856981433380265
+AUC :  0.6751390382531027
+AUC :  0.6345437317005415
+AUC :  0.6362791343033753
+AUC :  0.5217414653829227
+AUC :  0.5458676578208219
+AUC :  0.693764840247657
+AUC :  0.6440514084964766
+AUC :  0.6087487057565385
+AUC :  0.6885024216608148
+AUC :  0.6530067212058426
+AUC :  0.5942297689955103
+AUC :  0.5179540386495605

@@ -1,0 +1,78 @@
+Name:  1subj_3lr_epsteps_32fch_2MSEloss_pretrained_ Lr_rate:  0.001 Use Teacher:  False  Riter:  50  Subjs:  1
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_CBICA_AXM_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_AXM_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.6093126567286234
+AUC :  0.7192387140391807
+AUC :  0.5698606991768658
+AUC :  0.5465156461863925
+AUC :  0.6605500020689989
+AUC :  0.615788316693114
+AUC :  0.6448398134524964
+AUC :  0.5958494774719485
+AUC :  0.7061075257174594
+AUC :  0.7406947049683316
+AUC :  0.7184617309505388
+AUC :  0.6935012428684549
+AUC :  0.7051120517414078
+AUC :  0.6855142978225971
+AUC :  0.6635586631271713
+AUC :  0.6805814400993276
+AUC :  0.7068742597210991
+AUC :  0.7121759725987401
+AUC :  0.707000432653562
+AUC :  0.7512885970770353
+AUC :  0.6896529292911253
+AUC :  0.6300425582780211
+AUC :  0.5907797291052013
+AUC :  0.5902503216206428
+AUC :  0.5947662860633658
+AUC :  0.5409167335230922
+AUC :  0.6460546790446542
+AUC :  0.6680609329189517
+AUC :  0.6746092626128433
+AUC :  0.5669087962905389
+AUC :  0.6145624387827118
+AUC :  0.5649229851188237
+AUC :  0.6892336109587539
+AUC :  0.7520161597073324
+AUC :  0.4959763929562684
+AUC :  0.6406520619834308
+AUC :  0.6419020301558761
+AUC :  0.6411578803895965
+AUC :  0.6880910562426041
+AUC :  0.7193960076213716
+AUC :  0.624013628926979
+AUC :  0.6507514554318108
+AUC :  0.6602308300004808
+AUC :  0.6760634898267658
+AUC :  0.6499896065656874
+AUC :  0.5835437800555572
+AUC :  0.5444098324258881
+AUC :  0.5167279543112274
+AUC :  0.5469801550175224
+AUC :  0.6426437413109389
+AUC :  0.682196731582048
+AUC :  0.7519655499285435
+AUC :  0.7248462457557818
+AUC :  0.8003130072450486
+AUC :  0.6309837292612167
+AUC :  0.6677045660906564
+AUC :  0.5097540140814103
+AUC :  0.6623436948130396
+AUC :  0.6214380486490272
+AUC :  0.6600287538147913
+AUC :  0.5827995711269943
+AUC :  0.6933882753059672
+AUC :  0.8268966216069653
+AUC :  0.7216841572267899
+AUC :  0.705720512178898
+AUC :  0.7437390565845354
+AUC :  0.6772126253426487
+AUC :  0.7483891013070609
+/scratch/sge/spool/bmicgpu02/job_scripts/4876127: line 11: 22764 Killed                  python -u train_restore_MAP_NN.py --name 1subj_3lr_epsteps_32fch_2MSEloss_pretrained_ --config conf/conf_nn.yaml --subjs 1 --K_actf 10000

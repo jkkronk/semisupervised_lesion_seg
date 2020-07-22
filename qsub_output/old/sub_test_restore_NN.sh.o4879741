@@ -1,0 +1,110 @@
+[Brats17_TCIA_105_1_t2_unbiased.nii.gz]
+ Vae model:  camcan_400_Aug_6_100  NN model:  1subj_3e1_10steps_2fch2sh_xlaug_lr1_3_2_200
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+Loading train set for subj
+0.0 : 0.1368295425768809
+0.01 : 0.22652596285498663
+0.02 : 0.27896630519544324
+0.03 : 0.30916948045632026
+0.04 : 0.31118058850232605
+0.05 : 0.29210854149364335
+0.06 : 0.2644637151985395
+0.07 : 0.23524503618243156
+0.08 : 0.20251171982719002
+0.09 : 0.17028732494508705
+0.1 : 0.13437980960074655
+0.11 : 0.0992586894715806
+0.12 : 0.06873509119969158
+0.13 : 0.04583056324634559
+0.14 : 0.028249915145818646
+0.15 : 0.01600840485772285
+0.16 : 0.009421593714115212
+0.17 : 0.00573930049990404
+0.18 : 0.002357382936599291
+0.19 : 0.0007588868425679989
+0.2 : 0.00018562690847665278
+0.21 : 3.7183360446200325e-05
+0.22 : 0.0
+0.23 : 0.0
+0.24 : 0.0
+0.25 : 0.0
+0.26 : 0.0
+AUC training :  0.7526430916732172  - Dice training :  0.31118058850232605
+0.04
+0.0
+Loading test set for subj
+Subject  Brats17_CBICA_AMH_1_t2_unbiased.nii.gz  Number of Slices:  140
+AUC :  0.8865983609649093
+DCS:  0.4851368644803054
+0.02
+Loading test set for subj
+Subject  Brats17_TCIA_645_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC :  0.8770609271359531
+DCS:  0.28235797417042746
+0.04
+Loading test set for subj
+Subject  Brats17_2013_3_1_t2_unbiased.nii.gz  Number of Slices:  128
+AUC :  0.8288527069854257
+DCS:  0.3276847914201119
+0.06
+Loading test set for subj
+Subject  Brats17_TCIA_331_1_t2_unbiased.nii.gz  Number of Slices:  123
+AUC :  0.806995497789617
+DCS:  0.2511934807066622
+0.08
+Loading test set for subj
+Subject  Brats17_TCIA_147_1_t2_unbiased.nii.gz  Number of Slices:  136
+AUC :  0.8297867530900814
+DCS:  0.5598639192793907
+0.1
+Loading test set for subj
+Subject  Brats17_TCIA_261_1_t2_unbiased.nii.gz  Number of Slices:  125
+AUC :  0.7560897675977617
+DCS:  0.1542687567553739
+0.12
+Loading test set for subj
+Subject  Brats17_TCIA_410_1_t2_unbiased.nii.gz  Number of Slices:  129
+AUC :  0.7247343669502653
+DCS:  0.2106323572392436
+0.14
+Loading test set for subj
+Subject  Brats17_CBICA_ALX_1_t2_unbiased.nii.gz  Number of Slices:  137
+AUC :  0.7267674290548157
+DCS:  0.24693404509376976
+0.16
+Loading test set for subj
+Subject  Brats17_TCIA_390_1_t2_unbiased.nii.gz  Number of Slices:  138
+AUC :  0.7325962443811929
+DCS:  0.3880121505344456
+0.18
+Loading test set for subj
+Subject  Brats17_TCIA_653_1_t2_unbiased.nii.gz  Number of Slices:  138
+AUC :  0.7322626073859186
+DCS:  0.2846848436718727
+0.2
+Loading test set for subj
+Subject  Brats17_CBICA_AOP_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC :  0.7263095728673233
+DCS:  0.08934707903780069
+0.22
+Loading test set for subj
+Subject  Brats17_CBICA_AWH_1_t2_unbiased.nii.gz  Number of Slices:  130
+AUC :  0.7428394219926496
+DCS:  0.5326997548798188
+0.24
+Loading test set for subj
+Subject  Brats17_TCIA_449_1_t2_unbiased.nii.gz  Number of Slices:  131
+AUC :  0.7410486328884566
+DCS:  0.19642413057420716
+0.26
+Loading test set for subj
+Subject  Brats17_TCIA_460_1_t2_unbiased.nii.gz  Number of Slices:  134
+AUC :  0.7505699142679426
+DCS:  0.4814173694861536
+0.28
+Loading test set for subj
+Subject  Brats17_TCIA_401_1_t2_unbiased.nii.gz  Number of Slices:  138

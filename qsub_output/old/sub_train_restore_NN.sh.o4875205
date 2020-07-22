@@ -1,0 +1,57 @@
+Name:  1subj_3lr_25steps_32fch_2MSEloss_ Lr_rate:  0.001 Use Teacher:  False  Riter:  25  Subjs:  1
+Using device: cuda:0
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Down' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/torch/serialization.py:593: SourceChangeWarning: source code of class 'networks.vae_bilinear_conv.ResBlock_Up' has changed. you can retrieve the original source code by accessing the object's source attribute or set `torch.nn.Module.dump_patches = True` and use the patch tool to revert the changes.
+  warnings.warn(msg, SourceChangeWarning)
+['Brats17_CBICA_BHK_1_t2_unbiased.nii.gz']
+Loading train set for subj
+Subject  Brats17_CBICA_BHK_1_t2_unbiased.nii.gz  Number of Slices:  146
+AUC :  0.4562151156527936
+AUC :  0.49152776102138585
+AUC :  0.5528587832247546
+AUC :  0.5450330573658284
+AUC :  0.45820924599590845
+AUC :  0.5115165154002294
+AUC :  0.46808640834832804
+AUC :  0.40807066538863573
+AUC :  0.3685896472821728
+AUC :  0.3685896472821728
+AUC :  0.48724976697361055
+AUC :  0.41847493682544845
+AUC :  0.5601432415439069
+AUC :  0.5118262256796005
+AUC :  0.5314919781160997
+AUC :  0.44370342526169343
+AUC :  0.5858161433176954
+AUC :  0.5439143646464583
+AUC :  0.44153832153552114
+AUC :  0.44153832153552114
+AUC :  0.5991194008891862
+AUC :  0.5301273251911612
+AUC :  0.5512677895510226
+AUC :  0.6382573604151373
+AUC :  0.5890502389266049
+AUC :  0.5580542707683946
+AUC :  0.505136260697955
+AUC :  0.5828058077100765
+AUC :  0.6109143453389889
+AUC :  0.6001961466852481
+AUC :  0.49353481596988785
+AUC :  0.448372118823199
+AUC :  0.5493496651316372
+AUC :  0.4907029287459527
+AUC :  0.5246557880643219
+AUC :  0.46983009387247887
+AUC :  0.3182449926819816
+AUC :  0.4256172248755473
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 152, in <module>
+    AUC = roc_auc_score(y_true, y_pred)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/metrics/_ranking.py", line 369, in roc_auc_score
+    y_score = check_array(y_score, ensure_2d=False)
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/utils/validation.py", line 578, in check_array
+    allow_nan=force_all_finite == 'allow-nan')
+  File "/scratch_net/biwidl214/jonatank/anaconda3/envs/JKMT/lib/python3.7/site-packages/sklearn/utils/validation.py", line 60, in _assert_all_finite
+    msg_dtype if msg_dtype is not None else X.dtype)
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').

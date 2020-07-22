@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "train_restore_MAP_NN.py", line 12, in <module>
+    from restoration import train_run_map_GGNN, train_run_map_GNN, train_run_map_NN, train_run_map_CNN
+ImportError: cannot import name 'train_run_map_GNN' from 'restoration' (/scratch_net/biwidl214/jonatank/code_home/restor_MAP/restoration.py)
