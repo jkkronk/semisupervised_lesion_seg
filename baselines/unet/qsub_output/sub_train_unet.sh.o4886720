@@ -1,6 +1,0 @@
-Using device: cuda:0
-100subj_0_
-Traceback (most recent call last):
-  File "train_unet.py", line 56, in <module>
-    subj_list = subj_list_all[:subj_nbr]
-TypeError: slice indices must be integers or None or have an __index__ method
