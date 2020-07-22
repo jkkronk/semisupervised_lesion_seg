@@ -124,9 +124,6 @@ class brats_dataset_subj(Dataset):
                 self.seg_img[idx] = torch.from_numpy(d.get('Seg')[id_slice].reshape(200, 200).astype(np.bool)).share_memory_()
                 #self.data['Seg'][id_slice].reshape(200, 200)
 
-                if idx == 100:
-                    a = torch.ones((10,10)).to('cuda:0') * 10
-
             f.close()
 
     def transform(self, img, seg):

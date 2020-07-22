@@ -36,10 +36,9 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
 
     model_name = config['vae_name']
-    #net_name = config['net_name']
     data_path = config['path']
     riter = config['riter']
-    batch_size = 32 #config["batch_size"]
+    batch_size = config["batch_size"]
     img_size = config["spatial_size"]
     lr_rate = float(config['lr_rate'])
     step_rate = float(config['step_rate'])
@@ -62,7 +61,7 @@ if __name__ == "__main__":
     vae_model = torch.load(path, map_location=torch.device(device))
     vae_model.eval()
 
-    # Load trained nn model
+    # Load trained segmentation network
     path = log_dir + net_name + '.pth'
     net = torch.load(path, map_location=torch.device(device))
     net.eval()
@@ -85,15 +84,12 @@ if __name__ == "__main__":
 
     print(thr_error, thr_error_h5, thr_error_h1)
 
-
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
     subj_dict = pickle.load(f)
     f.close()
 
     subj_list = list(subj_dict.keys())
-    #random.shuffle(subj_list)
-    #subj_list = subj_list[]
 
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
@@ -138,13 +134,14 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
+            # Restore
             restored_batch = run_map(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
                                         step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()
 
-            # Predicted abnormalty is difference between restored and original batch
+            # Predicted lesion is difference between restored and original
             error_batch = np.zeros([scan.size()[0], original_size, original_size])
             restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
 
@@ -152,7 +149,7 @@ if __name__ == "__main__":
                 error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
                 restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
 
-            # Remove preds and seg outside mask and flatten
+            # Flatten and remove pred outside mask
             mask = resize(mask, (scan.size()[0], original_size, original_size))
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
@@ -175,27 +172,6 @@ if __name__ == "__main__":
             FN += np.sum(seg_m[error_batch_m == 0])
             FP += np.sum(error_batch_m[seg_m == 0])
 
-        #auc_error = roc_auc_score(y_true, y_pred)
-        ## evaluate AUC for ROC using universal thresholds
-        '''
-        if not len(thresh_error):
-            thresh_error = np.concatenate((np.sort(tot_error_m[::100]), [15]))
-            error_tprfpr = np.zeros((2, len(thresh_error)))
-
-        error_tprfpr += compute_tpr_fpr(tot_seg_m, tot_error_m, thresh_error)
-
-        total_p += np.sum(tot_seg_m == 1)
-        total_n += np.sum(tot_seg_m == 0)
-
-        tpr_error = error_tprfpr[0] / total_p
-        fpr_error = error_tprfpr[1] / total_n
-
-        auc_error = 1. + np.trapz(fpr_error, tpr_error)
-        '''
-        #print('AUC : ', auc_error)
-        #writer.add_scalar('AUC:', auc_error)
-        #tot_AUC = np.append(tot_AUC, auc_error)
-
         dice = (2*TP)/(2*TP+FN+FP)
         subj_dice = np.append(subj_dice, dice)
         print('DCS: ', dice)
@@ -206,9 +182,10 @@ if __name__ == "__main__":
     save_list[0] = y_true
     save_list[1] = y_pred
 
-    f = open(log_dir + 'results/'+name, 'wb')
-    pickle.dump(save_list, f)
-    f.close()
+    # Saving predictions with pickle
+    #f = open(log_dir + 'results/'+name, 'wb')
+    #pickle.dump(save_list, f)
+    #f.close()
 
     auc_error = roc_auc_score(y_true, y_pred)
     print('All AUC: ', auc_error)
@@ -258,6 +235,8 @@ if __name__ == "__main__":
     FP = np.sum(y_pred_1h[y_true == 0])
 
     print('Training Dice FPR1:', (2 * TP) / (2 * TP + FN + FP))
+
+    # PLOT AUC CURVE
 
     # Get threshold closest to auc threshold x
     aux = []
