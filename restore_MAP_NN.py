@@ -4,20 +4,16 @@ from skimage.transform import resize
 import torch
 import torch.utils.data as data
 from torch.utils.tensorboard import SummaryWriter
-import torch.optim as optim
 
-from restoration import run_map_NN
-from models.shallow_UNET import shallow_UNet
+from restoration import run_map
 from datasets import brats_dataset_subj
-from utils.auc_score import compute_tpr_fpr
 from utils import threshold
 import pickle
 import argparse
+from sklearn import metrics
 import yaml
-import random
-from utils.utils import normalize_tensor
 from sklearn.metrics import roc_auc_score
-
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     # Params init
@@ -26,17 +22,20 @@ if __name__ == "__main__":
     parser.add_argument("--config", required=True, help="Path to config")
     parser.add_argument("--fprate", type=float, help="False positive rate")
     parser.add_argument("--netname", type=str, help="Net name of guiding net")
+    parser.add_argument("--subj", type=str, help="Training Subject for threshold calc")
 
     opt = parser.parse_args()
     name = opt.name
     fprate = opt.fprate
     net_name = opt.netname
+    train_subjs = opt.subj
+    print(train_subjs)
+    train_subjs = train_subjs.strip('[]').replace('"', '').replace(' ', '').split(',') # from list str to list
 
     with open(opt.config) as f:
         config = yaml.safe_load(f)
 
     model_name = config['vae_name']
-    #net_name = config['net_name']
     data_path = config['path']
     riter = config['riter']
     batch_size = config["batch_size"]
@@ -46,8 +45,8 @@ if __name__ == "__main__":
     log_freq = config['log_freq']
     original_size = config['orig_size']
     log_dir = config['log_dir']
-    n_latent_samples = 25
-    preset_threshold = 0.5 #[] #1.6875
+    n_latent_samples = config['latent_samples']
+    preset_threshold = []
     epochs = config['epochs']
 
     print(' Vae model: ', model_name, ' NN model: ', net_name)
@@ -62,20 +61,28 @@ if __name__ == "__main__":
     vae_model = torch.load(path, map_location=torch.device(device))
     vae_model.eval()
 
-    # Load trained nn model
+    # Load trained segmentation network
     path = log_dir + net_name + '.pth'
     net = torch.load(path, map_location=torch.device(device))
     net.eval()
 
-    # Compute threshold with help of camcan set
+    # Compute thresholds
     if not preset_threshold:
-        thr_error = \
-            threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
-                                             ['Brats17_2013_11_1_t2_unbiased.nii.gz'], batch_size, n_latent_samples,
-                                             device, riter, step_rate)
+        thr_error = threshold.compute_threshold_subj(data_path, vae_model, net, img_size,
+                                     train_subjs, batch_size, n_latent_samples,
+                                     device, name, riter, step_rate)
+
+        thr_error_h1 = threshold.compute_threshold(0.001, vae_model, img_size, batch_size, n_latent_samples, device,
+                                                n_random_sub=50, net_model=net, riter=riter,
+                                                step_size=step_rate, renormalized=False)
+
+        thr_error_h5 = threshold.compute_threshold(0.005, vae_model, img_size, batch_size, n_latent_samples, device,
+                                                   n_random_sub=50, net_model=net, riter=riter,
+                                                   step_size=step_rate, renormalized=False)
     else:
-        thr_error = preset_threshold
-    print(thr_error)
+        thr_error, thr_error_h5, thr_error_h1 = preset_threshold
+
+    print(thr_error, thr_error_h5, thr_error_h1)
 
     # Load list of subjects
     f = open(data_path + 'subj_t2_test_dict.pkl', 'rb')
@@ -83,16 +90,20 @@ if __name__ == "__main__":
     f.close()
 
     subj_list = list(subj_dict.keys())
-    #random.shuffle(subj_list)
-    #subj_list = subj_list[]
 
     # Init logging with Tensorboard
     writer = SummaryWriter(log_dir + name)
 
     # Metrics init
-    y_true = []
+    tot_error_m = np.array([])
+    tot_seg_m = np.array([])
+    subj_dice = np.array([])
+    total_p = 0
+    total_n = 0
+    thresh_error = []
+    tot_AUC = []
     y_pred = []
-    subj_dice = []
+    y_true = []
 
     for i, subj in enumerate(subj_list):  # Iterate every subject
         TP = 0
@@ -123,12 +134,14 @@ if __name__ == "__main__":
             seg = seg.squeeze(1)
             mask = mask.squeeze(1)
 
-            restored_batch = run_map_NN(scan, decoded_mu, net, vae_model, riter, device, writer, step_size=step_rate)
+            # Restore
+            restored_batch = run_map(scan, mask, decoded_mu, net, vae_model, riter, device, seg, thr_error, writer,
+                                        step_size=step_rate, log=bool(batch_idx % 3))
 
             seg = seg.cpu().detach().numpy()
             mask = mask.cpu().detach().numpy()
 
-            # Predicted abnormalty is difference between restored and original batch
+            # Predicted lesion is difference between restored and original
             error_batch = np.zeros([scan.size()[0], original_size, original_size])
             restored_batch_resized = np.zeros([scan.size()[0], original_size, original_size])
 
@@ -136,16 +149,18 @@ if __name__ == "__main__":
                 error_batch[idx] = resize(abs(scan[idx] - restored_batch[idx]).cpu().detach().numpy(), (200, 200))
                 restored_batch_resized[idx] = resize(restored_batch[idx].cpu().detach().numpy(), (200, 200))
 
-            # Remove preds and seg outside mask and flatten
+            # Flatten and remove pred outside mask
             mask = resize(mask, (scan.size()[0], original_size, original_size))
             seg = resize(seg, (scan.size()[0], original_size, original_size))
 
-            # AUC
             error_batch_m = error_batch[mask > 0].ravel()
-            y_pred.extend(error_batch_m.tolist())
+            seg_m = seg[mask > 0].ravel().astype(bool)
 
-            seg_m = seg[mask > 0].ravel().astype(int)
-            y_true.extend(seg_m.tolist())
+            tot_error_m = np.append(tot_error_m,error_batch_m)
+            tot_seg_m = np.append(tot_seg_m,seg_m)
+
+            y_pred = np.append(y_pred, error_batch_m)
+            y_true = np.append(y_true, seg_m)
 
             # DICE
             # Create binary prediction map
@@ -157,27 +172,102 @@ if __name__ == "__main__":
             FN += np.sum(seg_m[error_batch_m == 0])
             FP += np.sum(error_batch_m[seg_m == 0])
 
-        AUC = roc_auc_score(y_true, y_pred)
-        print('AUC : ', AUC)
-        writer.add_scalar('AUC:', AUC)
-
         dice = (2*TP)/(2*TP+FN+FP)
-        subj_dice.append(dice)
+        subj_dice = np.append(subj_dice, dice)
         print('DCS: ', dice)
         writer.add_scalar('Dice:', dice)
         writer.flush()
 
-        ## Write to tensorboard
-        writer.add_image('Batch of Scan', scan.unsqueeze(1)[:16], batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Restored', normalize_tensor(np.expand_dims(restored_batch_resized, axis=1)[:16]),
-                         batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Diff Restored Scan', normalize_tensor(np.expand_dims(error_batch, axis=1)[:16]),
-                         batch_idx, dataformats='NCHW')
-        writer.add_image('Batch of Ground truth', np.expand_dims(seg, axis=1)[:16], batch_idx, dataformats='NCHW')
+    save_list = np.zeros((2,len(y_true)))
+    save_list[0] = y_true
+    save_list[1] = y_pred
 
-        writer.flush()
+    # Saving predictions with pickle
+    #f = open(log_dir + 'results/'+name, 'wb')
+    #pickle.dump(save_list, f)
+    #f.close()
 
-    avrg_dcs = sum(subj_dice) / len(subj_dice)
-    print('DCS: ',  avrg_dcs)
-    writer.add_scalar('Dice:', avrg_dcs)
+    auc_error = roc_auc_score(y_true, y_pred)
+    print('All AUC: ', auc_error)
+
+    fpr, tpr, thresholds = metrics.roc_curve(y_true, y_pred)
+
+    roc_auc = metrics.auc(fpr, tpr)
+
+    mean_dcs = np.mean(subj_dice)
+    std_dcs = np.std(subj_dice)
+    print('Mean All DCS: ',  mean_dcs)
+    print('Std ALL DCS: ', std_dcs)
+    writer.add_scalar('Dice:', mean_dcs)
     writer.flush()
+
+    # DICE
+    # Create binary prediction map
+    y_pred_train = y_pred.copy()
+    y_pred_train[y_pred_train >= thr_error] = 1
+    y_pred_train[y_pred_train < thr_error] = 0
+
+    # Calculate and sum total TP, FN, FP
+    TP = np.sum(y_true[y_pred_train == 1])
+    FN = np.sum(y_true[y_pred_train == 0])
+    FP = np.sum(y_pred_train[y_true == 0])
+
+    print('Training Dice:', (2*TP)/(2*TP+FN+FP))
+
+    y_pred_5h = y_pred.copy()
+    y_pred_5h[y_pred_5h >= thr_error_h5] = 1
+    y_pred_5h[y_pred_5h < thr_error_h5] = 0
+
+    # Calculate and sum total TP, FN, FP
+    TP = np.sum(y_true[y_pred_5h == 1])
+    FN = np.sum(y_true[y_pred_5h == 0])
+    FP = np.sum(y_pred_5h[y_true == 0])
+
+    print('Training Dice FPR5:', (2 * TP) / (2 * TP + FN + FP))
+
+    y_pred_1h = y_pred.copy()
+    y_pred_1h[y_pred_1h >= thr_error_h1] = 1
+    y_pred_1h[y_pred_1h < thr_error_h1] = 0
+
+    # Calculate and sum total TP, FN, FP
+    TP = np.sum(y_true[y_pred_1h == 1])
+    FN = np.sum(y_true[y_pred_1h == 0])
+    FP = np.sum(y_pred_1h[y_true == 0])
+
+    print('Training Dice FPR1:', (2 * TP) / (2 * TP + FN + FP))
+
+    # PLOT AUC CURVE
+
+    # Get threshold closest to auc threshold x
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error - thres))
+    ix = aux.index(min(aux))
+
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error_h5 - thres))
+    ix_5h = aux.index(min(aux))
+
+    aux = []
+    for thres in thresholds:
+        aux.append(abs(thr_error_h1 - thres))
+    ix_1h = aux.index(min(aux))
+
+    lw = 2
+    plt.plot(fpr, tpr, color='darkorange',
+             lw=lw, label='Test ROC curve (area = %0.2f)' % roc_auc)
+    #plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.plot(fpr[ix], tpr[ix], 'r+')
+    plt.plot(fpr[ix_1h], tpr[ix_1h], 'b+')
+    plt.plot(fpr[ix_5h], tpr[ix_5h], 'g+')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic example')
+    plt.legend(loc="lower right")
+    plt.savefig('qsub_output/' + name + '_testAUC.png')
+    plt.clf()
+    plt.cla()
+    plt.close()

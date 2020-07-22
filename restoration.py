@@ -2,152 +2,204 @@ __author__ = 'jonatank'
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from utils.utils import total_variation
-from utils.ssim import ssim
-from utils.utils import normalize_tensor
-from utils.utils import dice_loss, diceloss
+from utils.utils import normalize_tensor, diceloss, composed_tranforms
 
-def run_map_TV(input_img, dec_mu, vae_model, riter, device, weight = 1, step_size=0.003):
+def run_map(input_img, mask, dec_mu, net, vae_model, riter, device, input_seg=None, threshold=None, writer=None, step_size=0.003, log=True):
     # Init params
-    input_img = nn.Parameter(input_img, requires_grad=False)
-    dec_mu = nn.Parameter(dec_mu.float(), requires_grad=False)
-    img_ano = nn.Parameter(input_img.clone(),requires_grad=True)
-
-    input_img = input_img.to(device)
-    dec_mu = dec_mu.to(device)
-    img_ano = img_ano.to(device)
-
-    # Init Optimizer
-    MAP_optimizer = optim.Adam([img_ano], lr=step_size)
-
-    # Iterate until convergence
-    for i in range(riter):
-        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
-
-        # Define G function
-        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
-        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
-
-        gfunc = torch.sum(l2_loss) + kl_loss + weight * total_variation(img_ano-input_img)
-
-        gfunc.backward() # Backpropogate
-
-        torch.clamp(img_ano, -100, 100) # Limit gradients to -100 and 100
-
-        MAP_optimizer.step() # X' = X + lr_rate*grad(gfunc(X))
-        MAP_optimizer.zero_grad()
-
-    return img_ano
-
-def run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer=None, step_size=0.003):
-    # Init params
-    input_img = nn.Parameter(input_img, requires_grad=False)
-    dec_mu = nn.Parameter(dec_mu.to(device).float(), requires_grad=False)
+    input_img = input_img
+    mask = mask.to(device)
+    dec_mu = dec_mu.to(device).float()
     img_ano = nn.Parameter(input_img.clone().to(device), requires_grad=True)
 
-    # Init MAP Optimizer
-    MAP_optimizer = optim.Adam([img_ano], lr=step_size)
-
     net.eval()
-
     for i in range(riter):
-        MAP_optimizer.zero_grad()
-
-        # Gradient step MAP
+        # Prior
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
-        # Define G function
-        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+        l2_loss = torch.sum((dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2))
 
-        gfunc = torch.sum(l2_loss) + kl_loss  # + torch.sum(out)
-        gfunc.backward()
+        elbo = l2_loss + kl_loss
 
-        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
-        out = net(NN_input)
+        # Gradient of prior with respect to X
+        elbo_grad, = torch.autograd.grad(elbo, img_ano,
+                                    grad_outputs=elbo.data.new(elbo.shape).fill_(1),
+                                    create_graph=True)
+        # Segmentation network
+        nn_input = torch.stack([input_img, img_ano.detach()]).permute((1, 0, 2, 3)).float().to(device)
+        out = net(nn_input).squeeze(1)
+        img_grad = elbo_grad.detach() - elbo_grad.detach() * out
 
-        img_ano.grad += out.squeeze(1)
+        # Gradient step
+        img_ano_update = img_ano - step_size * img_grad.to(device) * mask
 
-        # Update Img_ano
-        MAP_optimizer.step()
-
+        img_ano = img_ano_update.detach().to(device)
+        img_ano.requires_grad = True
 
     # Log
-    writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
-    writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+    if log and not writer == None :
+        writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored_Img', normalize_tensor((img_ano - input_img).pow(2).unsqueeze(1)[:16]),
+                         dataformats='NCHW')
+        writer.add_image('Out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('ELBO', normalize_tensor(elbo_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Grad', normalize_tensor(img_grad.unsqueeze(1)[:16]), dataformats='NCHW')
 
-    MAP_optimizer.zero_grad()
-    del dec_mu
-    del input_img
+        resultSeg = torch.abs(img_ano - input_img)
+        resultSeg[resultSeg >= threshold] = 1
+        resultSeg[resultSeg < threshold] = 0
+
+        writer.add_image('ResultSeg', normalize_tensor(resultSeg.unsqueeze(1)[:16]), dataformats='NCHW')
+        #if torch.sum(out.flatten()) > 0 and torch.sum(grad.flatten()) > 0:
+        #    writer.add_histogram('hist-out-torch', out.flatten())
+        #    writer.add_histogram('hist-grad-torch', grad.flatten())
+
+        writer.flush()
 
     return img_ano
 
-def train_run_map_NN(input_img, dec_mu, net, vae_model, riter, device, writer, input_seg,
-                     optimizer=None, step_size=0.003, log_freq=5, train=True):
+def train_run_map_explicit(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
+                           aug = True, train=True, log=True, K_actf=1):
     # Init params
-    input_img = nn.Parameter(input_img, requires_grad=False)
-    dec_mu = nn.Parameter(dec_mu.to(device).float(), requires_grad=False)
-    img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
+    input_img = input_img.to(device)
+    mask = mask.to(device)
+    dec_mu = dec_mu.to(device).float()
     input_seg = input_seg.to(device)
+    img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
+
+    if train:
+        net.train()
 
     # Init MAP Optimizer
-    MAP_optimizer = optim.Adam([img_ano], lr=step_size)
+    criterion = diceloss()
 
-    net.train()
-    if train:
-        optimizer.zero_grad()
-
-    dice = diceloss()
-    #BCE = nn.BCELoss()
-
+    tot_loss = 0
     for i in range(riter):
-        MAP_optimizer.zero_grad()
-
-        # Gradient step MAP
+        # Prior
         __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
 
-        # Define G function
-        l2_loss = (dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2)
         kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+        l2_loss = torch.sum((dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2))
 
-        gfunc = torch.sum(l2_loss) + kl_loss #+ torch.sum(out)
-        gfunc.backward()
+        elbo = l2_loss + kl_loss
 
-        NN_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float()
-        out = net(NN_input)
+        # Gradient of prior with respect to X
+        elbo_grad, = torch.autograd.grad(elbo, img_ano, grad_outputs=elbo.data.new(elbo.shape).fill_(1),
+                                         create_graph=True)
 
-        img_ano.grad += out.squeeze(1)
+        # Segmentation network
+        nn_input = torch.stack([input_img, img_ano, elbo_grad]).permute((1, 0, 2, 3)).float()
 
-        ano_grad_act = 1 - 2 * torch.sigmoid(-500 * img_ano.grad.pow(2))
+        if aug:
+            nn_input_aug, seg_aug, mask_aug = composed_tranforms(nn_input.clone(), input_seg.clone())
+        else:
+            nn_input_aug, seg_aug, mask_aug = nn_input, input_seg, mask
 
-        loss = dice(ano_grad_act, input_seg)
-        # loss = BCE(ano_grad_act.double(), input_seg.double())
-        # loss = 1 - ssim(ano_grad_act.unsqueeze(1).float(), input_seg.unsqueeze(1).float())
+        nn_input_aug = nn_input_aug.to(device)
+        seg_aug = seg_aug.to(device)
+        mask_aug = mask_aug.to(device)
 
+        out = net(nn_input_aug[:, :2].detach().to(device)).squeeze(1)
+
+        img_grad = nn_input_aug[:, 2].detach() - nn_input_aug[:, 2].detach() * out
+
+        # Gradient step for training
+        n_img_ano = nn_input_aug[:, 1].detach() - step_size * img_grad * mask_aug
+
+        # Loss function
+        img_ano_act = torch.tanh(K_actf*(n_img_ano - nn_input_aug[:,0]).pow(2))
+        loss = criterion(img_ano_act.double(), seg_aug.double())
+        tot_loss += loss.item()
         loss.backward()
 
-        # Update Img_ano
-        MAP_optimizer.step()
+        # Gradient step for iteration
+        out = net(nn_input[:, :2].detach().to(device)).squeeze(1)
+        img_grad = elbo_grad - elbo_grad * out
+        n_img_ano = img_ano - step_size * img_grad * mask
 
-        if i % log_freq == 0: # Log
-            writer.add_scalar('ELBO grad', torch.sum(l2_loss) + kl_loss)
-            writer.add_scalar('Net grad', torch.sum(net(NN_input)))
-
-    writer.add_scalar('Loss', loss)
-
-    if train:
-        optimizer.step() # Update network parameters
-
+        img_ano = n_img_ano.detach()
+        img_ano.requires_grad = True
 
     # Log
-    writer.add_image('X Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X Ano_grad_act', normalize_tensor(ano_grad_act.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i ano_img', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
-    writer.add_image('X_i out', normalize_tensor(out[:16]), dataformats='NCHW')
-    writer.add_image('X_i ano_img_grad', normalize_tensor(img_ano.grad.unsqueeze(1)[:16]), dataformats='NCHW')
+    if log:
+        writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored_Img', normalize_tensor((img_ano-input_img).pow(2).unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored_Img_act', normalize_tensor(img_ano_act.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('ELBO', normalize_tensor(elbo_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Grad', normalize_tensor(img_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        #writer.add_histogram('hist-out-torch', out.flatten())
+        #writer.add_histogram('hist-grad-torch', grad.flatten())
+        #writer.add_histogram('hist-out-mask-torch', out[input_seg > 0].flatten())
+        #writer.add_histogram('hist-grad-mask-torch', grad[input_seg > 0].flatten())
+        writer.flush()
 
-    return img_ano
+
+    return img_ano, tot_loss/riter
+
+def train_run_map_implicit(input_img, dec_mu, net, vae_model, riter, step_size, device, writer, input_seg, mask,
+                           train=True, log=True, healthy=False, K_actf=0, aug=False):
+    # Init params
+    dec_mu = dec_mu.to(device).float()
+    img_ano = nn.Parameter(input_img.clone().to(device),requires_grad=True)
+
+    if train:
+        net.train()
+
+    # Define loss function
+    criterion = diceloss()
+
+    tot_loss = 0
+    for i in range(riter):
+        # Prior
+        __, z_mean, z_cov, __ = vae_model(img_ano.unsqueeze(1).double())
+
+        kl_loss = -0.5 * torch.sum(1 + z_cov - z_mean.pow(2) - z_cov.exp())
+        l2_loss = torch.sum((dec_mu.view(-1, dec_mu.numel()) - img_ano.view(-1, img_ano.numel())).pow(2))
+
+        elbo = l2_loss + kl_loss
+
+        # Gradient of prior with respect to X
+        elbo_grad, = torch.autograd.grad(elbo, img_ano, grad_outputs=elbo.data.new(elbo.shape).fill_(1),
+                                         create_graph=True)
+
+        # Segmentation network
+        nn_input = torch.stack([input_img, img_ano]).permute((1, 0, 2, 3)).float() # Create input of network
+
+        if aug:
+            nn_input_aug, seg_aug, mask_aug = composed_tranforms(nn_input.clone(), input_seg.clone())
+        else:
+            nn_input_aug, seg_aug, mask_aug = nn_input, input_seg, mask
+
+        # First forward pass for loss function
+        out = net(nn_input_aug.detach().to(device)).squeeze(1) # Model output
+        seg_aug = seg_aug.detach().to(device)
+        loss = criterion(out.double(), (1-seg_aug).double())
+
+        tot_loss += loss.item()
+
+        if train:
+            loss.backward() # Backpropagate loss
+
+        # Gradient step for iteration
+        img_grad = elbo_grad - elbo_grad * net(nn_input.to(device)).squeeze(1)
+
+        img_ano = img_ano.detach() - step_size * img_grad.detach() * mask.to(device)
+        img_ano.requires_grad = True
+
+    # Log
+    if log:
+        writer.add_image('Img', normalize_tensor(input_img.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Seg', normalize_tensor(input_seg.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored', normalize_tensor(img_ano.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Restored_Img', normalize_tensor((img_ano-input_img).pow(2).unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('px', normalize_tensor(elbo_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('out', normalize_tensor(out.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.add_image('Grad', normalize_tensor(img_grad.unsqueeze(1)[:16]), dataformats='NCHW')
+        writer.flush()
+
+    return img_ano, tot_loss/riter

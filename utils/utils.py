@@ -1,9 +1,21 @@
 import torch
 import numpy as np
+import time
+import imgaug as ia
+from imgaug import augmenters as iaa
+from imgaug.augmentables.segmaps import SegmentationMapsOnImage
+
 def normalize_tensor(input_tens):
     i_max = input_tens.max()
     i_min = input_tens.min()
     input_tens = (input_tens-i_min)/(i_max-i_min)
+    return input_tens
+
+def normalize_tensor_N(input_tens, N):
+    i_max = input_tens.max()
+    i_min = input_tens.min()
+    input_tens = (input_tens-i_min)/(i_max-i_min)
+    input_tens = input_tens*(N/torch.mean(input_tens))
     return input_tens
 
 class diceloss(torch.nn.Module):
@@ -63,3 +75,64 @@ def total_variation(images):
         torch.sum(torch.abs(pixel_dif2)))
 
     return tot_var
+
+
+def composed_tranforms(img_tensor, seg_tensor):
+    # Function for data augmentation
+    # 1) Affine Augmentations: Rotation (-15 to +15 degrees), Scaling, Flipping.
+    # 2) Elastic deformations
+    # 3) Intensity augmentations
+
+    ia.seed(int(time.time()))  # Seed for random augmentations
+    N, C, H, W = img_tensor.shape
+    mask_tensor = torch.zeros((N, H, W))
+
+    # Needed for iaa
+    for i in range(img_tensor.shape[0]):
+        img = img_tensor[i].detach().cpu().numpy().transpose((1, 2, 0))
+
+        seg = seg_tensor[i].detach().cpu().numpy().astype('bool')
+
+        segmap = SegmentationMapsOnImage(seg, shape=img.shape)  # Create segmentation map
+
+        seq_all = iaa.Sequential([
+            iaa.Fliplr(0.5),  # Horizontal flips
+            iaa.Flipud(0.5),
+            iaa.Affine(
+                scale={"x": (0.8, 1.2), "y": (0.8, 1.2)},
+                translate_percent={"x": (0, 0), "y": (0, 0)},
+                rotate=(-20, 20),
+                shear=(0, 0)),  # Scaling, rotating
+            iaa.ElasticTransformation(alpha=(0.0, 600), sigma=20.0)  # Elastic
+        ], random_order=True)
+
+        seq_img = iaa.Sequential([
+            iaa.blur.AverageBlur(k=(0, 4)),  # Gausian blur
+            iaa.LinearContrast((0.7, 1.3)),  # Contrast
+            iaa.Multiply((0.8, 1.2), per_channel=1),  # Intensity
+        ], random_order=True)
+
+        img, seg = seq_all(image=img, segmentation_maps=segmap)  # Rest of augmentations
+
+        # Fix mask array before intensity augmentation
+        mask_aug = np.zeros(img.shape)
+        mask_aug[img[:, :, 0] > 0] = 1
+        mask_aug = mask_aug[:, :, 0]
+
+        img = seq_img(image=img)  # Intensity and contrast only on input image
+
+        # Fix segmentation array
+        seg = seg.draw(size=img.shape)[0]
+        seg = seg[:, :, 0]
+        seg[seg > 0] = 1
+
+        # To PIL for Flip and ToTensor
+        img = torch.from_numpy(img.transpose(2, 0, 1))
+        mask_aug = torch.from_numpy(mask_aug)
+        seg = torch.from_numpy(seg)
+
+        img_tensor[i] = img
+        mask_tensor[i] = mask_aug
+        seg_tensor[i] = seg
+
+    return img_tensor, seg_tensor, mask_tensor

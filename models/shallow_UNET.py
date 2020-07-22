@@ -7,7 +7,7 @@ from collections import OrderedDict
 # Archtecture from github https://github.com/mateuszbuda/brain-segmentation-pytorch/blob/master/unet.py
 
 class shallow_UNet(nn.Module):
-    def __init__(self, name,in_channels=2, out_channels=1, init_features=8):
+    def __init__(self, name,in_channels=2, out_channels=1, init_features=2):
         super(shallow_UNet, self).__init__()
         self.name = name
 
@@ -18,9 +18,24 @@ class shallow_UNet(nn.Module):
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
         self.encoder3 = shallow_UNet._block(features*2, features * 4, name="enc2")
         self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.encoder4 = shallow_UNet._block(features * 4, features * 8, name="enc2")
+        self.pool4 = nn.MaxPool2d(kernel_size=2, stride=2)
 
         self.bottleneck = shallow_UNet._block(features * 4, features * 8, name="bottleneck")
 
+        self.upconv4 = nn.ConvTranspose2d(
+            features * 16, features * 8, kernel_size=2, stride=2
+        )
+        self.upconv4 = nn.Sequential(
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
+            nn.Conv2d(features * 16, features * 8, kernel_size=2, stride=2)
+        )
+        self.decoder4 = shallow_UNet._block((features * 2) * 8, features * 8, name="dec2")
+
+
+        self.upconv3 = nn.ConvTranspose2d(
+            features * 8, features * 4, kernel_size=2, stride=2
+        )
         self.upconv3 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 8, features * 4, kernel_size=2, stride=2)
@@ -28,20 +43,12 @@ class shallow_UNet(nn.Module):
 
         self.decoder3 = shallow_UNet._block((features * 2) * 4, features * 4, name="dec2")
 
-        #self.upconv2 = nn.ConvTranspose2d(
-        #    features * 4, features * 2, kernel_size=2, stride=2
-        #)
-
         self.upconv2 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
             nn.Conv2d(features * 4, features * 2, kernel_size=2, stride=2)
         )
 
         self.decoder2 = shallow_UNet._block((features * 2) * 2, features * 2, name="dec2")
-
-        #self.upconv1 = nn.ConvTranspose2d(
-        #    features * 2, features, kernel_size=2, stride=2
-        #)
 
         self.upconv1 = nn.Sequential(
             nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
@@ -66,7 +73,6 @@ class shallow_UNet(nn.Module):
         #dec4 = self.upconv4(bottleneck)
         #dec4 = torch.cat((dec4, enc4), dim=1)
         #dec4 = self.decoder4(dec4)
-
         dec3 = self.upconv3(bottleneck)
         dec3 = torch.cat((dec3, enc3), dim=1)
         dec3 = self.decoder3(dec3)
@@ -76,7 +82,8 @@ class shallow_UNet(nn.Module):
         dec1 = self.upconv1(dec2)
         dec1 = torch.cat((dec1, enc1), dim=1)
         dec1 = self.decoder1(dec1)
-        return self.conv(dec1)
+        #
+        return torch.sigmoid(self.conv(dec1))
 
     @staticmethod
     def _block(in_channels, features, name):

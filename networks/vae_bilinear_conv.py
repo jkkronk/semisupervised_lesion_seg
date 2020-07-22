@@ -22,13 +22,11 @@ class ResBlock_Down(nn.Module):
         self.conv2 = nn.Conv2d(self.in_layers, self.out_layers, kernel_size=3, stride=1,padding=1)
         self.bn2 = nn.BatchNorm2d(self.out_layers)
 
-        #if self.stride != 1 or self.input_size != self.out_layers:
-
         if self.act:
             self.shortcut = nn.Sequential(
             nn.Conv2d(self.input_size, self.out_layers, kernel_size=3, stride=2, padding=1),
             nn.BatchNorm2d(self.out_layers),
-            nn.LeakyReLU(0.02)
+            nn.LeakyReLU(0.2)
             )
         else:
             self.shortcut = nn.Sequential(
@@ -37,14 +35,13 @@ class ResBlock_Down(nn.Module):
             )
 
     def forward(self, x):
-        out = F.leaky_relu(self.bn1(self.conv1(x)), 0.02)
+        out = F.leaky_relu(self.bn1(self.conv1(x)), 0.2)
         if self.act:
-            out = F.leaky_relu(self.bn2(self.conv2(out)), 0.02)
+            out = F.leaky_relu(self.bn2(self.conv2(out)), 0.2)
         else:
             out = self.bn2(self.conv2(out))
 
         out += self.shortcut(x)
-        #print(out.size())
         return out
 
 class ResBlock_Up(nn.Module):
@@ -61,21 +58,30 @@ class ResBlock_Up(nn.Module):
         self.out_layers = out_layers
         self.pad = padding
 
-        self.conv1 = nn.ConvTranspose2d(self.input_size, self.in_layers, kernel_size=3, stride=2, padding=1, output_padding=1)
+        #self.conv1 = nn.ConvTranspose2d(self.input_size, self.in_layers, kernel_size=3, stride=2, padding=1, output_padding=1)
+        self.conv1 = nn.Sequential(
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False),
+            nn.Conv2d(self.input_size, self.in_layers, kernel_size=3, stride=2, padding=1)
+        )
         self.bn1 = nn.BatchNorm2d(self.in_layers)
-        self.conv2 = nn.ConvTranspose2d(self.in_layers, self.out_layers, kernel_size=3, stride=1, padding=1)
+        #self.conv2 = nn.ConvTranspose2d(self.in_layers, self.out_layers, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Sequential(
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False),
+            nn.Conv2d(self.in_layers, self.out_layers, kernel_size=3, stride=1, padding=1)
+        )
         self.bn2 = nn.BatchNorm2d(self.out_layers)
 
         self.shortcut = nn.Sequential(
-            nn.ConvTranspose2d(self.input_size, self.out_layers, kernel_size=3, stride=2, padding=1, output_padding=1),
-            nn.BatchNorm2d(self.out_layers),
-            nn.LeakyReLU(0.02)
+            #nn.ConvTranspose2d(self.input_size, self.out_layers, kernel_size=3, stride=2, padding=1, output_padding=1),
+            nn.Upsample(scale_factor=4, mode='bilinear', align_corners=False),
+            nn.Conv2d(self.input_size, self.out_layers, kernel_size=3, stride=2, padding=1),
+            nn.BatchNorm2d(self.out_layers)
         )
 
     def forward(self, x):
-        out = F.leaky_relu(self.bn1(self.conv1(x)), 0.02)
-        out = F.leaky_relu(self.bn2(self.conv2(out)), 0.02)
-        out += self.shortcut(x)
+        out = F.leaky_relu(self.bn1(self.conv1(x)), 0.2)
+        out = F.leaky_relu(self.bn2(self.conv2(out)), 0.2)
+        out += F.leaky_relu(self.shortcut(x), 0.2)
         return out
 
 def encoder_layer(input_size, gf_dim):
@@ -86,7 +92,7 @@ def encoder_layer(input_size, gf_dim):
     fist_encoder_layer = nn.Sequential(
         nn.Conv2d(input_size, gf_dim, kernel_size=3, padding=1),
         nn.BatchNorm2d(gf_dim),
-        nn.LeakyReLU(0.02)
+        nn.LeakyReLU(0.2)
     )
 
     encoder = nn.Sequential(
@@ -102,13 +108,13 @@ def encoder_layer(input_size, gf_dim):
         fist_encoder_layer,
         nn.Conv2d(gf_dim, gf_dim, kernel_size=3, padding=2, dilation=2),
         nn.BatchNorm2d(gf_dim),
-        nn.LeakyReLU(0.02),
+        nn.LeakyReLU(0.2),
         nn.Conv2d(gf_dim, gf_dim*2, kernel_size=3, padding=2, dilation=2),
         nn.BatchNorm2d(gf_dim*2),
-        nn.LeakyReLU(0.02),
+        nn.LeakyReLU(0.2),
         nn.Conv2d(gf_dim*2, gf_dim, kernel_size=3, padding=2, dilation=2),
         nn.BatchNorm2d(gf_dim),
-        nn.LeakyReLU(0.02),
+        nn.LeakyReLU(0.2),
         nn.Conv2d(gf_dim, 1, kernel_size=3, padding=2, dilation=2)
     )
 
@@ -137,10 +143,9 @@ def decoder_layer(gf_dim):
         ResBlock_Up(gf_dim*4, gf_dim*2),
         ResBlock_Up(gf_dim*2, gf_dim),
         ResBlock_Up(gf_dim, gf_dim),
-        #nn.ConstantPad2d((3,4,4,3),0), # Pad?
         nn.Conv2d(gf_dim, gf_dim, kernel_size=3, stride=1, padding=1),
         nn.BatchNorm2d(gf_dim),
-        nn.LeakyReLU(0.02),
+        nn.LeakyReLU(0.2),
         nn.Conv2d(gf_dim, 1, kernel_size=3, stride=1, padding=1)
         )
     return decoder
